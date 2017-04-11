@@ -1,0 +1,23 @@
+<template name="GcompList">
+
+<div class="col-md-12 page">
+      <div class="panel panel-default">
+
+        <div class="panel-heading">
+          <h4>Listado de Grupos Compartidos</h4>
+        </div>
+
+  <div id="CGlist">
+    {{#each get_gruposComp}}
+			<!-- <p>{{gruposIds}}</p> -->
+			<h3> {{get_grupos}} </h3>
+		
+		<br>		
+      <!--<p>{{gruposIds}} </p>-->
+    {{/each}}
+  </div>
+ </div>
+ </div>
+
+
+</template>
