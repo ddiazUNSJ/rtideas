@@ -8,28 +8,35 @@
 	    <div class="panel-body">        
           <form class="main form">
 
+             <div class="form-group">
+                <label class="control-label" for="sesion">Nombre</label>
+                <div class="controls">
+                    <input type="text" id="nombre" name="nombre" class="form-control" style="max-width:50%"/>
+                </div>
+            </div>
+
 	        <div class="form-group">
                 <label class="control-label" for="sesion">Tematica</label>
-                    <div class="controls">
-                        <select class="input-xlarge country" id="sesion" name="sesion">
-                            <option value="-1" selected>Seleccione...</option>
-                                {{#each get_tematicas}}
-                                   <option value="{{_id}}" data-id={{_id}}>{{SC}}</option>
-                                {{/each}}
-                        </select> 
-                    </div>
+                <div class="controls">
+                    <select class="input-xlarge country" id="sesion" name="sesion">
+                        <option value="-1" selected>Seleccione...</option>
+                        {{#each get_tematicas}}
+                           <option value="{{_id}}" data-id={{_id}}>{{SC}}</option>
+                        {{/each}}
+                    </select> 
+                </div>
             </div>
 
             <div class="form-group">
-                    <label class="control-label" for="animador">Animadores</label>
-                    <div class="controls">
-                        <select class="input-xlarge country" id="animador" name="animador" required multiple >
-                            <!--<option value="-1" selected>Seleccione...</option>-->
-                          {{#each get_animadores}}
-                            <option value="{{_id}}" data-id="{{_id}}">{{username}}</option>
-                          {{/each}}
-                        </select>
-                    </div>
+                <label class="control-label" for="animador">Animadores</label>
+                <div class="controls">
+                    <select class="input-xlarge country" id="animador" name="animador" required multiple >
+                        <!--<option value="-1" selected>Seleccione...</option>-->
+                      {{#each get_animadores}}
+                        <option value="{{_id}}" data-id="{{_id}}">{{username}}</option>
+                      {{/each}}
+                    </select>
+                </div>
             </div>
 
             <div class="panel panel-default">      
@@ -72,26 +79,29 @@
             <br>
             <br>
             <br>
-            <br>
+            
 
-             <div class="panel panel-default">      
+            <div class="panel panel-default">      
                 <div class="panel-heading">
                   <h4> Instancias </h4>
                 </div>
             </div>
-
-            <div class='col-sm-6'>
-                <div class="form-group col-sm-4">
-                    <label class="control-label" for="instacia1">Instacia 1</label> 
+    
+            {{#each get_instancias}}
+                <div class='col-sm-6'>
+                    <div class="form-group col-sm-4">
+                        <label class="control-label" for="instacia{{numero}}" tittle="{{descripcion}}">Instacia {{numero}}: {{nombre}} </label> 
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="number" id="instancia{{numero}}" name="instancia{{numero}}" min="1" max="60" alt="minutos" class="form-control numInst" value="1" style="max-width:100px"/> 
+                    </div>
                 </div>
                 
-                <div class="form-group">
-                    <input id="instancia1" name="instancia1" type="range" min="15" max="60" step="5" alt="minutos"/> 
-                </div>
-            </div>
-
+               
+            {{/each}}
                          
-            <div class='col-sm-6'>
+            <!--<div class='col-sm-6'>
                 <div class="form-group col-sm-4">
                     <label class="control-label" for="instancia2">Instacia 2</label>
                 </div>
@@ -99,14 +109,13 @@
                 <div class="form-group">
                     <input id="instancia2" name="instancia2" type="range" min="15" max="60" step="5"  alt="minutos"/> 
                 </div>        
-            </div>
-                              
-            <br>
-            <br>
-
+            </div>-->
+                            
+        
 
             <input type="submit" value="Guardar" class="btn btn-primary"/>
-
+            
+           
            </form>
         </div>
 

@@ -101,7 +101,8 @@ Meteor.methods({
       userId: user._id,
       author: user.username,
       submitted: new Date(),
-	    estado: 'activa'
+	    estado: 'activa',
+      instActual: -1
     });
     var crId = Sesion.insert(datos);
     return {

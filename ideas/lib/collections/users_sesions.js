@@ -16,11 +16,11 @@ Meteor.methods({
     
     var user = Meteor.user();
 
-    var animadores=IAttributes.animadores;
+    //var animadores=IAttributes.animadores;
     var inscriptos=IAttributes.inscriptos;
     var idgrupo=IAttributes.idgrupo;
 
-    if(IAttributes.animadores)
+    /*if(IAttributes.animadores)
       for (var i = 0; i < animadores.length; i++)
       {
         var datos1 ={
@@ -32,7 +32,7 @@ Meteor.methods({
           submitted: new Date()
         };
         var IId = Users_sesions.insert(datos1);
-      }
+      }*/
 
     if(IAttributes.inscriptos)  
     for (var i = 0; i < inscriptos.length; i++)

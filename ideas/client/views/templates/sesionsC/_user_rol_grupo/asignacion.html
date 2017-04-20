@@ -11,62 +11,62 @@
 	        <form  novalidate="novalidate" >
 
 					<div class="form-group">
-					        <label class="control-label" for="SC">Tematica</label>
-							<div class="controls">
-								<select class="input-xlarge country" id="tematica" name="tematica">
-									<option value="-1" selected>Seleccione...</option>
-								  {{#each get_tematicas}}
-									<option value="{{_id}}" >{{SC}}</option>
-								  {{/each}}
-								</select>
-							</div>
+				        <label class="control-label" for="SC">Tematica</label>
+						<div class="controls">
+							<select class="input-xlarge country" id="tematica" name="tematica">
+								<option value="-1" selected>Seleccione...</option>
+							    {{#each get_tematicas}}
+								  <option value="{{_id}}" >{{SC}}</option>
+							    {{/each}}
+							</select>
+						</div>
 					</div>
 
 					<div class="form-group">
-					        <label class="control-label" for="sesion">Sesion de Creatividad</label>
-							<div class="controls">
-								<select class="input-xlarge country" id="sesion" name="sesion" disabled >
-									<option value="-1" selected>Seleccione...</option>
-								  {{#each get_sesiones}}
-									<option value="{{_id}}" >{{fecha1}}&nbsp;&nbsp; {{hora1}}</option>
-								  {{/each}}
-								</select>
-							</div>
-					</div>
-
-					<div class="form-group">
-					        <label class="control-label" for="gr">Grupo</label>
-							<div class="controls">
-								<select class="input-xlarge country" id="grupo" name="gr" disabled required>
+				        <label class="control-label" for="sesion">Sesion de Creatividad</label>
+						<div class="controls">
+							<select class="input-xlarge country" id="sesion" name="sesion" disabled >
 								  <option value="-1" selected>Seleccione...</option>
-								  {{#each get_grupos}}
-									<option value="{{_id}}" data-id="{{_id}}">{{gr}}</option>
+								  {{#each get_sesiones}}
+									<option value="{{_id}}" >{{fecha1}}&nbsp;&nbsp; {{hora1}} ({{nombre}})</option>
 								  {{/each}}
-								</select>
-							</div>
+							</select>
+						</div>
 					</div>
 
 					<div class="form-group">
-					        <label class="control-label" for="animadores">Animadores</label>
-							<div class="controls">
-								<select class="input-xlarge country" id="animadores" name="animadores" placeholder="Seleccione..." disabled required multiple>
-								  
-								  {{#each get_animadores}}
-									<option value="{{_id}}">{{username}}</option>
-								  {{/each}}
-								</select>
-							</div>
+				        <label class="control-label" for="gr">Grupo</label>
+						<div class="controls">
+							<select class="input-xlarge country" id="grupo" name="gr" disabled required>
+							  <option value="-1" selected>Seleccione...</option>
+							  {{#each get_grupos}}
+								<option value="{{_id}}" data-id="{{_id}}">{{gr}}</option>
+							  {{/each}}
+							</select>
+						</div>
 					</div>
 
+					<!--<div class="form-group">
+				        <label class="control-label" for="animadores">Animadores</label>
+						<div class="controls">
+							<select class="input-xlarge country" id="animadores" name="animadores" placeholder="Seleccione..." disabled required multiple>
+							  
+							  {{#each get_animadores}}
+								<option value="{{_id}}">{{username}}</option>
+							  {{/each}}
+							</select>
+						</div>
+					</div>-->
+
 					<div class="form-group">
-					        <label class="control-label" for="inscriptos">Inscriptos</label>
-							<div class="controls">
-								<select class="input-xlarge country" id="inscriptos" name="inscriptos" required multiple disabled placeholder="Seleccione...">
-								  {{#each get_inscriptos}}
-									<option value="{{_id}}" data-id="{{_id}}">{{username}}</option>
-								  {{/each}}
-								</select>
-							</div>
+				        <label class="control-label" for="inscriptos">Inscriptos</label>
+						<div class="controls">
+							<select class="input-xlarge country" id="inscriptos" name="inscriptos" required multiple disabled placeholder="Seleccione...">
+							  {{#each get_inscriptos}}
+								<option value="{{_id}}" data-id="{{_id}}">{{username}}</option>
+							  {{/each}}
+							</select>
+						</div>
 					</div>
 
 					<input type="submit" value="Guardar" class="btn btn-primary"/>

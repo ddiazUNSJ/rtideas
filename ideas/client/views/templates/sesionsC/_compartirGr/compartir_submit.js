@@ -1,61 +1,127 @@
 Template.compartirSubmit.rendered = function()
 {
+  
+   $( "#tematica" ).select2();
+   $( "#sesion" ).select2();
+   $( "#grupo" ).select2();
+   //$( "#animadores" ).select2();
 
-   $("#tematica").select2();
-   
-   $( "#grupo" ).select2({
-      theme: "classic",
-    });
    $('.select2').css('width','auto');
-   $('.select2').css('min-width','30%');
+   
+   $('#s2id_tematica').css('min-width','50%');
+   $('#s2id_sesion').css('min-width','50%');
+   $('#s2id_grupo').css('min-width','50%');
 
 }
 
 Template.compartirSubmit.events
 ({
 
-	'change #tematica': function(e,t){
+  'change #tematica': function(e,t){
         // do whatever.......
-		var idtematica = $(e.target).find('option:selected').val();
-		Session.set('tematicaId', idtematica);
-     },
+    var idtematica = $(e.target).find('option:selected').val();
+    if(idtematica != -1)
+    {
+      Session.set('tematicaId', idtematica);
+      $('#sesion').attr('disabled',false);
+    }
+    else 
+    { 
+      $('#sesion').attr('disabled',true);
+    }
+
+  },
+
+  'change #sesion': function(e,t){
+        // do whatever.......
+    var idsesion = $(e.target).find('option:selected').val();
+    if(idsesion != -1)
+    {
+      Session.set('sesionId', idsesion);
+
+      $('#grupo').attr('disabled',false);
+      
+    }
+    else 
+    { 
+      $('#grupo').attr('disabled',true);
+     
+    }
+
+  },   
 	
-	
-  'submit form': function(e) { 
+  
+
+  'submit form': function(e)
+  { 
     e.preventDefault();
-	
-	var valores = $('#grupo').val();
-	
-	//console.log(valores);
 
+    var sesionId = $(e.target).find('[name=sesion]').val();
+    var gruposId = $(e.target).find('[name=gr]').val();
 
-    Meteor.call('compartirGInsert', valores, function(error, result) //se define un metodo para insertar
-     {      
-      if (error)
-        return alert(error.reason);
-      Router.go('GcompList', {});
-    });  
+    
+    if( (gruposId) && (sesionId!=-1) )
+    {  
+        var datos = {
+          idsesion: sesionId,
+          //animadores: animadores,
+          grupos: gruposId
+        };
+
+        Meteor.call('compartirGInsert', datos, function(error, result) 
+        {      
+            if (error)
+              return alert(error.reason);
+            else
+                bootbox.alert("Carga Exitosa", function() { 
+                    $('#tematica').val(-1);
+                    $('#sesion').val(-1);
+                    $('#grupo').val(-1);
+                                     
+                     $( "#tematica" ).select2();
+                     $( "#sesion" ).select2();
+                     $( "#grupo" ).select2();
+                     //$( "#animadores" ).select2();
+
+                     $('.select2').css('width','auto');
+                     
+                     $('#s2id_tematica').css('min-width','50%');
+                     $('#s2id_sesion').css('min-width','50%');
+                     $('#s2id_grupo').css('min-width','50%');
+
+                    //Router.go('GcompList', {});
+                    Router.go('compartirSubmit', {});
+                    
+                });
+        }); 
   }
+  else
+    bootbox.alert("Complete todos los campos", function() { 
+  
+      });
+
+  }//fin submit
+
+
  });
 
 
 Template.compartirSubmit.helpers({ 
 
-  get_user: function() {
-    return Meteor.users.find({}, {sort: {submitted: -1}});	
+  get_grupos: function() {
+   var sesionid = Session.get('sesionId');
+   return Grupo.find({sesion_id: sesionid, estado:"activa"}, {sort: {submitted: -1}});  
   },
   
-  get_roles: function() {
-    return Roles.find({}, {sort: {submitted: -1}});	
+  get_tematicas: function() {
+
+    return  Tematica.find({}, {sort: {submitted: -1}}); 
+
   },
-  
-   get_grupo: function() {
-   var tematicaid = Session.get('tematicaId');
-   return Grupo.find({sesion_id: tematicaid}, {sort: {submitted: -1}});	
-  },
-  
-  get_creatividad: function() {
-    return Creatividad.find({}, {sort: {submitted: -1}});	
+
+  get_sesiones: function() {
+    var tematicaid = Session.get('tematicaId');
+    return Sesion.find({tematica_id: tematicaid, estado:"activa"}, {});  
   }
   
   

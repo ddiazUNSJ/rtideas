@@ -84,20 +84,33 @@ Template.sesionSubmit.events({
    
 
 
-     var ses = {
-      
-	     tematica_id: $(e.target).find('[name=sesion]').val(),  
-	     //time_sesion: timeSesion 
-       fecha1:fecha1,
-       fecha2:fecha2,
-       hora1:hora1,
-       hora2:hora2,
+    var ses = {
+	    tematica_id: $(e.target).find('[name=sesion]').val(),  
+	    nombre: $(e.target).find('[name=nombre]').val(),  
+      fecha1:fecha1,
+      fecha2:fecha2,
+      hora1:hora1,
+      hora2:hora2,
+    };
 
-       instancia1: $(e.target).find('[name=instancia1]').val(),  
-       instancia2: $(e.target).find('[name=instancia2]').val()  
+    var instancias = $(e.target).find('.numInst'); 
+    for (var i = 0; i < instancias.length; i++)
+    {
 
-     };
+        var id = $(instancias[i]).attr('id');
+        var valor = $(instancias[i]).val();
+       
 
+        var arre = {
+          [id]:valor,
+         };
+
+        //ses.push(arre);
+        ses = _.extend(ses,
+        {
+          [id]: valor,
+        });
+    }
 	
   //console.log(ses);
 
@@ -128,11 +141,11 @@ Template.sesionSubmit.events({
                              $('#s2id_animador').css('min-width','50%'); 
                             
                             $('#sesion').val('-1');
-                            $('#animador').val('-1');
+                            $('#animador').val('');
                             $('#fecha1').val('');
                             $('#fecha2').val('');
-                            $('#instancia1').val(0);
-                            $('#instancia2').val(0);
+                            $('.numInst').val(1);
+                            
 
                             Router.go('sesionSubmit', {});
                       });
@@ -162,10 +175,14 @@ Template.sesionSubmit.helpers({
   },
 
   get_animadores: function() {
-    return Meteor.users.find({}, {sort: {username: 1}}); 
+    return Meteor.users.find({rol:'Animador'}, {sort: {username: 1}}); 
   },
 
- dateAct: function() {
+  get_instancias: function() {
+    return Instancia.find({}, {sort: {numero: 1}}); 
+  },
+
+ /*dateAct: function() {
      var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth()+1; //January is 0!
@@ -180,6 +197,6 @@ Template.sesionSubmit.helpers({
     var today = dd+'/'+mm+'/'+yyyy;
     //alert(today);
     return  today;
-  }
+  }*/
   
 });

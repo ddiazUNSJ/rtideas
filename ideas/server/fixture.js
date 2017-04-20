@@ -6,14 +6,12 @@ if (Roles.find().count() === 0)
   });
   
   Roles.insert({
-    nombre: 'Participante', 
-  });
-
-  Roles.insert({
     nombre: 'Animador', 
   });
 
-  
+  Roles.insert({
+    nombre: 'Participante', 
+  });
 
  }
 
@@ -61,21 +59,15 @@ if (Instancia.find().count() === 0)
  }
 
 
-
- if (Inscripcion.find().count() === 0) 
+if (Inscripcion.find().count() === 0) 
 {
   
   Inscripcion.insert({
-    user_id: 'RJ2F3kidhuvQH99j9',    
-    sesion_id: 'rh5W6KB5trJLM4HSQ'
+    sesion_id: '1234',    
+    user_id: '1234'    
   });
   
-  Inscripcion.insert({
-     user_id: 'RJ2F3kidhuvQH99j9',    
-    sesion_id:'rh5W6KB5trJLM4HSQ', 
-  });
 
-  
 
  }
 

@@ -4,7 +4,7 @@ Template.asignacion.rendered = function()
    $( "#tematica" ).select2();
    $( "#sesion" ).select2();
    $( "#grupo" ).select2();
-   $( "#animadores" ).select2();
+   //$( "#animadores" ).select2();
 
    $('.select2').css('width','auto');
    
@@ -66,13 +66,14 @@ Template.asignacion.events
 
     var grupo = $(e.target).find('[name=gr]').val();
     var inscriptos = $(e.target).find('[name=inscriptos]').val();
-    var animadores = $(e.target).find('[name=animadores]').val();
+    //var animadores = $(e.target).find('[name=animadores]').val();
 
-    if( (inscriptos) && (animadores!=-1) && (grupo!=-1) )
+    //if( (inscriptos) && (animadores!=-1) && (grupo!=-1) )
+    if( (inscriptos) && (grupo!=-1) )
     {  
         var datos = {
           idgrupo: grupo,
-          animadores: animadores,
+          //animadores: animadores,
           inscriptos: inscriptos
 
         };
@@ -83,21 +84,25 @@ Template.asignacion.events
               return alert(error.reason);
             else
                 bootbox.alert("Carga Exitosa", function() { 
-                    $('#tematica').val('-1');
-                    $('#sesion').val('-1');
+                    $('#tematica').val(-1);
+                    $('#sesion').val(-1);
                     
                     $('#grupo').val(-1);
                     $('#rol').val('-1');
                     $('#usuario').val('-1');
 
                     //Meteor._reload.reload();
+                    $("#inscriptos").select2();
+                    $( "#tematica" ).select2();
+                    $( "#sesion" ).select2();
+                    $( "#grupo" ).select2();
 
                     Router.go('asignacion', {});
                 });
         }); 
   }
   else
-    bootbox.alert("Llene todos los campos", function() { 
+    bootbox.alert("Complete todos los campos", function() { 
   
       });
 
@@ -114,12 +119,12 @@ Template.asignacion.helpers({
     return Meteor.users.find({_id: {$in: users}}, {sort: {username: 1}});	
   },
 
-  get_animadores: function() {
+  /*get_animadores: function() {
     var sesionid = Session.get('sesionId'); 
     var animadores = Animador_sesion.find({ sesion_id:sesionid });
     var users = animadores.map(function(p) { return p.user_id });  
     return Meteor.users.find({_id: {$in: users}}, {sort: {username: 1}}); 
-  },
+  },*/
   
   
   get_grupos: function() {

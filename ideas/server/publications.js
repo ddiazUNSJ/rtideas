@@ -107,8 +107,9 @@ return  Meteor.users.find();      //publico todoS
 });
 
 Meteor.publish('animadores', function() {
-  var rol = Roles.findOne({nombre: 'Animador' });
-  return Meteor.users.find({rol_id: rol._id}) //activos
+  //var rol = Roles.findOne({nombre: 'Animador' });
+  //return Meteor.users.find({rol_id: rol._id}) //activos
+  return Meteor.users.find({rol: 'Animador'}) //activos
 });
 
 Meteor.publish('animadores_sesion', function(sesionid) { //animadores de una sesion 

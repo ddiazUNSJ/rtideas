@@ -14,7 +14,7 @@ Template.grupoSubmit.events({
     if(idtematica != -1)
     {
       Session.set('tematicaId', idtematica);
-      alert(Session.get('tematicaId'));
+      //alert(Session.get('tematicaId'));
       $('#sesion').attr('disabled',false);
       
     }

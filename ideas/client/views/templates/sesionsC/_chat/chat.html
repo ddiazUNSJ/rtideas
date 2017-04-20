@@ -1,5 +1,6 @@
 <template name="chatPage">
 
+
        {{#if IsAnimador}}
          {{#each get_grupos}}
             {{contarGrupos}}
@@ -8,7 +9,7 @@
 
     <br> 
       <h3>instancia Actual: {{getInstancia}} </h3>   
-      <h3 rel="tooltip" title="{{getDescInt}}">{{getTituloInt}} </h3> 
+      <h2 title="{{getDescInt}}">{{getTituloInt}} </h2> 
     <br> 
 
      {{#if siInstancia_1}}
@@ -64,9 +65,36 @@
         </tr>
       </table>  
     {{/if}}
+
+    {{#if siInstancia5}} 
+      <table class="pull-right" style="margin-right: 0%;" width="40%">
+        <tr>
+          <td width="60px">Compartir Idea</td>
+        </tr>
+      </table>  
+    {{/if}}
 		
 
     {{> contenidoChat}}  
+
+    <!--{{ > tooltips }}-->
+
+    <style>
+      .tooltip {
+        z-index: 1001;
+        pointer-events: none;
+        transition: opacity .1s ease-out;
+        opacity: 0;
+      }
+
+      .tooltip.hide {
+        opacity: 0;
+      }
+
+      .tooltip.show {
+        opacity: 1;
+      }
+    </style>
 </template>
 
 
@@ -239,7 +267,11 @@
                    <!-- Solo puede compartir el autor -->
                   {{#if siInstancia5}}
                   
-                    <div class="pull-right"> <button id="comp_{{_id}}" name="comp" class="comp" >Comp</button>&nbsp; &nbsp;{{compartir}} </div>
+                    <!--<div class="pull-right"> <button id="comp_{{_id}}" name="comp" class="comp" >Comp</button>&nbsp; &nbsp;{{compartir}} </div>-->
+                   
+                    <div class="pull-right checkbox-success">
+                      <input id="comp_{{_id}}" name="comp" class="comp styled" type="checkbox" />  &nbsp; &nbsp;{{compartir}}
+                    </div>   
                   
                   {{/if}} 
             </div> 
@@ -370,3 +402,4 @@
    {{/with}} -->
   
   <!--muestra la instancia en la que nos encontramos-->
+

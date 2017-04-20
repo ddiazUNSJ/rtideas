@@ -168,7 +168,7 @@ var requireSubsc5 = function() {
     Meteor.subscribe('grupos');
   	Meteor.subscribe('tematica'); //consultar por cuestion de seguridad????????
   	Meteor.subscribe('sesionesCreatividad'); 
-    Meteor.subscribe('rol');
+    //Meteor.subscribe('rol');
   	Meteor.subscribe('users');
   	this.render('asignacion');
   }
@@ -216,8 +216,11 @@ var requireSubsc6 = function() {
 	  //var dato = this.params.idgrupo;
 	  //Session.set('idgrupo', dato);
 	  //Meteor.subscribe('ideas',dato); //,this.params.idgrupo
-	  Meteor.subscribe('grupos');
-	  Meteor.subscribe('creatividad');
+
+    Meteor.subscribe('grupos');
+    Meteor.subscribe('tematica'); //consultar por cuestion de seguridad????????
+    Meteor.subscribe('sesionesCreatividad'); 
+    
 	  this.render('compartirSubmit');
 	  //this.next();
 	 } 
@@ -250,6 +253,7 @@ var requireSubsc6 = function() {
   } else {  
    Meteor.subscribe('tematica'); 
    Meteor.subscribe('animadores'); 
+    Meteor.subscribe('instancias');
 
     this.render('sesionSubmit');
     //this.next();

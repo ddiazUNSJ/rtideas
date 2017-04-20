@@ -26,18 +26,14 @@ InsertVotI5: function(grAttributes) //se verifica q el ususario este autenticado
     }));
     //var voto = grAttributes.voto;
     var ideaId = grAttributes.idea_id;
-    console.log(ideaId);
+    //console.log(ideaId);
     var user = Meteor.user();
     var idea = Ideas.findOne( {_id:ideaId} );
     
     //console.log(idea.votacionI2[0].cantA);
    // console.log(idea.votacionI4.cantA);  
     //console.log(idea.votacionI4.cantR);  
-    
-    var idea = Ideas.findOne( {_id:ideaId} ); 
-
-    //console.log(idea);
-    
+     
          
     var votacion = IdeasC.findOne( {user_id:user._id, idea_id:ideaId} ); 
     
@@ -58,8 +54,7 @@ InsertVotI5: function(grAttributes) //se verifica q el ususario este autenticado
 
       IdeasC.update({_id : votacion._id },{$set:{comp : res }});    
         
-
-       var vtId = votacion._id;
+      var vtId = votacion._id;
     }
     else
     {
