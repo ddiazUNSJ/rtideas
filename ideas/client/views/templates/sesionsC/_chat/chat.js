@@ -11,133 +11,6 @@ function rezisePantalla()
 
 contGrupos=0;
 
-/*function inicializa_variables()
-{	
-	var idgrupo = Session.get('idgrupo');	    
-	var grupo = Grupo.findOne( {_id: idgrupo} );		
-	var sesionId = grupo.sesion_id;
-	var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-
-	fecha1 = sesion.fecha1;	
-	hora1 = sesion.hora1;	
-	fecha2 = sesion.fecha2;
-	hora2 = sesion.hora2;
-	
-	var fechaI = new Date(fecha1 +' '+hora1); 
-	var fechaF = new Date(fecha2 +' '+hora2);
-	var fechaA = new Date();
-
-	var fechaAcum = fechaI;
-
-	//*********TOPE 1**************
-	var minIns1 = sesion.instancia1;
-	fechaAcum.setSeconds( minIns1 * 60 ); //Añado el tiempo en segundos
-	Session.set('tope1', fechaAcum);
-
-	//*********TOPE 2**************
-	var minIns2 = sesion.instancia2;	
-	fechaAcum.setSeconds( minIns2 * 60 ); //Añado el tiempo en segundos
-	Session.set('tope2', fechaAcum);
-
-	//*********TOPE 3**************
-	var minIns3 = sesion.instancia3;	
-	fechaAcum.setSeconds( minIns3 * 60 ); //Añado el tiempo en segundos
-	Session.set('tope3', fechaAcum);
-
-	//*********Tiempo de cada instancia**************
-	Session.set('tiempo1', sesion.instancia1); //min
-	Session.set('tiempo2', sesion.instancia2); //min
-	Session.set('tiempo3', sesion.instancia3); //min
-
-
-	Session.set('rango',0);
-	
-
-	if( (fechaI <= fechaA) && (fechaA <= fechaF) )
-	{	
-		Session.set('rango', 1); // si estoy dentro del rango <fechaI,fechaF>
-		
-		//dentro del rango permitido, ¿en qué sesion estamos?
-		/*if( fechaA < Session.get('tope1')  )
-		{	
-			//estoy en instancia 1
-			var minIns1 = Session.get('tope1') - fechaA;
-			Session.set('cuentaR',minIns1); //milisegundos
-			Session.set('instancia',1);
-		}
-		else
-			if( fechaA < Session.get('tope2') )
-			{	
-				//estoy en instancia 2
-				var minIns2 = Session.get('tope2') - fechaA;
-				Session.set('cuentaR',minIns2); //milisegundos
-				Session.set('instancia',2); 
-			}	
-			else
-				if( fechaA < Session.get('tope3') )
-				{	
-					//estoy en instancia 3
-					var minIns3 = Session.get('tope3') - fechaA;
-					Session.set('cuentaR',minIns3); //milisegundos
-					Session.set('instancia',3); 
-				}	
-				else Session.set('instancia','xx'); **
-		
-	}
-	else
-		if( fechaA < fechaI )
-		{
-			var minIns0 = fechaI-fechaA; //resultado en milisegundos
-			alert(minIns0);
-			Session.set('cuentaR',minIns0); //milisegundos
-			Session.set('instancia', 0); //min->seg->milisegundos
-		}
-		else Session.set('instancia','ya pasó');
-
-}*/
-
-/*//Cuenta Regresiva
-function stop_timer()
-{
-    var instancia = Session.get('instancia'); 
-
-    console.log( Session.get('instancia') );
-    switch(instancia)
-    {
-    	case 0:
-    			alert('cero');
-    			Session.set('instancia',1);
-    			console.log( Session.get('tiempo1') +'min');
-    			var aux = Session.get('tiempo1')*60*1000 ;
-    			Session.set('cuentaR', aux );
-    			
-    			break;
-    	case 1:
-    			Session.set('instancia',2);
-    			var aux = Session.get('tiempo2')*60*1000 ;
-    			console.log( Session.get('tiempo2') +'min');
-    			Session.set('cuentaR',aux );
-
-    			alert(1);
-
-    			break;
-    	case 2:
-    			Session.set('instancia',3);
-    			var aux = Session.get('tiempo3')*60*1000 ;
-    			console.log( Session.get('tiempo3') +'min');
-    			Session.set('cuentaR',aux );
-    			alert(2);
-
-    			break;
-    	case 3:
-    			Session.set('instancia',4);
-    			
-    			alert(3);
-
-    			break;
-    }
-
-}*/
 
 
 Template.chatPage.renderer = function (){
@@ -220,7 +93,9 @@ Template.chatPage.helpers({
 		var grupo = Grupo.findOne( {_id: idgrupo} );		
 		var sesionId = grupo.sesion_id;
 
-		var sesionT = SesionTime.findOne( {sesion_id: sesionId} );
+		var sesionaux = Sesion.findOne( {_id:  sesionId} ); 
+
+		var sesionT = SesionTime.findOne( {sesion_id: sesionId, instancia: sesionaux.instActual} );
 
 		return sesionT.countdown;
 	},
@@ -699,15 +574,12 @@ Template.chatPage.events ({
 
   	'click #siguiente': function(e)
     {
-    	//var res = confirm("Pasar de instancia?");
-		
     	bootbox.confirm("Pasar de instancia?", function(res){
     		if( res )
 			{
 				var datos = {
 				  idgrupo: Session.get('idgrupo'),			 
 				};
-
 
 				Meteor.call('pasardeInstantcia', datos, function(error, result) //se define un metodo para insertar
 				{      
@@ -717,7 +589,6 @@ Template.chatPage.events ({
 				}); 
 			} 
     	});
-
 		
     },
 
@@ -779,27 +650,6 @@ Template.chatPage.events ({
         });  //FIN DIALOG
 	},
 
-	/*'click #preparar': function(e)
-    {
-    	//var res = confirm("Pasar de instancia?");
-		
-    	bootbox.confirm("Comenzar la Sesión?", function(res){
-    		if( res )
-			{
-				var datos = {
-				  idgrupo: Session.get('idgrupo'),			 
-				};
-
-				Meteor.call('comenzarSesion', datos, function(error, result) //se define un metodo para insertar
-				{      
-				    if (error)
-						return alert(error.reason);
-
-				  //Router.go('chatPage', {idgrupo:Session.get('idgrupo')});
-				}); 
-			} 
-    	});
-    },*/
 
   	'click #preparar': function(e)
 	{
@@ -814,7 +664,7 @@ Template.chatPage.events ({
                             '<div class="form-group">'+
                                 '<div class="form-group">'+
                                   '<label class="control-label" for="minIni">Minutos</label>'+
-                                  '<input type="number" max="30" min="-30" name="minIni" id="minIni" placeholder="" class="form-control" required />'+
+                                  '<input type="number" max="30" min="0" name="minIni" id="minIni" placeholder="" class="form-control" required />'+
                                 '</div>'+
                             '</div>'+
                           '</form>'+
@@ -840,7 +690,7 @@ Template.chatPage.events ({
 							{      
 							    if (error)
 									return alert(error.reason);
-								console.log(result);
+								//console.log(result);
 							  //Router.go('chatPage', {idgrupo:Session.get('idgrupo')});
 							});
                            
