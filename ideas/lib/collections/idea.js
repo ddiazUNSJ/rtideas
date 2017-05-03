@@ -24,6 +24,11 @@ Meteor.methods
         'cantR':0,
         'resultado':''
       };
+
+      var arre3 = {
+        'cant':0,
+        'compartir':0
+      };
      
       var user = Meteor.user();
       var ideas = _.extend(ideasAttributes,
@@ -32,7 +37,8 @@ Meteor.methods
           votacionI4: arre2,
           author: user.username,
           submitted: new Date(),        
-          estado: 'activa'
+          estado: 'activa',
+          compartir:arre3,
        }); 
 
       // console.log(ideas);     

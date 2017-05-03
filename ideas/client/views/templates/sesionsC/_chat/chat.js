@@ -30,8 +30,6 @@ Template.chatPage.renderer = function (){
 	$(window).resize(function() {
 	  rezisePantalla();
 	});*/
-
-	
 	
  };
 
@@ -41,6 +39,8 @@ Template.chatPage.renderer = function (){
 	$(window).resize(function() {
 	  rezisePantalla();
 	});
+
+
 
  };
 
@@ -302,7 +302,13 @@ Template.chatPage.helpers({
 		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
 		
 		//console.log(sesion.instActual);
-		return sesion.instActual == 5;
+		if(sesion.instActual == 5)
+		{	
+			Meteor.subscribe('votos_compartir', idgrupo );
+			res=1;
+		}
+		else res=0;
+		return res;
 	},
 
 	siInstancia6: function() { 
@@ -553,6 +559,23 @@ Template.contenidoChat.helpers({
 		if ( (sesion.instActual != 1) && (sesion.instActual != 2) ) 
 			return 1;
 		else return 0;
+    },
+
+    
+    votosComp: function() { 		
+		//console.log(this.compartir.cant);
+		return this.compartir.cant;
+    },
+
+    chequeado: function() {
+    	var useractual = Meteor.userId();
+
+		var votacion = IdeasC.findOne( {user_id:useractual, idea_id:this._id, comp:1} );
+
+		if(votacion) 
+			return "checked";
+		else 
+			return "";
     },
  
 });
@@ -995,11 +1018,10 @@ Template.chatPage.events ({
 
 		var arre = {
 		  idea_id:ididea,
-	      //voto: voto 
-
+	      grupo_id: Session.get('idgrupo'),
 	    };
 
-	    console.log(arre);
+	    //Sconsole.log(arre);
 
 	    Meteor.call('InsertVotI5', arre, function(error, result) //se define un metodo para insertar
 	    {      

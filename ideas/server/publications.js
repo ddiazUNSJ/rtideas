@@ -167,6 +167,14 @@ Meteor.publish('ideas', function(grupoid) {
 });
 
 
+Meteor.publish('votos_compartir', function(grupoid) { 
+  var useractual=this.userId;   
+  check(grupoid, String);
+  
+  return IdeasC.find({user_id:useractual, grupo_id:grupoid});
+});
+
+
 
 // publico todas los votos de un grupo en particular
 /*Meteor.publish('votos', function(grupoid) { 
