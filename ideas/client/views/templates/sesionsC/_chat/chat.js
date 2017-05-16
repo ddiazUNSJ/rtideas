@@ -132,6 +132,8 @@ Template.chatPage.helpers({
 		var sesionId = grupo.sesion_id;
 		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
 
+		 bootbox.hideAll();
+
 		switch( sesion.instActual)
 		{
 			case 0:
@@ -142,6 +144,7 @@ Template.chatPage.helpers({
 					$('#div_instancia4').css('display','none');
 					$('#div_instancia5').css('display','none');
 					$('#div_instancia6').css('display','none');
+					$('#div_instancia7').css('display','none');
 					break;
 			case 1:
 					$('#div_instancia0').animate({width: '100%'}, 150, function() {
@@ -155,7 +158,7 @@ Template.chatPage.helpers({
 						   $('#div_instancia4').css('display','none');
 						   $('#div_instancia5').css('display','none');
 						   $('#div_instancia6').css('display','none');
-		                      
+		                   $('#div_instancia7').css('display','none');
 		                    $(this).show();
 		                });
 		            });
@@ -172,7 +175,8 @@ Template.chatPage.helpers({
 						   $('#div_instancia4').css('display','none');
 						   $('#div_instancia5').css('display','none');
 				           $('#div_instancia6').css('display','none');
-					
+		                   $('#div_instancia7').css('display','none');
+							
 		                    $(this).show();
 		                });
 		            });
@@ -191,6 +195,7 @@ Template.chatPage.helpers({
 						   $('#div_instancia4').css('display','none');  
 						   $('#div_instancia5').css('display','none');
 				           $('#div_instancia6').css('display','none'); 
+		                   $('#div_instancia7').css('display','none');
 		                   
 		                    $(this).show();
 		                });
@@ -211,6 +216,7 @@ Template.chatPage.helpers({
 						   $('#div_instancia4').css('display','block'); 
 						   $('#div_instancia5').css('display','none');
 				           $('#div_instancia6').css('display','none'); 
+		                   $('#div_instancia7').css('display','none');
 
 		                   $(this).show();
 		                });
@@ -231,6 +237,7 @@ Template.chatPage.helpers({
 						   $('#div_instancia4').css('display','none');  
 						   $('#div_instancia5').css('display','block'); 
 						   $('#div_instancia6').css('display','none');
+		                   $('#div_instancia7').css('display','none');
 		                   
 		                    $(this).show();
 		                });
@@ -251,7 +258,7 @@ Template.chatPage.helpers({
 						   $('#div_instancia4').css('display','none'); 
 						   $('#div_instancia5').css('display','none');
 						   $('#div_instancia6').css('display','block');
-
+		                   $('#div_instancia7').css('display','none');
 		                   
 		                    $(this).show();
 		                });
@@ -259,7 +266,28 @@ Template.chatPage.helpers({
 
 					//$('#div_instancia0').css('display','none');
 					//$('#div_instancia1').css('display','block');
-					break;			
+					break;
+			case 7:
+					$('#div_instancia6').animate({width: '100%'}, 150, function() {
+		                $(this).hide();              
+		                $('#div_instancia7').animate({width: '100%'}, 100
+		                	, function() {
+		                  
+		                  // $('#div_instancia0').css('display','none');
+						   $('#div_instancia1').css('display','none');  
+						   $('#div_instancia3').css('display','none');
+						   $('#div_instancia4').css('display','none'); 
+						   $('#div_instancia5').css('display','none');
+						   $('#div_instancia6').css('display','none');
+		                   $('#div_instancia7').css('display','block');
+		                   
+		                    $(this).show();
+		                });
+		            });
+
+					//$('#div_instancia0').css('display','none');
+					//$('#div_instancia1').css('display','block');
+					break;				
 		}
 
 		return sesion.instActual;
@@ -319,6 +347,26 @@ Template.chatPage.helpers({
 		
 		//console.log(sesion.instActual);
 		return sesion.instActual == 6;
+	},
+
+	siInstancia7: function() { 
+		var idgrupo = Session.get('idgrupo');	    
+		var grupo = Grupo.findOne( {_id: idgrupo} );		
+		var sesionId = grupo.sesion_id;
+		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
+		
+		//console.log(sesion.instActual);
+		return sesion.instActual == 7;
+	},
+
+	siInstancia8: function() { 
+		var idgrupo = Session.get('idgrupo');	    
+		var grupo = Grupo.findOne( {_id: idgrupo} );		
+		var sesionId = grupo.sesion_id;
+		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
+		
+		//console.log(sesion.instActual);
+		return sesion.instActual == 8;
 	},
 
 	siInstancia_1: function() { //-1
@@ -468,6 +516,45 @@ Template.contenidoChat.helpers({
     //votacionI2.resultado: 'Debate'
      return  todos;
   },
+
+  get_messages_compI6: function() {
+
+  	var idgrupoA = Session.get('idgrupo');
+
+  	Meteor.subscribe('gruposComp', idgrupoA);
+
+	
+    var ideas = Ideas.find({}, { sort: {submitted: 1} });
+
+    var todos=Array();
+
+    ideas.forEach( function(myDoc) 
+    {
+        if( myDoc.compartir.compartir == 1 )  
+            todos.push( Ideas.findOne( {_id: myDoc._id }, {} )  );  
+	});
+    //votacionI2.resultado: 'Debate'
+     return  todos;
+  },
+
+   get_messages_compI7: function() {
+  	var idgrupoA = Session.get('idgrupo');
+    var ideas = Ideas.find({idgrupo: idgrupoA}, { sort: {submitted: 1} });
+    var todos=Array();
+    ideas.forEach( function(myDoc) 
+    {
+        if( myDoc.compartir.compartir == 1 )  
+            todos.push( Ideas.findOne( {_id: myDoc._id }, {} )  );  
+	});
+    //votacionI2.resultado: 'Debate'
+     return  todos;
+  },
+
+  grupoIdeaComp: function() {
+    var idea = Ideas.findOne({_id: this._id});	
+    var grupo = Grupo.findOne({_id: idea.idgrupo});	
+	return grupo.gr;	
+   },
   
    get_username: function() {
     var data = Meteor.users.findOne({_id: this.iduser});	
@@ -480,10 +567,15 @@ Template.contenidoChat.helpers({
    },
 
 
-	get_comentarios: function(idIdea) {
-	    return Comentarios.find({ididea:idIdea}, { sort: {submitted: 1} });	
+	get_comentarios: function() {
+	    return Comentarios.find({ididea:this._id, instancia:2}, { sort: {submitted: 1} });	
 
 	},
+
+	get_comentarios_comp: function() {
+	    return Comentarios.find({ididea:this._id, instancia:6}, { sort: {submitted: 1} });
+	},
+
 	get_idea: function(idIdea){
 		return Ideas.findOne({ididea:idIdea},{sort:{submitted: 1}});
 
@@ -549,6 +641,26 @@ Template.contenidoChat.helpers({
 		return sesion.instActual == 6;
 	},
 
+	siInstancia7: function() { 
+		var idgrupo = Session.get('idgrupo');	    
+		var grupo = Grupo.findOne( {_id: idgrupo} );		
+		var sesionId = grupo.sesion_id;
+		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
+		
+		//console.log(sesion.instActual);
+		return sesion.instActual == 7;
+	},
+
+	siInstancia8: function() { 
+		var idgrupo = Session.get('idgrupo');	    
+		var grupo = Grupo.findOne( {_id: idgrupo} );		
+		var sesionId = grupo.sesion_id;
+		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
+		
+		//console.log(sesion.instActual);
+		return sesion.instActual == 8;
+	},
+
 	NoInstancia1y2: function() {  // no es instancia 1 ni 2
 		var idgrupo = Session.get('idgrupo');	    
 		var grupo = Grupo.findOne( {_id: idgrupo} );		
@@ -560,6 +672,7 @@ Template.contenidoChat.helpers({
 			return 1;
 		else return 0;
     },
+
 
     
     votosComp: function() { 		
@@ -628,7 +741,7 @@ Template.chatPage.events ({
                             '<div class="form-group">'+
                                 '<div class="form-group">'+
                                   '<label class="control-label" for="nombre">Minutos</label>'+
-                                  '<input type="number" max="30" min="-30" name="newtime" id="newtime" placeholder="" class="form-control" required />'+
+                                  '<input type="number" max="30" min="1" name="newtime" id="newtime" placeholder="" class="form-control" required />'+
                                 '</div>'+
                             '</div>'+
                           '</form>'+
@@ -849,6 +962,7 @@ Template.chatPage.events ({
 							var arre = {
 						      comentario:  $('#comment #comentario').val(),
 						      ididea: idIdea,
+						      idgrupo: Session.get('idgrupo')
 						    };
 						    Meteor.call('comentInsert', arre, function(error, result) //se define un metodo para insertar
 						    {      
@@ -876,6 +990,10 @@ Template.chatPage.events ({
 	  {
 		e.preventDefault();
 
+		var idIdea = $(e.target);
+		idIdea = $(idIdea[0]).attr('name');
+		var idea = Ideas.findOne( {_id: idIdea} );
+		ideaname = idea.messageBox;
 		//var resp = prompt('Ingrese Comentario');
 		bootbox.dialog({
               backdrop: true,
@@ -886,11 +1004,12 @@ Template.chatPage.events ({
                             '<div class="form-group">'+
                                 '<div class="form-group">'+
                                   '<label class="control-label" for="nombre">Idea</label>'+
-                                  '<textarea name="editar" id="editar" placeholder="" class="form-control" required> </textarea>'+
+                                  '<textarea name="editar" id="editar" placeholder="" class="form-control" required> '+ideaname+' </textarea>'+
                                 '</div>'+
                             '</div>'+
                           '</form>'+
                     '</div>',
+
               buttons: {
                   success: {
                       label: "Guardar",
@@ -903,11 +1022,11 @@ Template.chatPage.events ({
                           var $myForm = $('#edit');
                           if ($myForm[0].checkValidity()) 
                           {
-                         	var idIdea = $(e.target);
-							idIdea = $(idIdea[0]).attr('name');
+                         	
 							var arre = {
 						      editar:  $('#edit #editar').val(),
 						      ididea: idIdea,
+						      idgrupo:  Session.get('idgrupo'),
 						    };
 						    Meteor.call('editIdea', arre, function(error, result) //se define un metodo para insertar
 						    {      

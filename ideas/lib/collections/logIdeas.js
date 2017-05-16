@@ -12,6 +12,8 @@ Meteor.methods
       {
         editar: String,
         ididea: String,
+        idgrupo: String,
+
       });
 
       var ididea = ideasAttributes.ididea;
@@ -22,12 +24,17 @@ Meteor.methods
 
       Ideas.update({_id : ididea },{$set:{messageBox : newidea }});
 
+      var grupo = Grupo.findOne( {_id: ideasAttributes.idgrupo} ); 
+      var sesion = Sesion.findOne( {_id:  grupo.sesion_id} ); 
+      var instancia = sesion.instActual;
+     
 
       var ideas = 
        {
           idea_id: ididea,
           idea_old: oldidea,
           idea_new: newidea,
+          instancia: instancia,
           submitted: new Date()        
        };
       

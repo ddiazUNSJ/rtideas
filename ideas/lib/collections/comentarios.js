@@ -28,15 +28,18 @@ comentInsert: function(grAttributes) //se verifica q el ususario este autenticad
         return true;
     }));
 
-      
+    var grupo = Grupo.findOne( {_id: grAttributes.idgrupo} ); 
+    var sesion = Sesion.findOne( {_id:  grupo.sesion_id} ); 
+    var instancia = sesion.instActual;
 	
     var user = Meteor.user();
     var comentario = _.extend(grAttributes,
     {
+      instancia: instancia,
       userId: user._id,
       author: user.username,
       submitted: new Date(),
-	  estado: 'activa',       
+	   estado: 'activa',       
     });
 	
    

@@ -124,11 +124,30 @@ Meteor.publish('animadores_sesion', function(sesionid) { //animadores de una ses
 
 Meteor.publish('inscriptos', function(sesionid) {
     check(sesionid, String);
+
+    //usuarios inscriptos a la sesion
     var inscriptos = Inscripcion.find({ sesion_id:sesionid });
     var users = inscriptos.map(function(p) { return p.user_id });
+
+    //todos los grupos de la sesion
+    var Grupos = Grupo.find({ sesion_id:sesionid });
+    var GruposIds = Grupos.map(function(p) { return p._id });
+
+    //usuarios ya asignados a algun grupo de la sesion
+    var UserAsig = Users_sesions.find({ idgrupo: {$in: GruposIds} });
+    var UserAsig = UserAsig.map(function(p) { return p.iduser });
+
+    //no publico los usuarios que ya estan asignados a algun grupo
+    var aux = Array();
+    for (var i = 0; i < users.length; i++) {
+      users[i];
+      if( UserAsig.indexOf(users[i]) == -1)
+        aux.push(users[i]);
+    }
+
     return [
-     inscriptos,
-      Meteor.users.find({_id: {$in: users}}, {sort: {username: 1}}) 
+     Inscripcion.find({ user_id: {$in: aux} }),
+      Meteor.users.find({_id: {$in: aux}, rol:'Participante'}, {sort: {username: 1}}) 
     ];  
 });
 
@@ -161,7 +180,7 @@ Meteor.publish('ideas', function(grupoid) {
   return [
     IdeasRel,
     Meteor.users.find({_id: {$in: usersId}}),  //activos
-    Comentarios.find({ididea: {$in: ideasId}})
+    Comentarios.find({ididea: {$in: ideasId}, instancia:2})
   ];
 
 });
@@ -198,46 +217,45 @@ Meteor.publish('gruposComp', function(grupoid) {
   //var useractual=this.userId;   
   
   //var grupoid = 'YAbwJ9M7HbrC3dEd6';
+  console.log(grupoid);
   check(grupoid, String);
   //console.log(grupoid);
-  var arre=new Array();
+
+  var grupo = Grupo.findOne( {_id: grupoid} ); 
+  //var sesion = Sesion.findOne( {_id:  grupo.sesion_id} ); 
+  var grupC = GruposComp.findOne({sesion_id: grupo.sesion_id});
   
-  Compartir.find().forEach( function(myDoc) 
-  { //print( "user: " + myDoc.name ); 
+
+  if(grupC)
+    grupC = grupC.gruposIds;
+  else grupC = 0;
+
+  //console.log(grupC);
 	
-	var ban=0;
-	for(var i=0; i < (myDoc.gruposIds[0].length); i++)
-    {
-		 if(myDoc.gruposIds[0][i]==grupoid)
-		 {
-			ban = 1;
-		 }
-	}
-	if(ban==1)
-	{
-		for(var j=0; j < (myDoc.gruposIds[0].length); j++)
-		{
-			if(myDoc.gruposIds[0][j]!=grupoid)
-				{
-				arre.push( myDoc.gruposIds[0][j] );
-				}
-		}
-	}
-	
+  
+  var IdeasComp = Ideas.find({idgrupo: {$in: grupC} }); 
+
+  var todos=Array();
+
+  IdeasComp.forEach( function(myDoc) 
+  {
+      if( myDoc.compartir.compartir == 1 )  
+        todos.push( myDoc._id  );  
+
+      //console.log(myDoc);
   });
-  
-  //console.log(arre);
-  
-  var IdeasComp = Ideas.find({idgrupo: {$in: arre}, compartido: 'si'}); 
+  //console.log(todos);
+  IdeasComp = Ideas.find({_id: {$in: todos} });
+   
+  //console.log(IdeasComp);
+
   var usersId = IdeasComp.map(function(p) { return p.iduser });
 
-
-  var idsGrupos = IdeasComp.map(function(p) { return p.idgrupo }); 
-  var varGrupos = Grupo.find({_id: {$in: idsGrupos} });
+  //var idsGrupos = IdeasComp.map(function(p) { return p.idgrupo }); 
+  var varGrupos = Grupo.find({_id: {$in: grupC} });
 
   var ideasId = IdeasComp.map(function(p) { return p._id });
-  var coments = Comentarios.find({ididea: {$in: ideasId}, estado: 'activa'}); 
-
+  var coments = Comentarios.find({ididea: {$in: ideasId}, estado: 'activa',  instancia: 6}); 
 
   //console.log(idsGrupos);
   return [

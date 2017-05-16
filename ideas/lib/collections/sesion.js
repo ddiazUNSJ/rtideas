@@ -27,7 +27,13 @@ function tpo_instancia(sesionId,instancia)
              break;       
        case 6:
             var minutos=sesion.instancia6;
-             break;  
+             break; 
+      case 7:
+          var minutos=sesion.instancia7;
+            break;  
+       case 8:
+            var minutos=sesion.instancia8;
+             break;   
       default:  
             var minutos=-1;
                  break;
@@ -66,8 +72,16 @@ function stop_timer(sesionId,minutos,instancia)
       case 5:
             newIns=6;
             newMin=sesion.instancia6;
-             break;       
-      default: newIns=7; //termina
+             break;  
+      case 6:
+            newIns=7;
+            newMin=sesion.instancia7;
+             break; 
+      case 7:
+          newIns=8;
+          newMin=sesion.instancia8;
+           break;      
+      default: newIns=9; //termina
                  break;
     }
 
@@ -81,7 +95,7 @@ function stop_timer(sesionId,minutos,instancia)
             var seg = countdown.get();
             var min = parseInt(seg/60);
             
-            console.log(min+':'+seg%60); 
+            //console.log(min+':'+seg%60); 
             var cuenta = min+':'+seg%60;
             //Sesion.update({_id : sesionId},{$set:{countdown: cuenta }});  
 
@@ -96,7 +110,7 @@ function stop_timer(sesionId,minutos,instancia)
           console.log('terminada: '+instancia);
           SesionTime.remove({sesion_id: sesionId, instancia: instancia});
 
-          if(newIns < 7) //no existe la 7
+          if(newIns < 9) //no existe la 9
           {
             var sesionaux = Sesion.findOne( {_id:  sesionId} ); 
             //interumpo la cuenta regresiva, debido a que el animador pasó de instancia
@@ -107,15 +121,18 @@ function stop_timer(sesionId,minutos,instancia)
                   instancia: newIns,
                   countdown:0
               };
+
+              Sesion.update({_id : sesionId },{$set:{instActual: newIns }}); 
+
               SesionTime.remove({sesion_id: sesionId, instancia: newIns});
               SesionTime.insert(datos);
 
-               stop_timer(sesionId,newMin,newIns);
+              stop_timer(sesionId,newMin,newIns);
+
             }
             else //cuando corta debe eliminar la instancia anterior en la coleccion
-               SesionTime.remove({sesion_id: sesionaux._id, instancia: instancia});
+               SesionTime.remove({sesion_id: sesionaux._id, instancia: instancia });
 
-            Sesion.update({_id : sesionId },{$set:{instActual: newIns }}); 
           }
           else  console.log('fin');
 
@@ -191,7 +208,7 @@ Meteor.methods({
       var minutos = tpo_instancia(grupo.sesion_id, instancia);
 
 
-      if(instancia < 7) //no existe la 7
+      if(instancia < 9) //no existe la 9
       {
         Sesion.update({_id : grupo.sesion_id },{$set:{instActual: instancia }});
 

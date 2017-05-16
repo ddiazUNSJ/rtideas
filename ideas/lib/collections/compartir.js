@@ -38,6 +38,8 @@ Meteor.methods
         submitted: new Date(),        
         estado: 'activa'
       };
+
+      GruposComp.remove({sesion_id: idsesion});
       
       var CGId = GruposComp.insert(data);
       return
