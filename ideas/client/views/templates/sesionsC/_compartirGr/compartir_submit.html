@@ -1,0 +1,57 @@
+<template name="compartirSubmit">
+
+  <div class="col-md-12 page">
+      <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4>Seleccion de Grupos para Compratir Ideas</h4>
+          </div>
+
+          <div class="panel-body">
+
+            <form class="novalidate">
+                  
+                 <div class="form-group">
+                  <label class="control-label" for="SC">Tematica</label>
+                  <div class="controls">
+                    <select class="input-xlarge country" id="tematica" name="tematica">
+                      <option value="-1" selected>Seleccione...</option>
+                        {{#each get_tematicas}}
+                        <option value="{{_id}}" >{{SC}}</option>
+                        {{/each}}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                      <label class="control-label" for="sesion">Sesion de Creatividad</label>
+                  <div class="controls">
+                    <select class="input-xlarge country" id="sesion" name="sesion" disabled >
+                        <option value="-1" selected>Seleccione...</option>
+                        {{#each get_sesiones}}
+                        <option value="{{_id}}" >{{fecha1}}&nbsp;&nbsp; {{hora1}} ({{nombre}})</option>
+                        {{/each}}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                      <label class="control-label" for="gr">Grupo</label>
+                  <div class="controls">
+                    <select class="input-xlarge country" id="grupo" name="gr" disabled required multiple>                     
+                      {{#each get_grupos}}
+                      <option value="{{_id}}" data-id="{{_id}}">{{gr}}</option>
+                      {{/each}}
+                    </select>
+                  </div>
+                </div>
+
+                 
+                 
+                  
+                 <input type="submit" value="Guardar" class="btn btn-primary"/>
+
+            </form>
+          </div>
+      </div>                          
+  </div>    
+</template>
