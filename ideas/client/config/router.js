@@ -1,9 +1,19 @@
 Router.configure({
     layoutTemplate: 'mainLayout',
-    loadingTemplate: 'loading',
+    loadingTemplate:// Descripcion : Carga un rol // Descripcion : Carga un rol // Descripcion : Carga un rol  'loading',
     notFoundTemplate: 'notFound',
      waitOn: function() { return Meteor.subscribe('users_sesions');  }
 });
+
+//DD Define Home del sistema 
+//DD Cambiar de ruta / a /sesion a definir segun pagina de inicio del sistema
+
+
+//******************************************************************************
+//====== sesionList
+//
+// Descripcion : Muestra el listado de sesiones activas para el usuario logeado
+
 
 Router.route('/', {name: 'sesionList'}); // muestra gr, rol, sesion a los q prtenece el usuario
 
@@ -32,6 +42,35 @@ Router.onBeforeAction(requireLogin2, {only: 'sesionList'});
 //------------------------------------------------------------------------------
 
 
+//******************************************************************************
+//====== rolSubmit
+//
+// Descripcion : Carga un nuevo rol (label)
+
+
+Router.route('/submit', {name: 'rolSubmit'}); //cintia
+
+//se verifica si el usuario esta logeado de lo contrario se muestra una plantilla de inicio-o avanza
+//cintia
+var requireLogin = function() {
+  if (! Meteor.user()) {
+    if (Meteor.loggingIn()) {
+      this.render(this.loadingTemplate);
+    } else {
+      this.render('inicio');
+    }
+  } else {
+    this.next();
+  }
+}
+
+
+Router.onBeforeAction(requireLogin, {only: 'rolSubmit'});//cintia
+
+//------------------------------------------------------------------------------
+
+
+
 
 // Router.route('/sesionsC/:_id', {
 //   name: 'postPage',
@@ -44,7 +83,7 @@ Router.onBeforeAction(requireLogin2, {only: 'sesionList'});
 // });
 
 //--------------------------------------------------------------------
-Router.route('/submit', {name: 'rolSubmit'}); //cintia
+
 Router.route('/tematicaCreate', {name: 'tematicaSubmit'});//cintia
 Router.route('/submitG', {name: 'grupoSubmit'});//cintia
 Router.route('/submitSesion', {name: 'sesionSubmit'});//cintia
@@ -78,19 +117,6 @@ Router.route('/chat/', {  //los parametros siempre lo toma de la url. idgrupo pe
 
 //-----------------------------------------------------------------------
 
-//se verifica si el usuario esta logeado de lo contrario se muestra una plantilla de inicio-o avanza
-//cintia
-var requireLogin = function() {
-  if (! Meteor.user()) {
-    if (Meteor.loggingIn()) {
-      this.render(this.loadingTemplate);
-    } else {
-      this.render('inicio');
-    }
-  } else {
-    this.next();
-  }
-}
 
 
 var requireLogin3 = function() {
@@ -277,4 +303,3 @@ Router.onBeforeAction(requireSubsc6, {only: 'chatPage'});
 Router.onBeforeAction(requireSubsc7, {only: 'compartirSubmit'});
 Router.onBeforeAction(requireSubsc8, {only: 'GcompList'});
 Router.onBeforeAction(requireSubsc9, {only: 'sesionSubmit'});
-
