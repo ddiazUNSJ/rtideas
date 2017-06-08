@@ -1,0 +1,91 @@
+<!-- 
+<template name="header">
+
+  <nav class="navbar navbar-default" role="navigation">
+
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{{pathFor 'postsList'}}">Microscope</a>
+    </div> 
+
+    <div class="collapse navbar-collapse " id="navigation">
+
+
+        <ul class="nav navbar-nav">
+          {{#if currentUser}}
+              <li>
+                <a href="{{pathFor 'rolSubmit'}}">Crear Rol mio</a>
+              </li>             
+
+          {{/if}}
+        </ul>
+
+        <ul class="nav navbar-nav">
+          {{#if currentUser}}
+              <li>
+                <a href="{{pathFor 'creaSSubmit'}}">Crear Tematica</a>
+              </li>
+
+              <li>
+                <a href="{{pathFor 'list_sesion'}}">Listado Tematica</a>
+              </li>
+
+          {{/if}}
+        </ul>
+       
+          
+
+        <ul class="nav navbar-nav">
+          {{#if currentUser}}
+
+            <li>
+              <a href="{{pathFor 'grupoSubmit'}}">Crear Grupo</a>
+            </li>
+            
+            <li>
+              <a href="{{pathFor 'list_grupo'}}">Listado Grupo</a>
+            </li>
+          {{/if}}
+        </ul>
+		
+		    <ul class="nav navbar-nav">
+          {{#if currentUser}}
+
+            <li>
+              <a href="{{pathFor 'asignacion'}}">Asignar</a>
+            </li>
+            
+          {{/if}}
+        </ul>
+
+        <ul class="nav navbar-nav">
+          {{#if currentUser}}
+
+            <li>
+              <a href="{{pathFor 'compartirSubmit'}}">Compartir</a>
+            </li>
+            
+          {{/if}}
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li> <a href="index.html">Home</a> </li>
+  		
+      		<li> <a href="#">Services</a> </li>
+      		
+      		<li> <a href="#">Portfolio</a> </li>
+      		
+      		<li> <a href="#">Contact</a> </li>
+      			 
+      	 {{> loginButtons}}  			
+        </ul>  
+
+    </div>	
+  </nav>
+</template>
+ -->
