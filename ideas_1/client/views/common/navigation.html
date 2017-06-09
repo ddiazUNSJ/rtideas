@@ -163,6 +163,27 @@
                     
                 </ul>
             </li> 
+
+            <li class="{{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor'}}">
+                <a href="#">
+                    <i class="fa fa-edit"></i>
+                        <span class="nav-label">Gestion Usuarios</span>
+
+                        <span class="fa arrow"></span>
+                </a>
+                            
+                <ul class="nav nav-second-level {{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor' className='in'}}">
+
+                    <li class="{{isActiveRoute regex='formBasic'}}">
+                        <a href="{{pathFor 'asignacion'}}">Listar</a>
+                    </li>
+
+                    <li class="{{isActiveRoute regex='formAdvanced'}}">
+                        <a href="{{pathFor 'adminusu'}}">Administrar</a>
+                    </li>
+                    
+                </ul>
+            </li> 
          {{/if}}
      {{/if}}
              

@@ -31,10 +31,40 @@ Router.plugin('ensureSignedIn', {
 });
 
 
-
 //DD Define Home del sistema 
 //DD Cambiar de ruta / a /sesion a definir segun pagina de inicio del sistema
 
+//******************************************************************************
+//====== AdministrarUsuarios
+//
+// Descripcion : Muestra el listado de sesiones activas para el usuario logeado
+
+
+Router.route('/adminUsu', {name: 'adminusu'}); // muestra gr, rol, sesion a los q prtenece el usuario
+
+// verifica q este logeado de lo contrario no da permiso para inresar
+var requireLoginAdminUsu = function() {
+  if (! Meteor.user()) 
+  {
+    if (Meteor.loggingIn()) 
+      this.render(this.loadingTemplate);
+    else 
+      this.render('inicio');
+  } 
+  else {
+
+    //creo una variable de session con el rol del usuario
+    //Meteor.subscribe('data_user'); //se suscribe al arrancar, en la publicacion users_sesions
+    var useractual = Meteor.userId(); 
+    var data = Meteor.users.findOne({_id: useractual}); 
+    Session.set('rol', data.rol);
+
+    this.render('subir');
+  }
+}
+Router.onBeforeAction(requireLoginAdminUsu, {only: 'adminusu'});
+
+//------------------------------------------------------------------------------
 
 //******************************************************************************
 //====== sesionList

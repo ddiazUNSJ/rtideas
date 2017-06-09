@@ -60,3 +60,10 @@ reload
 random
 ejson
 spacebars
+
+##################################
+####Avatar 
+ostrio:files
+aldeed:simple-schema
+aldeed:collection2
+aldeed:autoform
