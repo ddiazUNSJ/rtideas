@@ -1,13 +1,70 @@
+
+
+
+
 Router.configure({
     layoutTemplate: 'mainLayout',
-    loadingTemplate:// Descripcion : Carga un rol // Descripcion : Carga un rol // Descripcion : Carga un rol  'loading',
+    loadingTemplate:'loading',
     notFoundTemplate: 'notFound',
-     waitOn: function() { return  Meteor.subscribe('users_sesions'); }
+     waitOn: function() { return Meteor.subscribe('users_sesions');  }
 });
+
+Router.route('/', {
+    name: 'landing',
+    template: 'landing',
+    layoutTemplate: 'landingLayout',
+});
+
+
+Router.route('/sign-out', {
+    name: 'signOut',
+    onBeforeAction: function () {
+        AccountsTemplates.logout();
+        this.redirect('/');
+    }
+});
+
+//Autorizacion , va entrar solo si esta logeado 
+
+Router.plugin('ensureSignedIn', {
+  only: ['private', 'invoice']
+});
+
 
 //DD Define Home del sistema 
 //DD Cambiar de ruta / a /sesion a definir segun pagina de inicio del sistema
 
+//******************************************************************************
+//====== AdministrarUsuarios
+//
+// Descripcion : Muestra el listado de sesiones activas para el usuario logeado
+
+
+Router.route('/adminUsu', {name: 'adminusu'}); // muestra gr, rol, sesion a los q prtenece el usuario
+
+// verifica q este logeado de lo contrario no da permiso para inresar
+var requireLoginAdminUsu = function() {
+  if (! Meteor.user()) 
+  {
+    if (Meteor.loggingIn()) 
+      this.render(this.loadingTemplate);
+    else 
+      this.render('inicio');
+  } 
+  else {
+
+    //creo una variable de session con el rol del usuario
+    //Meteor.subscribe('data_user'); //se suscribe al arrancar, en la publicacion users_sesions
+    var useractual = Meteor.userId(); 
+    var data = Meteor.users.findOne({_id: useractual}); 
+    Session.set('rol', data.rol);
+
+    this.render('subir');
+  }
+}
+Router.onBeforeAction(requireLoginAdminUsu, {only: 'adminusu'});
+
+//------------------------------------------------------------------------------
 
 //******************************************************************************
 //====== sesionList
@@ -15,7 +72,8 @@ Router.configure({
 // Descripcion : Muestra el listado de sesiones activas para el usuario logeado
 
 
-Router.route('/', {name: 'sesionList'}); // muestra gr, rol, sesion a los q prtenece el usuario
+Router.route('/sesionlist', {name: 'sesionList'}); // muestra gr, rol, sesion a los q prtenece el usuario
+
 // verifica q este logeado de lo contrario no da permiso para inresar
 var requireLogin2 = function() {
   if (! Meteor.user()) 
@@ -127,7 +185,7 @@ var requireLogin3 = function() {
     }
   } else {
 
-    //Meteor.subscribe('users_sesions');
+    Meteor.subscribe('users_sesions');
 
     Meteor.subscribe('sesionCountdown');
 
