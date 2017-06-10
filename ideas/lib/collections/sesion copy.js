@@ -195,8 +195,9 @@ Meteor.methods({
       }));
 
     var user = Meteor.user();
-    var datosUsu = Meteor.users.find({_id: user});
+    var datosUsu = Meteor.users.find({_id: user._id});
 
+    var RolUsu='';
     datosUsu.forEach( function(myDoc) 
     {
        RolUsu = myDoc.rol; 
@@ -204,29 +205,29 @@ Meteor.methods({
 
     if(RolUsu == 'Animador')
     {
-      var grupo = Grupo.findOne( {_id: crAttributes.idgrupo} ); 
-      var sesion = Sesion.findOne( {_id:  grupo.sesion_id} ); 
+      //var grupo = Grupo.findOne( {_id: crAttributes.idgrupo} ); 
+      var sesion = Sesion.findOne( {_id:  crAttributes.idsesion} ); 
       var instancia = sesion.instActual + 1;
-      var minutos = tpo_instancia(grupo.sesion_id, instancia);
+      var minutos = tpo_instancia(sesion._id, instancia);
 
 
       if(instancia < 9) //no existe la 9
       {
-        Sesion.update({_id : grupo.sesion_id },{$set:{instActual: instancia }});
+        Sesion.update({_id : sesion._id },{$set:{instActual: instancia }});
 
         //creo una nueva cuenta regresiva
         var datos = {
-            sesion_id: grupo.sesion_id,
+            sesion_id: sesion._id,
             instancia: instancia,
             countdown:0
         };
-        SesionTime.remove({sesion_id: grupo.sesion_id, instancia: instancia});
+        SesionTime.remove({sesion_id: sesion._id, instancia: instancia});
         SesionTime.insert(datos);
-        stop_timer(grupo.sesion_id,minutos,instancia);
+        stop_timer(sesion._id,minutos,instancia);
       }
 
       return {
-        _id: grupo.sesion_id
+        _id: sesion._id
       };
     }
     else  return {
@@ -256,7 +257,7 @@ Meteor.methods({
     //console.log(time);
 
     var user = Meteor.user();
-    var datosUsu = Meteor.users.find({_id: user});
+    var datosUsu = Meteor.users.find({_id: user._id});
 
     datosUsu.forEach( function(myDoc) 
     {
@@ -315,8 +316,9 @@ Meteor.methods({
       }));
 
     var user = Meteor.user();
-    var datosUsu = Meteor.users.find({_id: user});
+    var datosUsu = Meteor.users.find({_id: user._id});
 
+    var RolUsu='';
     datosUsu.forEach( function(myDoc) 
     {
        RolUsu = myDoc.rol; 
@@ -325,28 +327,28 @@ Meteor.methods({
     if(RolUsu == 'Animador')
     {
       var minutos = crAttributes.minutos; //minutos para comenzar
-      var grupo = Grupo.findOne( {_id: crAttributes.idgrupo} ); 
-      var sesion = Sesion.findOne( {_id:  grupo.sesion_id} ); 
+      //var grupo = Grupo.findOne( {_id: crAttributes.idgrupo} ); 
+      var sesion = Sesion.findOne( {_id:  crAttributes.idsesion} ); 
       var instancia = 0;
 
       if(sesion.instActual == -1)
       {  
-        Sesion.update({_id : grupo.sesion_id },{$set:{instActual: instancia }});
+        Sesion.update({_id : sesion._id },{$set:{instActual: instancia }});
         var datos = {
-            sesion_id: grupo.sesion_id,
+            sesion_id: sesion._id,
             instancia: instancia,
             countdown:0
         };
-        SesionTime.remove({sesion_id: grupo.sesion_id, instancia: instancia});
+        SesionTime.remove({sesion_id: sesion._id, instancia: instancia});
         SesionTime.insert(datos);
         //var sesionT = SesionTime.findOne( {sesion_id:  grupo.sesion_id} ); 
         //console.log(sesionT);
-        stop_timer(grupo.sesion_id,minutos,instancia);
+        stop_timer(sesion._id,minutos,instancia);
       }
         
 
       return {
-        _id: grupo.sesion_id
+        _id: sesion._id
       };
     }
     else  return {

@@ -9,9 +9,8 @@ function rezisePantalla()
 	$("#chat").css('max-height', posY);
 }
 
-contGrupos=0;
 
-
+//contGrupos=0;
 
 Template.chatPage.renderer = function (){
 
@@ -25,6 +24,8 @@ Template.chatPage.renderer = function (){
 
 
 	$('h3[rel=tooltip]').tooltip();
+
+
 
 	/*rezisePantalla();
 	$(window).resize(function() {
@@ -466,7 +467,9 @@ Template.chatPage.helpers({
 	},
 
 	get_grupos: function() {
-	    return Grupo.find({}, {sort: {gr: 1}});	
+		var sesion = Session.get('idsesion');
+
+	    return Grupo.find({sesion_id: sesion}, {sort: {gr: 1}});	
 	},
 
 	/*subs_ideas_grupo: function(id) {
@@ -475,7 +478,8 @@ Template.chatPage.helpers({
 	},*/
 
 	
-	contarGrupos: function() { 
+	/*contarGrupos: function() { 
+		var contGrupos= Session.get('contGrupos');
 		if(contGrupos==0)
 	    {
 	   		Session.set('idgrupo', this._id);
@@ -484,15 +488,10 @@ Template.chatPage.helpers({
 		    //Meteor.subscribe('sesionesCreatividad');
 		  	//Meteor.subscribe('ideas',idgr); //le envio el id de grupo para que me publique solo las ideas del grupo.
 		    //Meteor.subscribe('votos',idgr); 
-			
 		}
-		
-	  
 	   contGrupos++;
-
 	   Meteor.subscribe('ideas', this._id);
-		
-	},
+	},*/
 	
 	grupoactivo: function() { // alert(Session.get('contGrupos')); 
 	  return Session.get('idgrupo')===this._id;
@@ -508,7 +507,7 @@ Template.contenidoChat.helpers({
 
   get_messages: function() {
 	var idgrupoA = Session.get('idgrupo');
-    return Ideas.find({idgrupo: idgrupoA}, { sort: {submitted: 1} });	
+    return Ideas.find({idgrupo: idgrupoA}, {  });	
   },
 
    get_messagesI3: function() {
@@ -791,7 +790,10 @@ Template.chatPage.events ({
     {	
     	e.preventDefault();
 		var id = $(e.target).attr('id');
+		//Meteor.subscribe('ideas', id); //se subscribe en el router
 		Session.set('idgrupo', id);
+
+
 
 	    //Meteor.subscribe('grupos');
 	    //Meteor.subscribe('sesionesCreatividad');
@@ -805,7 +807,7 @@ Template.chatPage.events ({
     		if( res )
 			{
 				var datos = {
-				  idgrupo: Session.get('idgrupo'),			 
+				  idsesion: Session.get('idsesion'),
 				};
 
 				Meteor.call('pasardeInstantcia', datos, function(error, result) //se define un metodo para insertar
@@ -909,7 +911,8 @@ Template.chatPage.events ({
                           if ($myForm[0].checkValidity()) 
                           {
 						    var datos = {
-							   idgrupo: Session.get('idgrupo'),	
+							   //idgrupo: Session.get('idgrupo'),	
+							   idsesion: Session.get('idsesion'),
 							   minutos:  $('#formempezar #minIni').val()		 
 							};
 

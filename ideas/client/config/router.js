@@ -1,6 +1,6 @@
 Router.configure({
     layoutTemplate: 'mainLayout',
-    loadingTemplate:// Descripcion : Carga un rol // Descripcion : Carga un rol // Descripcion : Carga un rol  'loading',
+    loadingTemplate:'loading',
     notFoundTemplate: 'notFound',
      waitOn: function() { return  Meteor.subscribe('users_sesions'); }
 });
@@ -13,8 +13,6 @@ Router.configure({
 //====== sesionList
 //
 // Descripcion : Muestra el listado de sesiones activas para el usuario logeado
-
-
 Router.route('/', {name: 'sesionList'}); // muestra gr, rol, sesion a los q prtenece el usuario
 // verifica q este logeado de lo contrario no da permiso para inresar
 var requireLogin2 = function() {
@@ -37,7 +35,6 @@ var requireLogin2 = function() {
   }
 }
 Router.onBeforeAction(requireLogin2, {only: 'sesionList'});
-
 //------------------------------------------------------------------------------
 
 
@@ -45,8 +42,6 @@ Router.onBeforeAction(requireLogin2, {only: 'sesionList'});
 //====== rolSubmit
 //
 // Descripcion : Carga un nuevo rol (label)
-
-
 Router.route('/submit', {name: 'rolSubmit'}); //cintia
 
 //se verifica si el usuario esta logeado de lo contrario se muestra una plantilla de inicio-o avanza
@@ -108,7 +103,7 @@ Router.route('/chat/:_id', {  //los parametros siempre lo toma de la url. idgrup
   //data: function() { return alert(this.params.idgrupo); }
 });
 
-Router.route('/chat/', {  //los parametros siempre lo toma de la url. idgrupo pertenece al entorno
+Router.route('/chatS/:_id', {  //los parametros siempre lo toma de la url. idgrupo pertenece al entorno
   name: 'chatPage2'
   //data: function() { return alert(this.params.idgrupo); }
 });
@@ -128,11 +123,29 @@ var requireLogin3 = function() {
   } else {
 
     //Meteor.subscribe('users_sesions');
+    var dato = this.params._id;
+    Session.set('idsesion', dato);
+    
+    var grupos = Grupo.find({sesion_id: dato}, {sort: {gr: 1}});
+    var contGrupos=0;
+    if(grupos)
+      grupos.forEach( function(myDoc) 
+      {
+          console.log(myDoc.gr)
+          if(contGrupos==0)
+          {
+            Session.set('idgrupo', myDoc._id);
+           
+          }
+          
+          Meteor.subscribe('ideas', myDoc._id);
+          
+          contGrupos++;
+      });
 
+    //subscriptcion a Ideas: al hacer click en la pestaña del grupo
     Meteor.subscribe('sesionCountdown');
-
     Meteor.subscribe('instancias');
-
 
     this.render('chatPage'); //cambia la ruta pero lo dirijo al mismo template
   }

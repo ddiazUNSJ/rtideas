@@ -30,6 +30,8 @@ zimme:iron-router-active
 #okgrow:iron-router-autoscroll
 okgrow:router-autoscroll
 
+
+
 sacha:spin
 
 underscore
@@ -44,17 +46,15 @@ peppelg:bootstrap-3-modal
 natestrauser:select2
 
 zimme:select2-bootstrap3-css
-#jplack:bootstrap-timepicker
+jplack:bootstrap-timepicker
 #jonmc12:ionic-timepicker
 mizzao:bootboxjs
 
-#mrt:datatables-bootstrap3
+mrt:datatables-bootstrap3
 accounts-ui
 #useraccounts:bootstrap
 
 tsega:bootstrap3-datetimepicker
 flyandi:reactive-countdown
-#lookback:tooltips
-#bootstrap3:tooltips
-#valedaemon:circular-progress
-#ostrio:cron-jobs
+valedaemon:circular-progress
+ostrio:cron-jobs
