@@ -17,5 +17,44 @@ es5-shim@4.6.15                # ECMAScript 5 compatibility for older browsers
 ecmascript@0.8.0              # Enable ECMAScript2015+ syntax in app code
 shell-server@0.2.3            # Server-side component of the `meteor shell` command
 
-autopublish@1.0.7             # Publish all data to the clients (for prototyping)
-insecure@1.0.7                # Allow all DB writes from clients (for prototyping)
+#autopublish@1.0.7             # Publish all data to the clients (for prototyping)
+#insecure@1.0.7                # Allow all DB writes from clients (for prototyping)
+
+
+session
+less
+iron:router
+twbs:bootstrap
+fortawesome:fontawesome
+zimme:iron-router-active
+#okgrow:iron-router-autoscroll
+okgrow:router-autoscroll
+
+sacha:spin
+
+underscore
+#ian:accounts-ui-bootstrap-3
+accounts-password
+audit-argument-checks
+check
+mrt:jquery-ui
+mrt:jquery-ui-bootstrap
+peppelg:bootstrap-3-modal
+#alanning:roles
+natestrauser:select2
+
+zimme:select2-bootstrap3-css
+#jplack:bootstrap-timepicker
+#jonmc12:ionic-timepicker
+mizzao:bootboxjs
+
+#mrt:datatables-bootstrap3
+accounts-ui
+#useraccounts:bootstrap
+
+tsega:bootstrap3-datetimepicker
+flyandi:reactive-countdown
+#lookback:tooltips
+#bootstrap3:tooltips
+#valedaemon:circular-progress
+#ostrio:cron-jobs

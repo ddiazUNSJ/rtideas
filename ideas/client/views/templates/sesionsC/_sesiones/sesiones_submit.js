@@ -7,11 +7,13 @@ Template.sesionSubmit.rendered = function()
 
     $('#fecha1').val("");
 
-   $("#sesion").select2();
-   $('#s2id_sesion').css('min-width','50%');
+    $("#sesion").select2();
+    //$('#s2id_sesion').css('min-width','50%');
 
     $("#animador").select2();
-   $('#s2id_animador').css('min-width','50%');
+    //$('#s2id_animador').css('min-width','50%');
+
+    $('.select2').css('min-width','50%');
 }
 
 Template.sesionSubmit.events({
@@ -134,11 +136,12 @@ Template.sesionSubmit.events({
                   else
                       bootbox.alert("Carga Exitosa", function() {
 
-                             $("#sesion").select2();
-                             $('#s2id_sesion').css('min-width','50%');
+                            $("#sesion").select2();
+                            //$('#s2id_sesion').css('min-width','50%');
 
-                             $("#animador").select2();
-                             $('#s2id_animador').css('min-width','50%'); 
+                            $("#animador").select2();
+                            //$('#s2id_animador').css('min-width','50%');
+                            $('.select2').css('min-width','50%'); 
                             
                             $('#sesion').val('-1');
                             $('#animador').val('');

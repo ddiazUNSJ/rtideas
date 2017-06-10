@@ -156,7 +156,7 @@ Meteor.publish('rol', function() {
 });
 
 Meteor.publish('compartir', function() {
-  return  Compartir.find();      //publico todoS
+  return  GruposComp.find();      //publico todoS
 });
 
 Meteor.publish('sesionCountdown', function() {

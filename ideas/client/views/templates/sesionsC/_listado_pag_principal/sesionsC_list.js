@@ -51,7 +51,7 @@ Template.grupoItem.helpers({
   sesionname: function() { 
     var data = Grupo.findOne({_id:  this._id});	
 	  var sesion = Sesion.findOne({_id: data.sesion_id});
-	  return sesion.fecha1 + '-' +sesion.fecha2;
+	  return sesion.nombre + ' - ' + sesion.fecha1 + ' ' +sesion.hora1;
   },
   
   tematicaname: function() { 
@@ -70,7 +70,7 @@ Template.sesionItem.helpers({
 
   sesionnameA: function() { 
     var sesion = Sesion.findOne({_id: this._id});
-    return sesion.fecha1 + '-' +sesion.fecha2;
+    return sesion.nombre + ' - ' + sesion.fecha1 + ' ' +sesion.hora1;
   },
 
   tematicanameA: function() { 

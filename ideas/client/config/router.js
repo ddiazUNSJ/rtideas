@@ -2,11 +2,10 @@ Router.configure({
     layoutTemplate: 'mainLayout',
     loadingTemplate: 'loading',
     notFoundTemplate: 'notFound',
-     waitOn: function() { return Meteor.subscribe('users_sesions');  }
+     waitOn: function() { return  Meteor.subscribe('users_sesions'); }
 });
 
 Router.route('/', {name: 'sesionList'}); // muestra gr, rol, sesion a los q prtenece el usuario
-
 // verifica q este logeado de lo contrario no da permiso para inresar
 var requireLogin2 = function() {
   if (! Meteor.user()) 
@@ -102,7 +101,7 @@ var requireLogin3 = function() {
     }
   } else {
 
-    Meteor.subscribe('users_sesions');
+    //Meteor.subscribe('users_sesions');
 
     Meteor.subscribe('sesionCountdown');
 
