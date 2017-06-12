@@ -12,7 +12,7 @@ Template.sesionList.helpers({
   },
 
   sesionsU: function() {
-    return Sesion.find({}, {sort: {submitted: -1}}); 
+    return Sesion.find({}, {sort: {fecha1: -1, hora1: -1}}); 
   },
 
 

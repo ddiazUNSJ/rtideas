@@ -1,4 +1,4 @@
-/*Sesion = new Mongo.Collection('sesion');
+Sesion = new Mongo.Collection('sesion');
 
 
 //Cuenta Regresiva
@@ -86,9 +86,8 @@ function summarMinutos(inicio, fin)
     return horas+":"+minutos;
 }
 
-
 //Cuenta Regresiva
-function set_timer(sesionId, minutos, segundos,instancia)
+function stop_timer(sesionId,minutos,segundos,instancia,fechaA)
 { 
     var newIns = null;
     var sesion = Sesion.findOne( {_id:  sesionId} ); 
@@ -130,6 +129,7 @@ function set_timer(sesionId, minutos, segundos,instancia)
                  break;
     }
 
+       console.log(fechaA);
       var countdown = new ReactiveCountdown(segundos, {
         // Value substracted every tick from the current countdown value
         steps: 1,  
@@ -143,8 +143,9 @@ function set_timer(sesionId, minutos, segundos,instancia)
             //console.log(min+':'+seg%60); 
             var cuenta = min+':'+seg%60;
             //Sesion.update({_id : sesionId},{$set:{countdown: cuenta }});  
-
+            //SesionTime.update({sesion_id : sesionId, instancia: instancia},{$set:{countdown: cuenta }});  
             SesionTime.update({sesion_id : sesionId, instancia: instancia, tiempoT:minutos},{$set:{countdown: cuenta }});  
+
         },
         // Callback: Complete, called when the countdown has reached 0
         completed: function() {},
@@ -153,22 +154,40 @@ function set_timer(sesionId, minutos, segundos,instancia)
       countdown.start(function() {
           // do something when this is completed
           console.log('terminada: '+instancia);
-          SesionTime.remove({sesion_id: sesionId, instancia: instancia, tiempoT:minutos});
+          //SesionTime.remove({sesion_id: sesionId, instancia: instancia});
+          SesionTime.remove({sesion_id: sesionId, instancia: instancia, submitted:fechaA});
+
 
           if(newIns < 9) //no existe la 9
           {
             var sesionaux = Sesion.findOne( {_id:  sesionId} ); 
-            //interumpo la cuenta regresiva, debido a que el animador pasó de instancia, o agregó tiempo
-             var sesionT = SesionTime.findOne( {sesion_id: sesionId, instancia: instancia},{ sort: {submitted: -1}} );
-            
-            if( (newIns > sesionaux.instActual) && (!sesionT) )
+            //interumpo la cuenta regresiva, debido a que el animador pasó de instancia o agregó tiempo
+            //Importante: si hay una cuenta regresiva de la misma instancia y mas actual, entonces la cuenta que termina es antigua: no seguir.
+            var sesionT = SesionTime.findOne( {sesion_id: sesionId, instancia: instancia},{ sort: {submitted: -1}} );
+            //var sesionT = SesionTime.findOne({ sesion_id:sesionId, instancia:instancia, submitted:{$gt:fechaA} });
+
+            if(sesionT)
             {  
+              console.log(fechaA);
+              console.log(sesionT.submitted);
+              if(sesionT.submitted <= fechaA)
+                var ban=1;                
+              else var ban=0;
+            }
+            else var ban=1;
+            
+
+
+            //if(newIns > sesionaux.instActual) 
+            if( (newIns > sesionaux.instActual) && (ban) )
+            {  
+              var fechaAnew = new Date();
               var datos = {
                   sesion_id: sesionId,
                   instancia: newIns,
                   countdown:0,
                   tiempoT:newMin,
-                  submitted: new Date(),
+                  submitted:fechaAnew,
               };
 
               Sesion.update({_id : sesionId },{$set:{instActual: newIns }}); 
@@ -176,11 +195,13 @@ function set_timer(sesionId, minutos, segundos,instancia)
               SesionTime.remove({sesion_id: sesionId, instancia: newIns});
               SesionTime.insert(datos);
 
-              set_timer(sesionId,newMin,newMin*60,newIns);
+             
+
+              stop_timer(sesionId,newMin,newMin*60,newIns,fechaAnew);
 
             }
-            else //cuando corta debe eliminar la instancia que termina
-               SesionTime.remove({sesion_id: sesionaux._id, instancia: instancia });
+            else //cuando corta debe eliminar la instancia anterior en la coleccion
+               SesionTime.remove({sesion_id: sesionaux._id, instancia: instancia, submitted:fechaA});
 
           }
           else  console.log('fin');
@@ -242,8 +263,9 @@ Meteor.methods({
       }));
 
     var user = Meteor.user();
-    var datosUsu = Meteor.users.find({_id: user});
+    var datosUsu = Meteor.users.find({_id: user._id});
 
+    var RolUsu='';
     datosUsu.forEach( function(myDoc) 
     {
        RolUsu = myDoc.rol; 
@@ -251,31 +273,32 @@ Meteor.methods({
 
     if(RolUsu == 'Animador')
     {
-      var grupo = Grupo.findOne( {_id: crAttributes.idgrupo} ); 
-      var sesion = Sesion.findOne( {_id:  grupo.sesion_id} ); 
+      //var grupo = Grupo.findOne( {_id: crAttributes.idgrupo} ); 
+      var sesion = Sesion.findOne( {_id:  crAttributes.idsesion} ); 
       var instancia = sesion.instActual + 1;
-      var minutos = tpo_instancia(grupo.sesion_id, instancia);
+      var minutos = tpo_instancia(sesion._id, instancia);
 
 
       if(instancia < 9) //no existe la 9
       {
-        Sesion.update({_id : grupo.sesion_id },{$set:{instActual: instancia }});
+        Sesion.update({_id : sesion._id },{$set:{instActual: instancia }});
 
         //creo una nueva cuenta regresiva
+        var fechaAnew = new Date();
         var datos = {
-            sesion_id: grupo.sesion_id,
+            sesion_id: sesion._id,
             instancia: instancia,
-            countdown:0,
             tiempoT:minutos,
-            submitted: new Date(),
+            countdown:0,
+            submitted: fechaAnew,
         };
-        SesionTime.remove({sesion_id: grupo.sesion_id, instancia: instancia});
+        SesionTime.remove({sesion_id: sesion._id, instancia: instancia});
         SesionTime.insert(datos);
-        set_timer(grupo.sesion_id,minutos,minutos*60,instancia);
+        stop_timer(sesion._id,minutos,minutos*60,instancia,fechaAnew);
       }
 
       return {
-        _id: grupo.sesion_id
+        _id: sesion._id
       };
     }
     else  return {
@@ -305,7 +328,7 @@ Meteor.methods({
     //console.log(time);
 
     var user = Meteor.user();
-    var datosUsu = Meteor.users.find({_id: user});
+    var datosUsu = Meteor.users.find({_id: user._id});
 
     datosUsu.forEach( function(myDoc) 
     {
@@ -314,53 +337,55 @@ Meteor.methods({
 
     if(RolUsu == 'Animador')
     {
-      var grupo = Grupo.findOne( {_id: crAttributes.idgrupo} ); 
-      var sesion = Sesion.findOne( {_id:  grupo.sesion_id} ); 
+      //var grupo = Grupo.findOne( {_id: crAttributes.idgrupo} ); 
+      var sesion = Sesion.findOne( {_id:  crAttributes.idsesion} ); 
       var instancia = sesion.instActual;
 
       switch(sesion.instActual)
       {
-        case 1: Sesion.update({_id : grupo.sesion_id },{$set:{instancia1: ( parseInt(sesion.instancia1) ) + time}});
+        case 1: Sesion.update({_id : sesion._id },{$set:{instancia1: ( parseInt(sesion.instancia1) ) + time}});
                 break;
-        case 2: Sesion.update({_id : grupo.sesion_id },{$set:{instancia2: ( parseInt(sesion.instancia2) ) + time}});
+        case 2: Sesion.update({_id : sesion._id },{$set:{instancia2: ( parseInt(sesion.instancia2) ) + time}});
                 break;
-        case 3: Sesion.update({_id : grupo.sesion_id },{$set:{instancia3: ( parseInt(sesion.instancia3) ) + time}});
+        case 3: Sesion.update({_id : sesion._id },{$set:{instancia3: ( parseInt(sesion.instancia3) ) + time}});
                 break;
-        case 4: Sesion.update({_id : grupo.sesion_id },{$set:{instancia4: ( parseInt(sesion.instancia4) ) + time}});
+        case 4: Sesion.update({_id : sesion._id },{$set:{instancia4: ( parseInt(sesion.instancia4) ) + time}});
                 break;
-        case 5: Sesion.update({_id : grupo.sesion_id },{$set:{instancia5: ( parseInt(sesion.instancia5) ) + time}});
+        case 5: Sesion.update({_id : sesion._id },{$set:{instancia5: ( parseInt(sesion.instancia5) ) + time}});
                 break;
-        case 6: Sesion.update({_id : grupo.sesion_id },{$set:{instancia6: ( parseInt(sesion.instancia6) ) + time}});
+        case 6: Sesion.update({_id : sesion._id },{$set:{instancia6: ( parseInt(sesion.instancia6) ) + time}});
                 break;
-        case 7: Sesion.update({_id : grupo.sesion_id },{$set:{instancia7: ( parseInt(sesion.instancia7) ) + time}});
+        case 7: Sesion.update({_id :sesion._id },{$set:{instancia7: ( parseInt(sesion.instancia7) ) + time}});
                 break;
-        case 8: Sesion.update({_id : grupo.sesion_id },{$set:{instancia8: ( parseInt(sesion.instancia8) ) + time}});
+        case 8: Sesion.update({_id : sesion._id },{$set:{instancia8: ( parseInt(sesion.instancia8) ) + time}});
                 break;
       }
 
      
     
-      var sesiontime = SesionTime.findOne( {sesion_id:  grupo.sesion_id, instancia:instancia },{ sort: {submitted: -1}} );
+      var sesiontime = SesionTime.findOne( {sesion_id:  sesion._id, instancia:instancia },{ sort: {submitted: -1}} );
       var tiemporestante  = sesiontime.countdown;
 
       var minutos = summarMinutos(tiemporestante, time);
 
       var aux = new Array();
       aux = minutos.split(":");
-           
+      
+      var fechaAnew = new Date();
       var datos = {
-            sesion_id: grupo.sesion_id,
+            sesion_id: sesion._id,
             instancia: instancia,
             countdown: 0,
             tiempoT:minutos,
-            submitted: new Date(),
+            submitted: fechaAnew,
         };
-      //SesionTime.remove({sesion_id: grupo.sesion_id, instancia: instancia});
+      //SesionTime.remove({sesion_id:sesion._id, instancia: instancia});
       SesionTime.insert(datos);
-      set_timer(grupo.sesion_id,minutos,((aux[0]*60)+aux[1]),instancia);
+      var segundos = parseInt(aux[0]*60)+parseInt(aux[1]);
+      stop_timer(sesion._id,minutos,segundos,instancia, fechaAnew);
 
       return {
-        _id: grupo.sesion_id
+        _id: sesion._id
       };
 
     }
@@ -369,6 +394,7 @@ Meteor.methods({
           };
     
   },
+
 
 
   comenzarSesion: function(crAttributes) //se verifica q el ususario este autenticado
@@ -387,8 +413,9 @@ Meteor.methods({
       }));
 
     var user = Meteor.user();
-    var datosUsu = Meteor.users.find({_id: user});
+    var datosUsu = Meteor.users.find({_id: user._id});
 
+    var RolUsu='';
     datosUsu.forEach( function(myDoc) 
     {
        RolUsu = myDoc.rol; 
@@ -397,30 +424,32 @@ Meteor.methods({
     if(RolUsu == 'Animador')
     {
       var minutos = crAttributes.minutos; //minutos para comenzar
-      var grupo = Grupo.findOne( {_id: crAttributes.idgrupo} ); 
-      var sesion = Sesion.findOne( {_id:  grupo.sesion_id} ); 
+      //var grupo = Grupo.findOne( {_id: crAttributes.idgrupo} ); 
+      var sesion = Sesion.findOne( {_id:  crAttributes.idsesion} ); 
       var instancia = 0;
 
       if(sesion.instActual == -1)
       {  
-        Sesion.update({_id : grupo.sesion_id },{$set:{instActual: instancia }});
+        Sesion.update({_id : sesion._id },{$set:{instActual: instancia }});
+        
+        var fechaAnew = new Date();
         var datos = {
-            sesion_id: grupo.sesion_id,
+            sesion_id: sesion._id,
             instancia: instancia,
-            countdown:0,
             tiempoT:minutos,
-            submitted: new Date(),
+            countdown:0,
+            submitted: fechaAnew,
         };
-        SesionTime.remove({sesion_id: grupo.sesion_id, instancia: instancia});
+        SesionTime.remove({sesion_id: sesion._id, instancia: instancia});
         SesionTime.insert(datos);
         //var sesionT = SesionTime.findOne( {sesion_id:  grupo.sesion_id} ); 
         //console.log(sesionT);
-        set_timer(grupo.sesion_id,minutos,minutos*60,instancia);
+        stop_timer(sesion._id,minutos,minutos*60,instancia,fechaAnew);
       }
         
 
       return {
-        _id: grupo.sesion_id
+        _id: sesion._id
       };
     }
     else  return {
@@ -430,23 +459,5 @@ Meteor.methods({
   },
 
 
-  getFechaA: function(crAttributes) //se verifica q el ususario este autenticado
-  {
-     check(Meteor.userId(), String);
 
-     check(crAttributes, Match.Where(function(crAttributes){
-        _.each(crAttributes, function (doc) {
-          // do your checks and return false if there is a problem 
-        });
-        // return true if there is no problem
-        return true;
-      }));
-   
-    return new Date();
-    
-  },
-
-
-
-
-});*/
+});

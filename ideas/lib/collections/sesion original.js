@@ -1,4 +1,4 @@
-Sesion = new Mongo.Collection('sesion');
+/*Sesion = new Mongo.Collection('sesion');
 
 
 //Cuenta Regresiva
@@ -377,4 +377,4 @@ Meteor.methods({
 
 
 
-});
+});*/

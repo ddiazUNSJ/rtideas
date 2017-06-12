@@ -131,15 +131,11 @@ var requireLogin3 = function() {
     if(grupos)
       grupos.forEach( function(myDoc) 
       {
-          console.log(myDoc.gr)
           if(contGrupos==0)
           {
             Session.set('idgrupo', myDoc._id);
-           
           }
-          
           Meteor.subscribe('ideas', myDoc._id);
-          
           contGrupos++;
       });
 

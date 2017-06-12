@@ -854,7 +854,7 @@ Template.chatPage.events ({
                          	
 							var arre = {
 						      time:  $('#formtime #newtime').val(),
-						      idgrupo: Session.get('idgrupo'),
+						      idsesion: Session.get('idsesion'),
 						    };
 
 						    Meteor.call('editTimeInst', arre, function(error, result) //se define un metodo para insertar
