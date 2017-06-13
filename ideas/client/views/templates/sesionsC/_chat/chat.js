@@ -543,11 +543,18 @@ Template.contenidoChat.helpers({
   get_messages_compI6: function() {
 
   	var idgrupoA = Session.get('idgrupo');
+  	var idsesion = Session.get('idsesion');
+
 
   	Meteor.subscribe('gruposComp', idgrupoA);
 
-	
-    var ideas = Ideas.find({}, { sort: {submitted: 1} });
+	var grupC = GruposComp.findOne({sesion_id: idsesion});
+	 if(grupC)
+	    grupC = grupC.gruposIds;
+	 else grupC = 0;
+
+	 var ideas = Ideas.find({idgrupo: {$in: grupC} }, { sort: {submitted: 1}} ); 
+    //var ideas = Ideas.find({}, { sort: {submitted: 1} });
 
     var todos=Array();
 
@@ -579,26 +586,30 @@ Template.contenidoChat.helpers({
 
     var todos=Array();
 
+   
     ideas.forEach( function(myDoc) 
     {
         //if( (myDoc.votacionI2.resultado == 'Aceptado')  || (myDoc.votacionI4.resultado == 'Aceptado')  ) 
            // todos.push(  Ideas.findOne( {_id: myDoc._id }, {} ) );  
-       		
+       	 var ban=0;	
 
         if( myDoc.votacionI2.resultado == 'Aceptado') 
     		var votos = myDoc.votacionI2.cantA;
     	else 
     		if (myDoc.votacionI4.resultado == 'Aceptado')  
 				var votos = myDoc.votacionI4.cantA;
-			else var votos = myDoc.votacionI2.cantA;
+			else ban=1;
 
-		var data = {
-   			_id: myDoc._id,
-   			messageBox: myDoc.messageBox,
-   			iduser: myDoc.iduser,
-   			votos:votos 
-   		};
-        todos.push( data  ); 
+		if(ban==0)
+		{
+			var data = {
+	   			_id: myDoc._id,
+	   			messageBox: myDoc.messageBox,
+	   			iduser: myDoc.iduser,
+	   			votos:votos 
+	   		};
+	        todos.push( data  ); 
+	    }
 
 	});
 

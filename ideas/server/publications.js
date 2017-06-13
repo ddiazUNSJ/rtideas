@@ -217,7 +217,7 @@ Meteor.publish('gruposComp', function(grupoid) {
   //var useractual=this.userId;   
   
   //var grupoid = 'YAbwJ9M7HbrC3dEd6';
-  console.log(grupoid);
+  //console.log(grupoid);
   check(grupoid, String);
   //console.log(grupoid);
 
@@ -230,7 +230,7 @@ Meteor.publish('gruposComp', function(grupoid) {
     grupC = grupC.gruposIds;
   else grupC = 0;
 
-  //console.log(grupC);
+  console.log(grupC);
 	
   
   var IdeasComp = Ideas.find({idgrupo: {$in: grupC} }); 
@@ -262,6 +262,7 @@ Meteor.publish('gruposComp', function(grupoid) {
     IdeasComp,
     varGrupos,
     coments,
+    GruposComp.find({sesion_id: grupo.sesion_id}),
     Meteor.users.find({_id: {$in: usersId}}), //activos
   ];
   
