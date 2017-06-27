@@ -185,6 +185,11 @@ Meteor.publish('ideas', function(grupoid) {
 
 });
 
+Meteor.publish('votos_I2', function() { 
+  var useractual=this.userId;   
+
+  return VotacionI2.find({user_id:useractual});
+});
 
 Meteor.publish('votos_compartir', function(grupoid) { 
   var useractual=this.userId;   
@@ -230,7 +235,7 @@ Meteor.publish('gruposComp', function(grupoid) {
     grupC = grupC.gruposIds;
   else grupC = 0;
 
-  console.log(grupC);
+  //console.log(grupC);
 	
   
   var IdeasComp = Ideas.find({idgrupo: {$in: grupC} }); 

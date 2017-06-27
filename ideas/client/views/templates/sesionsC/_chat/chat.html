@@ -30,7 +30,9 @@
                
                   <input type="button" id="siguiente" name="siguiente" Value="Siguiente Inst." class="btn btn-primary" style="margin-top:-5px"/>    
              
-                  <input type="button" id="edittime" name="edittime" Value="Editar Tiempo" class="btn btn-primary" style="margin-top:-5px"/> 
+                  <input type="button" id="edittime" name="edittime" Value="Agregar Tiempo" class="btn btn-primary" style="margin-top:-5px"/> 
+
+                  <input type="button" id="instanciaX" name="instanciaX" Value="Ir a la Instancia..." class="btn btn-primary" style="margin-top:-5px"/> 
                
             {{/if}}   
         </div>
@@ -111,10 +113,9 @@
             {{#if siInstancia2}} 
               <table class="pull-right" style="margin-right: 0%;" width="40%">
                 <tr > 
-                  <td width="60px">
-                    <input type="radio" name="Votacion_{{_id}}" id="A_{{_id}}" class="radiovota2"/></td>
-                  <td width="60px"> <input type="radio" name="Votacion_{{_id}}" id="R_{{_id}}" class="radiovota2"/></td>
-                  <td width="40px"> <input type="radio" name="Votacion_{{_id}}" id="D_{{_id}}" class="radiovota2"/></td>
+                  <td width="60px"><input type="radio" name="Votacion_{{_id}}" id="A_{{_id}}" class="radiovota2" checked="{{checkeadoI2 'A'}}" /></td>
+                  <td width="60px"> <input type="radio" name="Votacion_{{_id}}" id="R_{{_id}}" class="radiovota2" checked="{{checkeadoI2 'R'}}" /></td>
+                  <td width="40px"> <input type="radio" name="Votacion_{{_id}}" id="D_{{_id}}" class="radiovota2" checked="{{checkeadoI2 'D'}}" /></td>
                 </tr>
               </table>
               <br>
@@ -270,7 +271,7 @@
                     <!--<div class="pull-right"> <button id="comp_{{_id}}" name="comp" class="comp" >Comp</button>&nbsp; &nbsp;{{compartir}} </div>-->
                    
                     <div class="pull-right checkbox-success">
-                      <input id="comp_{{_id}}" name="comp" class="comp styled" type="checkbox" {{chequeado}} />  &nbsp; &nbsp;{{votosComp}}
+                      <input id="comp_{{_id}}" name="comp" class="comp styled" type="checkbox" {{checkeadoI5}} />  &nbsp; &nbsp;{{votosComp}}
                     </div>   
                   
                   {{/if}} 

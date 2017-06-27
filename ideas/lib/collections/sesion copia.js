@@ -1,4 +1,4 @@
-Sesion = new Mongo.Collection('sesion');
+/*Sesion = new Mongo.Collection('sesion');
 
 
 //Cuenta Regresiva
@@ -129,6 +129,7 @@ function stop_timer(sesionId,minutos,segundos,instancia,fechaA)
                  break;
     }
 
+       console.log(fechaA);
       var countdown = new ReactiveCountdown(segundos, {
         // Value substracted every tick from the current countdown value
         steps: 1,  
@@ -159,14 +160,13 @@ function stop_timer(sesionId,minutos,segundos,instancia,fechaA)
 
           if(newIns < 9) //no existe la 9
           {
-            //var sesionaux = Sesion.findOne( {_id:  sesionId} ); 
+            var sesionaux = Sesion.findOne( {_id:  sesionId} ); 
             //interumpo la cuenta regresiva, debido a que el animador pasó de instancia o agregó tiempo
             //Importante: si hay una cuenta regresiva de la misma instancia y mas actual, entonces la cuenta que termina es antigua: no seguir.
-            //var sesionT = SesionTime.findOne( {sesion_id: sesionId, instancia: instancia},{ sort: {submitted: -1}} );
-            var sesionT = SesionTime.findOne( {sesion_id: sesionId},{ sort: {submitted: -1}} );
+            var sesionT = SesionTime.findOne( {sesion_id: sesionId, instancia: instancia},{ sort: {submitted: -1}} );
             //var sesionT = SesionTime.findOne({ sesion_id:sesionId, instancia:instancia, submitted:{$gt:fechaA} });
 
-            /*if(sesionT)
+            if(sesionT)
             {  
               console.log(fechaA);
               console.log(sesionT.submitted);
@@ -174,14 +174,12 @@ function stop_timer(sesionId,minutos,segundos,instancia,fechaA)
                 var ban=1;                
               else var ban=0;
             }
-            else var ban=1;*/
+            else var ban=1;
             
 
 
             //if(newIns > sesionaux.instActual) 
-            //if( (newIns > sesionaux.instActual) && (ban) )
-            //solo continúo si la cuenta regresiva que termina (ésta) es la mas actual
-            if( (!sesionT) || ( sesionT && sesionT.submitted <= fechaA ) )
+            if( (newIns > sesionaux.instActual) && (ban) )
             {  
               var fechaAnew = new Date();
               var datos = {
@@ -197,11 +195,13 @@ function stop_timer(sesionId,minutos,segundos,instancia,fechaA)
               SesionTime.remove({sesion_id: sesionId, instancia: newIns});
               SesionTime.insert(datos);
 
+             
+
               stop_timer(sesionId,newMin,newMin*60,newIns,fechaAnew);
 
             }
             else //cuando corta debe eliminar la instancia anterior en la coleccion
-               SesionTime.remove({sesion_id: sesionId, instancia: instancia, submitted:fechaA});
+               SesionTime.remove({sesion_id: sesionaux._id, instancia: instancia, submitted:fechaA});
 
           }
           else  console.log('fin');
@@ -520,4 +520,4 @@ Meteor.methods({
 
 
 
-});
+}); */

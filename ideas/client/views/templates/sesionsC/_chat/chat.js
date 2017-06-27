@@ -46,36 +46,6 @@ Template.chatPage.renderer = function (){
  };
 
 
-//opciones de Reloj Circular
-/* Template.chatPage.circularOptions = function() {
-    var valor = Session.get('cuentaR');
-    return {
-        'canvasSize': 100,
-        'arcWidth': 5,
-        //'sessionValueKey': 'progressValue',
-        'tweenDuration': 300,
-        'outerDivClass':"outer-div" ,
-        'innerDivClass':"inner-div",
-        'borderClass' :"outer-border",
-        'progressClass' : "progress-circle",
-        'textClass' : "progress-text",
-        'tweenDuration': valor,
-    }
-};*/
-
-
-/*Template.instancia0.helpers({ 
-	get_fechaI: function() { 
-	 	var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-		
-		return 'Comienza el:'+ sesion.fecha1 +' '+ sesion.hora1;
- 	},
-
- });*/
-
 
 Template.chatPage.helpers({ 
 
@@ -90,20 +60,22 @@ Template.chatPage.helpers({
     
     getCountdown: function() {
 
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesionaux = Sesion.findOne( {_id:  sesionId} ); 
+		var sesionId = Session.get('idsesion');	    
+		//var grupo = Grupo.findOne( {_id: idgrupo} );		
+		//var sesionId = grupo.sesion_id;
+		//var sesionaux = Sesion.findOne( {_id:  sesionId} ); 
 
-		var sesionT = SesionTime.findOne( {sesion_id: sesionId, instancia: sesionaux.instActual},{ sort: {submitted: -1}} );
+		//var sesionT = SesionTime.findOne( {sesion_id: sesionId, instancia: sesionaux.instActual},{ sort: {submitted: -1}} );
+		var sesionT = SesionTime.findOne( {sesion_id: sesionId},{ sort: {submitted: -1}} );
 
 		return sesionT.countdown;
 	},
 
     getTituloInt: function() {
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
+		//var idgrupo = Session.get('idgrupo');	    
+		//var grupo = Grupo.findOne( {_id: idgrupo} );		
+		//var sesionId = grupo.sesion_id;
+		var sesionId = Session.get('idsesion');
 		var sesion = Sesion.findOne( {_id: sesionId} );
 
 		var actual = sesion.instActual;
@@ -114,9 +86,10 @@ Template.chatPage.helpers({
 	},
 
 	 getDescInt: function() {
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
+		//var idgrupo = Session.get('idgrupo');	    
+		//var grupo = Grupo.findOne( {_id: idgrupo} );		
+		//var sesionId = grupo.sesion_id;
+		var sesionId = Session.get('idsesion');
 		var sesion = Sesion.findOne( {_id: sesionId} );
 
 		var actual = sesion.instActual;
@@ -127,9 +100,10 @@ Template.chatPage.helpers({
 	},
 
     getInstancia: function() { 
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
+		//var idgrupo = Session.get('idgrupo');	    
+		//var grupo = Grupo.findOne( {_id: idgrupo} );		
+		//var sesionId = grupo.sesion_id;
+		var sesionId = Session.get('idsesion');
 		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
 
 		 bootbox.hideAll();
@@ -320,41 +294,27 @@ Template.chatPage.helpers({
     },
 
     siInstancia2: function() { 
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-		
+		var sesionId = Session.get('idsesion');
+		var sesion = Sesion.findOne( {_id: sesionId} );
 		return sesion.instActual == 2;
     },
 
-     siInstancia3: function() { 
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-		
-		//console.log(sesion.instActual);
+    siInstancia3: function() { 
+		var sesionId = Session.get('idsesion');
+		var sesion = Sesion.findOne( {_id: sesionId} );
 		return sesion.instActual == 3;
     },
 
  	siInstancia4: function() { 
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-		
-		//console.log(sesion.instActual);
+		var sesionId = Session.get('idsesion');
+		var sesion = Sesion.findOne( {_id: sesionId} );
 		return sesion.instActual == 4;
     },
 
 	siInstancia5: function() { 
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-		
-		//console.log(sesion.instActual);
+		var idgrupo = Session.get('idgrupo');	 
+		var sesionId = Session.get('idsesion');
+		var sesion = Sesion.findOne( {_id: sesionId} );
 		if(sesion.instActual == 5)
 		{	
 			Meteor.subscribe('votos_compartir', idgrupo );
@@ -365,59 +325,38 @@ Template.chatPage.helpers({
 	},
 
 	siInstancia6: function() { 
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-		
-		//console.log(sesion.instActual);
+		var sesionId = Session.get('idsesion');
+		var sesion = Sesion.findOne( {_id: sesionId} );
 		return sesion.instActual == 6;
 	},
 
 	siInstancia7: function() { 
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-		
-		//console.log(sesion.instActual);
+		var sesionId = Session.get('idsesion');
+		var sesion = Sesion.findOne( {_id: sesionId} );
 		return sesion.instActual == 7;
 	},
 
 	siInstancia8: function() { 
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-		
-		//console.log(sesion.instActual);
+		var sesionId = Session.get('idsesion');
+		var sesion = Sesion.findOne( {_id: sesionId} );
 		return sesion.instActual == 8;
 	},
 
 	siInstancia_1: function() { //-1
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-
+		var sesionId = Session.get('idsesion');
+		var sesion = Sesion.findOne( {_id: sesionId} );
 		return sesion.instActual == -1;
 	},
 
 	siInstancia0: function() { //-1
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-
+		var sesionId = Session.get('idsesion');
+		var sesion = Sesion.findOne( {_id: sesionId} );
 		return sesion.instActual == 0;
 	},
 
 	fechaI: function() { //-1
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-
+		var sesionId = Session.get('idsesion');
+		var sesion = Sesion.findOne( {_id: sesionId} );
 		var fecha1 = sesion.fecha1;	
 		var hora1 = sesion.hora1;
 		//var fechaI = new Date(fecha1 +' '+hora1); 
@@ -468,7 +407,6 @@ Template.chatPage.helpers({
 
 	get_grupos: function() {
 		var sesion = Session.get('idsesion');
-
 	    return Grupo.find({sesion_id: sesion}, {sort: {gr: 1}});	
 	},
 
@@ -613,8 +551,7 @@ Template.contenidoChat.helpers({
 
 	});
 
-	console.log(todos);
-
+	//console.log(todos);
 	todos.sort(function (a,b) {  //descendente
 		  if (a.votos > b.votos)
 		    return -1;
@@ -622,11 +559,9 @@ Template.contenidoChat.helpers({
 		    return 1;
 		  return 0;
 	});
+	//console.log(todos);
 
-	console.log(todos);
-
-    //votacionI2.resultado: 'Debate'
-     return  todos;
+    return  todos;
   },
 
 
@@ -663,90 +598,57 @@ Template.contenidoChat.helpers({
 
 	
 	siInstancia1: function() { 
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-		
-		//console.log(sesion.instActual);
+		var sesionId = Session.get('idsesion');
+		var sesion = Sesion.findOne( {_id: sesionId} );
 		return sesion.instActual == 1;
     },
 
 	siInstancia2: function() { 
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-		
-		//console.log(sesion.instActual);
+		Meteor.subscribe("votos_I2");
+		var sesionId = Session.get('idsesion');
+		var sesion = Sesion.findOne( {_id: sesionId} );
 		return sesion.instActual == 2;
     },  
 
     siInstancia3: function() { 
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-		
-		//console.log(sesion.instActual);
+		var sesionId = Session.get('idsesion');
+		var sesion = Sesion.findOne( {_id: sesionId} );
 		return sesion.instActual == 3;
     },
 
      siInstancia4: function() { 
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-		
-		//console.log(sesion.instActual);
+		var sesionId = Session.get('idsesion');
+		var sesion = Sesion.findOne( {_id: sesionId} );
 		return sesion.instActual == 4;
     },
 
     siInstancia5: function() { 
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-		
-		//console.log(sesion.instActual);
+		var sesionId = Session.get('idsesion');
+		var sesion = Sesion.findOne( {_id: sesionId} );
 		return sesion.instActual == 5;
     },
 
     siInstancia6: function() { 
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-		//console.log(sesion.instActual);
+		var sesionId = Session.get('idsesion');
+		var sesion = Sesion.findOne( {_id: sesionId} );
 		return sesion.instActual == 6;
 	},
 
 	siInstancia7: function() { 
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-		
-		//console.log(sesion.instActual);
+		var sesionId = Session.get('idsesion');
+		var sesion = Sesion.findOne( {_id: sesionId} );
 		return sesion.instActual == 7;
 	},
 
 	siInstancia8: function() { 
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-		
-		//console.log(sesion.instActual);
+		var sesionId = Session.get('idsesion');
+		var sesion = Sesion.findOne( {_id: sesionId} );
 		return sesion.instActual == 8;
 	},
 
 	NoInstancia1y2: function() {  // no es instancia 1 ni 2
-		var idgrupo = Session.get('idgrupo');	    
-		var grupo = Grupo.findOne( {_id: idgrupo} );		
-		var sesionId = grupo.sesion_id;
-		var sesion = Sesion.findOne( {_id: ''+sesionId+''} );
-		//console.log(sesion.instActual);
+		var sesionId = Session.get('idsesion');
+		var sesion = Sesion.findOne( {_id: sesionId} );
 
 		if ( (sesion.instActual != 1) && (sesion.instActual != 2) ) 
 			return 1;
@@ -760,7 +662,42 @@ Template.contenidoChat.helpers({
 		return this.compartir.cant;
     },
 
-    chequeado: function() {
+
+    checkeadoI2: function(voto) {
+   		
+    	var useractual = Meteor.userId();
+    	console.log(useractual+'---'+this._id);
+		var votacion = subscribe.findOne( {user_id:useractual, idea_id:this._id} );
+		console.log(votacion);
+		if(votacion) 
+		{	
+			console.log(voto+'--'+(votacion.voto === voto));
+			if(votacion.voto == voto) 
+				return "checked" 
+			else return "nono";
+		}else 
+			return "nono";
+    },
+
+    /*checkeadoI2_R: function() {
+    	var useractual = Meteor.userId();
+		var votacion = VotacionI2.findOne( {user_id:useractual, idea_id:this._id} );
+		if( (votacion) && (votacion.voto=='R') ) 
+			return "checked";
+		else 
+			return "";
+    },
+
+    checkeadoI2_D: function() {
+    	var useractual = Meteor.userId();
+		var votacion = VotacionI2.findOne( {user_id:useractual, idea_id:this._id} );
+		if( (votacion) && (votacion.voto=='D') ) 
+			return "checked";
+		else 
+			return "";
+    },*/
+
+    checkeadoI5: function() {
     	var useractual = Meteor.userId();
 
 		var votacion = IdeasC.findOne( {user_id:useractual, idea_id:this._id, comp:1} );
@@ -803,8 +740,6 @@ Template.chatPage.events ({
 		var id = $(e.target).attr('id');
 		//Meteor.subscribe('ideas', id); //se subscribe en el router
 		Session.set('idgrupo', id);
-
-
 
 	    //Meteor.subscribe('grupos');
 	    //Meteor.subscribe('sesionesCreatividad');
@@ -869,6 +804,66 @@ Template.chatPage.events ({
 						    };
 
 						    Meteor.call('editTimeInst', arre, function(error, result) //se define un metodo para insertar
+						    {      
+						      if (error)
+						        return console.log(error.reason);
+						       //Router.go('chatPage', {_id: result._id}); 
+						    });
+                           
+                            bootbox.hideAll();
+                          }
+                          else {
+                                bootbox.alert("Ingrese el tiempo en minutos (max:30)");
+                                return false;
+                                }
+                                                                 
+                      }//fin calback
+                  }//fin success
+              },//fin Buttons
+
+              onEscape: function() {return ;},
+        });  //FIN DIALOG
+	},
+
+	'click #instanciaX': function(e)
+	{
+		e.preventDefault();
+		//var resp = prompt('Ingrese Comentario');
+		bootbox.dialog({
+              backdrop: true,
+              title: "Ir a la Instancia...",
+              message:  
+                    '<div class="row">'+
+                         '<form id="formtime" novalidate="novalidate">'+
+                            '<div class="form-group">'+
+                                '<div class="form-group">'+
+                                  '<label class="control-label" for="nombre">Instancia</label>'+
+                                  '<input type="number" max="8" min="1" name="instX" id="instX" placeholder="" class="form-control" required />'+
+                                '</div>'+
+                            '</div>'+
+                          '</form>'+
+                    '</div>',
+              buttons: {
+                  success: {
+                      label: "Guardar",
+                      className: "btn-primary",
+                      callback: function (ev) { 
+                           ev.preventDefault();
+
+                           //console.log($('#comment #comentario'));
+
+                          var $myForm = $('#formtime');
+                          if ($myForm[0].checkValidity()) 
+                          {
+                         	
+							var arre = {
+						      instanciaX: parseInt( $('#formtime #instX').val()),
+						      idsesion: Session.get('idsesion'),
+						    };
+
+						    console.log(arre);
+
+						    Meteor.call('irInstantciaX', arre, function(error, result) //se define un metodo para insertar
 						    {      
 						      if (error)
 						        return console.log(error.reason);
@@ -1017,7 +1012,6 @@ Template.chatPage.events ({
     },
 
 
-
      // Collapse ibox function
    'click .collapse-link': function(e) { //console.log(e);
         var ibox = $(e.target).closest('div.ibox');
@@ -1033,7 +1027,7 @@ Template.chatPage.events ({
     },
 
     'click .coment': function(e)
-	  {
+	{
 		e.preventDefault();
 		//var resp = prompt('Ingrese Comentario');
 		bootbox.dialog({
@@ -1092,7 +1086,7 @@ Template.chatPage.events ({
 	},
 
     'click .editar': function(e)
-	  {
+	{
 		e.preventDefault();
 
 		var idIdea = $(e.target);
@@ -1212,7 +1206,7 @@ Template.chatPage.events ({
 
 	    };
 
-	    console.log(arre);
+	    //console.log(arre);
 
 	    Meteor.call('InsertVotI4', arre, function(error, result) //se define un metodo para insertar
 	    {      
@@ -1369,35 +1363,7 @@ Template.chatPage.events ({
 
 
 
-/*Template.instancia0.events({
-  'submit form': function(e) {
-    e.preventDefault();
 
-    var scre = {
-      grupo: $(e.target).find('[name=grupo]').val(),
-      nombreID: $(e.target).find('[name=nombreID]').val(),
-      des: $(e.target).find('[name=des]').val(),
-      esc: $(e.target).find('[name=esc]').val()
-    };
-
-
-    Meteor.call('fichaInsert', scre, function(error, result) {
-      // display the error to the user and abort
-      if (error)
-        return alert(error.reason);
-
-      bootbox.alert("Carga Exitosa", function() { 
-            $('#grupo').val('');
-            $('#nombreID').val('');
-            $('#des').val('');
-            $('#esc').val('');
-            Router.go('fichaSubmit', {});
-      });
-      
-    });
-
-   }
-});*/
 	
 
 

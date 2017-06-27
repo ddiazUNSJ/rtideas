@@ -139,7 +139,6 @@ var requireLogin3 = function() {
           contGrupos++;
       });
 
-    //subscriptcion a Ideas: al hacer click en la pestaña del grupo
     Meteor.subscribe('sesionCountdown');
     Meteor.subscribe('instancias');
 
@@ -220,17 +219,15 @@ var requireSubsc6 = function() {
   	var dato = this.params._id;
   	Session.set('idgrupo', dato);
 
-    //alert( Session.get('idgrupo') );
+    var grupo = Grupo.findOne( {_id: dato} );  
+    Session.set('idsesion', grupo.sesion_id);
+
     //Meteor.subscribe('grupos');
-
     //Meteor.subscribe('sesionesCreatividad');
-
     //Meteor.subscribe('users_sesions');
 
   	Meteor.subscribe('ideas',dato); //le envio el id de grupo para que me publique solo las ideas del grupo.
-    
     Meteor.subscribe('sesionCountdown');
-    
     Meteor.subscribe('instancias');
    	
     this.render('chatPage');
