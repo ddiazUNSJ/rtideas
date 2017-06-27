@@ -666,14 +666,12 @@ Template.contenidoChat.helpers({
     checkeadoI2: function(voto) {
    		
     	var useractual = Meteor.userId();
-    	console.log(useractual+'---'+this._id);
-		var votacion = subscribe.findOne( {user_id:useractual, idea_id:this._id} );
-		console.log(votacion);
+		var votacion = VotacionI2.findOne( {user_id:useractual, idea_id:this._id} );
 		if(votacion) 
 		{	
 			console.log(voto+'--'+(votacion.voto === voto));
 			if(votacion.voto == voto) 
-				return "checked" 
+				return "checked";
 			else return "nono";
 		}else 
 			return "nono";
