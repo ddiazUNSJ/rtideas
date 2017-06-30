@@ -187,8 +187,12 @@ Meteor.publish('ideas', function(grupoid) {
 
 Meteor.publish('votos_I2', function() { 
   var useractual=this.userId;   
-
   return VotacionI2.find({user_id:useractual});
+});
+
+Meteor.publish('votos_I4', function() { 
+  var useractual=this.userId;   
+  return VotacionI4.find({user_id:useractual});
 });
 
 Meteor.publish('votos_compartir', function(grupoid) { 
@@ -235,14 +239,16 @@ Meteor.publish('gruposComp', function(grupoid) {
     grupC = grupC.gruposIds;
   else grupC = 0;
 
-  //console.log(grupC);
-	
-  
-  var IdeasComp = Ideas.find({idgrupo: {$in: grupC} }); 
+  //los grupos que no estan en grupC no pueden ver las ideas compartidas
+  var busq = grupC.indexOf(grupoid);
+  if(busq == -1)
+    var IdeasComp = Ideas.find({idgrupo: grupoid });
+  else  
+    var IdeasComp = Ideas.find({idgrupo: {$in: grupC} }); 
 
   var todos=Array();
 
-  IdeasComp.forEach( function(myDoc) 
+  IdeasComp.forEach(function(myDoc) 
   {
       if( myDoc.compartir.compartir == 1 )  
         todos.push( myDoc._id  );  

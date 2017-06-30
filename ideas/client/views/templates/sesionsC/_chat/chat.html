@@ -166,8 +166,8 @@
      
       <div class="form-group" id="piechat">
         {{#if siInstancia1}}
-           <input type="text" id="messageBox" name="messageBox" class="form-control" placeholder="Ingresa tu idea" required />
-            <input type="button" id="enviar" name="enviar" Value="Enviar" class="btn btn-primary" style="margin-top:-5px"/> 
+          <input type="text" id="messageBox" name="messageBox" class="form-control" placeholder="Ingresa tu idea" required />
+          <input type="button" id="enviar" name="enviar" Value="Enviar" class="btn btn-primary" style="margin-top:-5px"/> 
         {{/if}}     
       </div>
      
@@ -226,8 +226,8 @@
         {{#if siInstancia4}} 
                 <table class="pull-right" style="margin-right: 0%;" width="40%">
                   <tr > 
-                    <td width="60px"><input type="radio" name="Votacion_{{_id}}" id="A_{{_id}}" class="radiovota4"/></td>
-                    <td width="60px"> <input type="radio" name="Votacion_{{_id}}" id="R_{{_id}}" class="radiovota4"/></td>
+                    <td width="60px"><input type="radio" name="Votacion_{{_id}}" id="A_{{_id}}" class="radiovota4" {{checkeadoI4 'A'}}/></td>
+                    <td width="60px"> <input type="radio" name="Votacion_{{_id}}" id="R_{{_id}}" class="radiovota4" {{checkeadoI4 'R'}}/></td>
                   </tr>
                 </table>
                 <br>

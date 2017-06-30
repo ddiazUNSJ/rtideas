@@ -487,12 +487,17 @@ Template.contenidoChat.helpers({
   	Meteor.subscribe('gruposComp', idgrupoA);
 
 	var grupC = GruposComp.findOne({sesion_id: idsesion});
-	 if(grupC)
+	if(grupC)
 	    grupC = grupC.gruposIds;
-	 else grupC = 0;
+	else grupC = 0;
 
-	 var ideas = Ideas.find({idgrupo: {$in: grupC} }, { sort: {submitted: 1}} ); 
-    //var ideas = Ideas.find({}, { sort: {submitted: 1} });
+	//los grupos que no estan en grupC no pueden ver las ideas compartidas
+	var busq = grupC.indexOf(idgrupoA);
+	if(busq == -1)
+	  	var ideas = Ideas.find({idgrupo: idgrupoA }, { sort: {submitted: 1}});
+	else  
+		var ideas = Ideas.find({idgrupo: {$in: grupC} }, { sort: {submitted: 1}} ); 
+	   
 
     var todos=Array();
 
@@ -604,10 +609,14 @@ Template.contenidoChat.helpers({
     },
 
 	siInstancia2: function() { 
-		Meteor.subscribe("votos_I2");
+		
 		var sesionId = Session.get('idsesion');
-		var sesion = Sesion.findOne( {_id: sesionId} );
-		return sesion.instActual == 2;
+		var sesion = Sesion.findOne( {_id: sesionId} )
+		if (sesion.instActual == 2)
+		{
+			Meteor.subscribe("votos_I2");
+			return true;
+		}else return false;
     },  
 
     siInstancia3: function() { 
@@ -616,10 +625,14 @@ Template.contenidoChat.helpers({
 		return sesion.instActual == 3;
     },
 
-     siInstancia4: function() { 
+    siInstancia4: function() { 
 		var sesionId = Session.get('idsesion');
 		var sesion = Sesion.findOne( {_id: sesionId} );
-		return sesion.instActual == 4;
+		if (sesion.instActual == 4)
+		{
+			Meteor.subscribe("votos_I4");
+			return true;
+		}else return false;
     },
 
     siInstancia5: function() { 
@@ -664,42 +677,34 @@ Template.contenidoChat.helpers({
 
 
     checkeadoI2: function(voto) {
-   		
     	var useractual = Meteor.userId();
 		var votacion = VotacionI2.findOne( {user_id:useractual, idea_id:this._id} );
 		if(votacion) 
 		{	
-			console.log(voto+'--'+(votacion.voto === voto));
 			if(votacion.voto == voto) 
 				return "checked";
-			else return "nono";
+			else return "";
 		}else 
-			return "nono";
-    },
-
-    /*checkeadoI2_R: function() {
-    	var useractual = Meteor.userId();
-		var votacion = VotacionI2.findOne( {user_id:useractual, idea_id:this._id} );
-		if( (votacion) && (votacion.voto=='R') ) 
-			return "checked";
-		else 
 			return "";
     },
 
-    checkeadoI2_D: function() {
-    	var useractual = Meteor.userId();
-		var votacion = VotacionI2.findOne( {user_id:useractual, idea_id:this._id} );
-		if( (votacion) && (votacion.voto=='D') ) 
-			return "checked";
-		else 
-			return "";
-    },*/
 
+    checkeadoI4: function(voto) {
+    	var useractual = Meteor.userId();
+		var votacion = VotacionI4.findOne( {user_id:useractual, idea_id:this._id} );
+		if(votacion) 
+		{
+			if(votacion.voto == voto) 
+				return "checked";
+			else return "";
+		}else 
+			return "";
+    },
+
+   
     checkeadoI5: function() {
     	var useractual = Meteor.userId();
-
 		var votacion = IdeasC.findOne( {user_id:useractual, idea_id:this._id, comp:1} );
-
 		if(votacion) 
 			return "checked";
 		else 
