@@ -2,11 +2,11 @@
 Users_sesions = new Mongo.Collection('users_sesions');
 
 Meteor.methods({
-  Insert: function(IAttributes) //se verifica q el ususario este autenticado
+  participantesAlGrupo: function(IAttributes) //se verifica q el ususario este autenticado
   {
     check(Meteor.userId(), String);
    
-   check(IAttributes, Match.Where(function(IAttributes){
+    check(IAttributes, Match.Where(function(IAttributes){
         _.each(IAttributes, function (doc) {
           // do your checks and return false if there is a problem 
         });
@@ -16,40 +16,59 @@ Meteor.methods({
     
     var user = Meteor.user();
 
-    //var animadores=IAttributes.animadores;
     var inscriptos=IAttributes.inscriptos;
     var idgrupo=IAttributes.idgrupo;
+    var idsesion=IAttributes.idsesion;
 
-    /*if(IAttributes.animadores)
-      for (var i = 0; i < animadores.length; i++)
+    Users_sesions.update( {idgrupo:idgrupo, rol:'Participante'}, {$set:{idgrupo: ''}}, {multi: true} );
+
+
+
+    if(IAttributes.inscriptos)  
+      for (var i = 0; i < inscriptos.length; i++)
       {
-        var datos1 ={
+        /*var datos2 ={
           idgrupo:idgrupo,
-          iduser: animadores[i],
-          rol: "Animador",
+          iduser: inscriptos[i],
+          rol: "Participante",
           userId: user._id,
           author: user.username,
           submitted: new Date()
         };
-        var IId = Users_sesions.insert(datos1);
-      }*/
+        var IId = Users_sesions.insert(datos2);*/
 
-    if(IAttributes.inscriptos)  
-    for (var i = 0; i < inscriptos.length; i++)
-    {
-      var datos2 ={
-        idgrupo:idgrupo,
-        iduser: inscriptos[i],
-        rol: "Participante",
-        userId: user._id,
-        author: user.username,
-        submitted: new Date()
-      };
-      var IId = Users_sesions.insert(datos2);
-    }
+        Users_sesions.update({idsesion:idsesion, iduser:inscriptos[i] },{$set:{idgrupo: idgrupo }});
+    
+      }
 
     return {
-        _id: IId
+        _id: true
+      };
+  },
+
+  gruposAlAnimador: function(IAttributes) //se verifica q el ususario este autenticado
+  {
+    check(Meteor.userId(), String);
+   
+    check(IAttributes, Match.Where(function(IAttributes){
+        _.each(IAttributes, function (doc) {
+          // do your checks and return false if there is a problem 
+        });
+        // return true if there is no problem
+        return true;
+    }));
+    
+    var user = Meteor.user();
+
+    var grupos=IAttributes.grupos;
+    var idanimador=IAttributes.animador;
+    var idsesion=IAttributes.sesion;
+
+   
+    Users_sesions.update( {idsesion:idsesion, iduser:idanimador, rol:'Animador'}, {$set:{idgrupo: grupos}} );
+
+    return {
+        _id: true
       };
   } 
 

@@ -1,5 +1,5 @@
 
-Animador_sesion = new Mongo.Collection('animador_sesion');
+/*Animador_sesion = new Mongo.Collection('animador_sesion');
 
 Meteor.methods({
 
@@ -41,4 +41,4 @@ Meteor.methods({
     };
   }
 
-});
+});*/

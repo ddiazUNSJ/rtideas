@@ -133,11 +133,15 @@
                 <ul class="nav nav-second-level {{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor' className='in'}}">
 
                     <li class="{{isActiveRoute regex='formBasic'}}">
-                        <a href="{{pathFor 'asignacion'}}">Asignar</a>
+                        <a href="{{pathFor 'asignacion'}}">Asignar Participantes</a>
                     </li>
 
                     <li class="{{isActiveRoute regex='formAdvanced'}}">
                         <a href="{{pathFor 'listasignacion'}}">Listar Asignaciones</a>
+                    </li>
+
+                     <li class="{{isActiveRoute regex='formBasic'}}">
+                        <a href="{{pathFor 'asignacion_anim'}}">Asignar Animadores</a>
                     </li>
                     
                 </ul>

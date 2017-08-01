@@ -177,9 +177,9 @@ Template.sesionSubmit.helpers({
 
   },
 
-  get_animadores: function() {
+  /*get_animadores: function() {
     return Meteor.users.find({rol:'Animador'}, {sort: {username: 1}}); 
-  },
+  },*/
 
   get_instancias: function() {
     return Instancia.find({}, {sort: {numero: 1}}); 

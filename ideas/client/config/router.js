@@ -25,11 +25,13 @@ var requireLogin2 = function() {
   } 
   else {
 
-    //creo una variable de session con el rol del usuario
-    //Meteor.subscribe('data_user'); //se suscribe al arrancar, en la publicacion users_sesions
+
     var useractual = Meteor.userId(); 
     var data = Meteor.users.findOne({_id: useractual}); 
     Session.set('rol', data.rol);
+
+    //Meteor.subscribe('data_user'); //se suscribe al arrancar, en la publicacion users_sesions
+    //Meteor.subscribe('users_sesions');
 
     this.render('sesionList');
   }
@@ -95,25 +97,24 @@ Router.route('/groupList', {name: 'list_grupo'});
 Router.route('/asignarList', {name: 'listasignacion'});
 //asigna grupo, asuario y rol
 Router.route('/asigGrupo', {name: 'asignacion'});
+//asigna grupos al animador
+Router.route('/GruposAnim', {name: 'asignacion_anim'});
 //muestra el chat de un grupo
 //Router.route('/chatPage', {name: 'chatPage'});
 
 Router.route('/chat/:_id', {  //los parametros siempre lo toma de la url. idgrupo pertenece al entorno
+  //es el id de la coleccion user_sesion
   name: 'chatPage'
   //data: function() { return alert(this.params.idgrupo); }
 });
 
-Router.route('/chatS/:_id', {  //los parametros siempre lo toma de la url. idgrupo pertenece al entorno
-  name: 'chatPage2'
-  //data: function() { return alert(this.params.idgrupo); }
-});
 
 
 //-----------------------------------------------------------------------
 
 
 
-var requireLogin3 = function() {
+/*var requireLogin3 = function() {
   if (! Meteor.user()) {
     if (Meteor.loggingIn()) {
       this.render(this.loadingTemplate);
@@ -144,7 +145,7 @@ var requireLogin3 = function() {
 
     this.render('chatPage'); //cambia la ruta pero lo dirijo al mismo template
   }
-}
+}*/
 
 
 var requireSubsc2 = function() {
@@ -201,7 +202,7 @@ var requireSubsc5 = function() {
     Meteor.subscribe('grupos');
   	Meteor.subscribe('tematica'); //consultar por cuestion de seguridad????????
   	Meteor.subscribe('sesionesCreatividad'); 
-    //Meteor.subscribe('rol');
+   
   	Meteor.subscribe('users');
   	this.render('asignacion');
   }
@@ -215,20 +216,50 @@ var requireSubsc6 = function() {
       this.render('inicio');
     }
   } else {
-    //alert(this.params.idgrupo);
-  	var dato = this.params._id;
-  	Session.set('idgrupo', dato);
+   
+  	var dato = this.params._id; //id de la coleccion user_sesion
+  	
+    var usersesion = Users_sesions.findOne( {_id: dato} );  
 
-    var grupo = Grupo.findOne( {_id: dato} );  
-    Session.set('idsesion', grupo.sesion_id);
+    Session.set('idsesion', usersesion.idsesion);
+    Session.set('subrol', usersesion.rol);
 
-    //Meteor.subscribe('grupos');
-    //Meteor.subscribe('sesionesCreatividad');
-    //Meteor.subscribe('users_sesions');
+    Meteor.subscribe('gruposUserEst', Session.get('idsesion') ); 
 
-  	Meteor.subscribe('ideas',dato); //le envio el id de grupo para que me publique solo las ideas del grupo.
+
+    if( Session.get('subrol') == 'Participante' )
+    {
+      Session.set('idgrupo', usersesion.idgrupo);
+
+      Meteor.subscribe('ideas', Session.get('idgrupo') ); //le envio el id de grupo para que me publique solo las ideas del grupo.
+      Meteor.subscribe('gruposComp', Session.get('idgrupo') );
+      Meteor.subscribe('votos_compartir',  Session.get('idgrupo') );
+    }
+    else // si es ANIMADOR tiene un array de idgrupos
+    {
+      var grupos = Grupo.find( {},{sort: {gr: 1}} );
+  
+      var contGrupos=0;
+      if(grupos)
+        grupos.forEach( function(myDoc) 
+        {   
+            if(contGrupos==0)
+            {
+              Session.set('idgrupo', myDoc._id);
+            }
+            Meteor.subscribe('ideas', myDoc._id);
+            Meteor.subscribe('gruposComp', myDoc._id);
+            Meteor.subscribe('votos_compartir',  myDoc._id );
+            contGrupos++;
+        });
+    }
+
     Meteor.subscribe('sesionCountdown');
     Meteor.subscribe('instancias');
+
+    Meteor.subscribe("votos_I2");
+    Meteor.subscribe("votos_I4");
+
    	
     this.render('chatPage');
   }
@@ -283,7 +314,7 @@ var requireSubsc6 = function() {
     }
   } else {  
    Meteor.subscribe('tematica'); 
-   Meteor.subscribe('animadores'); 
+   //Meteor.subscribe('animadores'); 
     Meteor.subscribe('instancias');
 
     this.render('sesionSubmit');
@@ -292,11 +323,28 @@ var requireSubsc6 = function() {
   }
 
 
+  var requireSubsc10 = function() {
+    if (! Meteor.user()) {
+    if (Meteor.loggingIn()) {
+      this.render(this.loadingTemplate);
+    } else {
+      this.render('inicio');
+    }
+  } else {
+    Meteor.subscribe('grupos');
+    Meteor.subscribe('tematica'); //consultar por cuestion de seguridad????????
+    Meteor.subscribe('sesionesCreatividad'); 
+   
+    Meteor.subscribe('users');
+    this.render('asignacion_anim');
+  }
+}
+
+
 //------------------------------------------------------------------
 
 //Router.onBeforeAction('dataNotFound', {only: 'postPage'});
 Router.onBeforeAction(requireLogin, {only: 'rolSubmit'});//cintia
-Router.onBeforeAction(requireLogin3, {only: 'chatPage2'}); //para el animador, no se subscribe por el momento
 
 Router.onBeforeAction(requireLogin, {only: 'tematicaSubmit'});//cintia
 Router.onBeforeAction(requireSubsc2, {only: 'grupoSubmit'});
@@ -308,3 +356,4 @@ Router.onBeforeAction(requireSubsc6, {only: 'chatPage'});
 Router.onBeforeAction(requireSubsc7, {only: 'compartirSubmit'});
 Router.onBeforeAction(requireSubsc8, {only: 'GcompList'});
 Router.onBeforeAction(requireSubsc9, {only: 'sesionSubmit'});
+Router.onBeforeAction(requireSubsc10, {only: 'asignacion_anim'});

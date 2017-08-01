@@ -3,12 +3,12 @@
    <div class="col-md-12 page">
       <div class="panel panel-default">
           <div class="panel-heading">
-            <h4>Mis Tematicas y Grupos Asignados</h4>
+            <h4>Mis Sesiones</h4>
           </div>
         
-        {{#if IsAnimador}}
+        
 
-            {{#each sesionsU}}
+            {{#each sesionsUser}}
               <div class="panel-body">
                   <div class="posts page">
                          {{> sesionItem}} 
@@ -16,61 +16,54 @@
               </div>
             {{/each}}
 
-        {{else}}
 
-            {{#each gruposU}}
+            <!--{{#each gruposU}}
               <div class="panel-body">
                   <div class="posts page">
                          {{> grupoItem}} 
                   </div>
               </div>
-            {{/each}}
+            {{/each}}-->
 
-        {{/if}}
       </div>
     </div>
 </template>
 
-<template name="grupoItem">  
- <!-- <div class="post">-->
+<!--<template name="grupoItem">  
     <a href="{{pathFor 'chatPage'}}">
       <div class="discuss btn btn-default"> 
           <h3>
             <a>{{gruponame }}</a>
           </h3>
           <h5>
-            <!--<span>Rol: {{rolname idrol}}</span>     --> 
+    
             <br>
           <span>Sesion: {{sesionname }}</span>
           <br> 
           <span>Tematica: {{tematicaname }}</span>
            <br> 
-          <!-- no hace falta enviar "idgrupo" como parametro lo tome del entorno-->
-          <!-- </div>-->
-          <!--<a href="{{pathFor 'chatPage'}}" class="discuss btn btn-default">Discuss</a>--> 
+
       
           <label class="discuss">estado grupo: {{estado}}</label> 
 
           </h5>     
       </div>
     </a> 
-</template>
+</template>-->
 
 
 <template name="sesionItem">  
- <!-- <div class="post">-->
-    <a href="{{pathFor 'chatPage2'}}">
-      <div class="discuss btn btn-default"> 
-          <h5>
-            <br>
-          <span>Sesion: {{sesionnameA }}</span>
-          <br> 
-          <span>Tematica: {{tematicanameA }}</span>
-           <br> 
-      
-          <label class="discuss">estado Sesion: {{estado}}</label> 
-
-          </h5>     
+    <a href="{{pathFor 'chatPage'}}">
+      <div class="discuss btn btn-default">           
+          
+          <h4> <span>Tematica: {{tematicanameA }}</span> </h4>
+         
+          <h5><span>Sesion: {{sesionnameA }}</span></h5>
+          
+          {{#if IsEstandar}}
+            <h5><span>Rol: {{rol}}</span></h5>
+          {{/if}} 
+              
       </div>
     </a> 
 </template>

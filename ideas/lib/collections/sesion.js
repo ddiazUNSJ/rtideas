@@ -263,15 +263,9 @@ Meteor.methods({
       }));
 
     var user = Meteor.user();
-    var datosUsu = Meteor.users.find({_id: user._id});
+    var SesionUser = Users_sesions.findOne({iduser:user._id, idsesion:crAttributes.idsesion });
 
-    var RolUsu='';
-    datosUsu.forEach( function(myDoc) 
-    {
-       RolUsu = myDoc.rol; 
-    });
-
-    if(RolUsu == 'Animador')
+    if(SesionUser.rol == 'Animador')
     {
       //var grupo = Grupo.findOne( {_id: crAttributes.idgrupo} ); 
       var sesion = Sesion.findOne( {_id:  crAttributes.idsesion} ); 
@@ -323,15 +317,15 @@ Meteor.methods({
       }));
 
     var user = Meteor.user();
-    var datosUsu = Meteor.users.find({_id: user._id});
-
+    /*var datosUsu = Meteor.users.find({_id: user._id});
     var RolUsu='';
     datosUsu.forEach( function(myDoc) 
     {
        RolUsu = myDoc.rol; 
-    });
+    });*/
+    var SesionUser = Users_sesions.findOne({iduser:user._id, idsesion:crAttributes.idsesion });
 
-    if(RolUsu == 'Animador')
+    if(SesionUser.rol == 'Animador')
     {
       //var grupo = Grupo.findOne( {_id: crAttributes.idgrupo} ); 
       var sesion = Sesion.findOne( {_id:  crAttributes.idsesion} ); 
@@ -388,14 +382,10 @@ Meteor.methods({
     //console.log(time);
 
     var user = Meteor.user();
-    var datosUsu = Meteor.users.find({_id: user._id});
+    
+    var SesionUser = Users_sesions.findOne({iduser:user._id, idsesion:crAttributes.idsesion });
 
-    datosUsu.forEach( function(myDoc) 
-    {
-       RolUsu = myDoc.rol; 
-    });
-
-    if(RolUsu == 'Animador')
+    if(SesionUser.rol == 'Animador')
     {
       //var grupo = Grupo.findOne( {_id: crAttributes.idgrupo} ); 
       var sesion = Sesion.findOne( {_id:  crAttributes.idsesion} ); 
@@ -473,15 +463,9 @@ Meteor.methods({
       }));
 
     var user = Meteor.user();
-    var datosUsu = Meteor.users.find({_id: user._id});
+    var SesionUser = Users_sesions.findOne({iduser:user._id, idsesion:crAttributes.idsesion });
 
-    var RolUsu='';
-    datosUsu.forEach( function(myDoc) 
-    {
-       RolUsu = myDoc.rol; 
-    });
-
-    if(RolUsu == 'Animador')
+    if(SesionUser.rol == 'Animador')
     {
       var minutos = crAttributes.minutos; //minutos para comenzar
       //var grupo = Grupo.findOne( {_id: crAttributes.idgrupo} ); 

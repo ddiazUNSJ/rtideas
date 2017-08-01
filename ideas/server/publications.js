@@ -1,13 +1,9 @@
 
-//-------------------CODIGO SOLO PARA USUARIO COMUN--------------------------------
 
-
-Meteor.publish('users_sesions', function() { //2 FILTROS 	
+Meteor.publish('users_sesions', function() { 
 
   var useractual=this.userId; 
-
   var datosUsu = Meteor.users.find({_id: useractual});
-
   datosUsu.forEach( function(myDoc) 
   {
      RolUsu = myDoc.rol; 
@@ -15,55 +11,35 @@ Meteor.publish('users_sesions', function() { //2 FILTROS
 
   
   var Gactivos = Grupo.find({estado: 'activa'});
-	 	
 	//implementar rutina para actualizar estados de los grupos (activo -> vencido)
-  
   var activosId = Gactivos.map(function(p) { return p._id });
-  
-  //var RolSesion = Gactivos.map(function(p) { return p.sesion_id });
 
   
-  if(RolUsu == 'Animador')
-  {  
-    var sesionesAnim = Animador_sesion.find({user_id:useractual});
+ if(RolUsu == 'Administrador')
+  { 
+    //SesionUser = Grupo.find({estado: 'activa'}); 
+    //SesionesRel = Sesion.find({estado: 'activa'});
+    //var SesionUser = Users_sesions.find({idgrupo: {$in: activosId} });
+    var SesionUser = Users_sesions.find({iduser:useractual, idgrupo: {$in: activosId} });
     
-    var sesionesId = sesionesAnim.map(function(p) { return p.sesion_id });
-
-    var GrupoRel = Grupo.find({sesion_id: {$in: sesionesId} });
-
-    var SesionesRel = Sesion.find({_id: {$in: sesionesId} });
-
-    //var grupoId = GrupoRel.map(function(p) { return p.idgrupo });
   }
   else
-  {  
-    if(RolUsu == 'Administrador')
-      { 
-        GrupoRel = Grupo.find({estado: 'activa'}); 
-        SesionesRel = Sesion.find({estado: 'activa'});
-      }
-      else
-      {
-        var GrupoRel = Users_sesions.find({iduser:useractual, idgrupo: {$in: activosId} });
-        grupoId = GrupoRel.map(function(p) { return p.idgrupo });
-        GrupoRel = Grupo.find({_id: {$in: grupoId}});
+    var SesionUser = Users_sesions.find({iduser:useractual, idgrupo: {$in: activosId} });
+    
+  var sesionesId = SesionUser.map(function(p) { return p.idsesion });
+  //var gruposId = SesionUser.map(function(p) { return p.idgrupo });
 
-        sesionesId = GrupoRel.map(function(p) { return p.sesion_id });
-        var SesionesRel = Sesion.find({_id: {$in: sesionesId} });
-      }
-  }    
- //var rolId = GrupoRel.map(function(p) { return p.idrol });
-
+  var SesionesRel = Sesion.find({_id: {$in: sesionesId}, estado: 'activa' });
+  //var GruposRel = Grupo.find({_id: {$in: gruposId}});
 
  //publico todos los datos del usuario
   var usuarioD = Meteor.users.find({_id: useractual}); 
   
   return [
-    GrupoRel,
+    //GruposRel,
+    SesionUser,
     usuarioD,
     SesionesRel,
-    //Grupo.find({_id: {$in: grupoId}}), //activos
-	 //Roles.find({_id: {$in: rolId}}),
 	  Tematica.find({ }) //estado:'activa',
   ];
 
@@ -102,52 +78,70 @@ Meteor.publish('grupos', function() {
 });
 
 
+Meteor.publish('gruposUserEst', function(idsesion) {
+
+  check(idsesion, String);
+
+  var useractual=this.userId;
+
+  var SesionUser = Users_sesions.findOne({iduser:useractual, idsesion:idsesion });
+
+
+  if(SesionUser.rol == 'Participante')
+     GruposRel = Grupo.find({_id: SesionUser.idgrupo }); 
+  else //animador
+     //GruposRel = Grupo.find({_id: SesionUser.idgrupo }); 
+      GruposRel = Grupo.find({_id: {$in: SesionUser.idgrupo} }); 
+
+  return GruposRel; 
+});
+
+
 Meteor.publish('users', function() {
 return  Meteor.users.find();      //publico todoS
 });
 
-Meteor.publish('animadores', function() {
-  //var rol = Roles.findOne({nombre: 'Animador' });
-  //return Meteor.users.find({rol_id: rol._id}) //activos
-  return Meteor.users.find({rol: 'Animador'}) //activos
-});
 
-Meteor.publish('animadores_sesion', function(sesionid) { //animadores de una sesion 
-  check(sesionid, String);
-  var animadores = Animador_sesion.find({ sesion_id:sesionid }); 
-  var users = animadores.map(function(p) { return p.user_id }); 
-  return [
-   animadores,
-    Meteor.users.find({_id: {$in: users}}, {sort: {username: 1}}) 
-  ];
-});
-
-Meteor.publish('inscriptos', function(sesionid) {
+Meteor.publish('participantes_sesion', function(sesionid) {
     check(sesionid, String);
 
     //usuarios inscriptos a la sesion
-    var inscriptos = Inscripcion.find({ sesion_id:sesionid });
-    var users = inscriptos.map(function(p) { return p.user_id });
+    //var inscriptos = Users_sesions.find({ idsesion:sesionid });
+    var inscriptos = Users_sesions.find({ idsesion:sesionid, rol:'Participante', idgrupo:'' });
+    
+    var users = inscriptos.map(function(p) { return p.iduser });
 
-    //todos los grupos de la sesion
+    /*//todos los grupos de la sesion
     var Grupos = Grupo.find({ sesion_id:sesionid });
     var GruposIds = Grupos.map(function(p) { return p._id });
-
     //usuarios ya asignados a algun grupo de la sesion
     var UserAsig = Users_sesions.find({ idgrupo: {$in: GruposIds} });
     var UserAsig = UserAsig.map(function(p) { return p.iduser });
-
     //no publico los usuarios que ya estan asignados a algun grupo
     var aux = Array();
     for (var i = 0; i < users.length; i++) {
-      users[i];
       if( UserAsig.indexOf(users[i]) == -1)
         aux.push(users[i]);
-    }
-
+    }*/
+    
     return [
-     Inscripcion.find({ user_id: {$in: aux} }),
-      Meteor.users.find({_id: {$in: aux}, rol:'Participante'}, {sort: {username: 1}}) 
+     //Users_sesions.find({ iduser: {$in: aux} }),
+      inscriptos,
+      Meteor.users.find({_id: {$in: users}, rol:'Estandar'}, {sort: {username: 1}}) 
+    ];  
+});
+
+Meteor.publish('animadores_sesion', function(sesionid) {
+    check(sesionid, String);
+
+    //usuarios inscriptos a la sesion
+    var animadores = Users_sesions.find({ idsesion:sesionid, rol:'Animador' });
+    
+    var users = animadores.map(function(p) { return p.iduser });
+    
+    return [
+      animadores,
+      Meteor.users.find({_id: {$in: users}, rol:'Estandar'}, {sort: {username: 1}}) 
     ];  
 });
 
@@ -174,6 +168,7 @@ Meteor.publish('ideas', function(grupoid) {
   
   //var grupoid = 'YAbwJ9M7HbrC3dEd6';
   check(grupoid, String);
+
   var IdeasRel = Ideas.find({idgrupo:grupoid, estado: 'activa' });
   var usersId = IdeasRel.map(function(p) { return p.iduser });
   var ideasId = IdeasRel.map(function(p) { return p._id });
@@ -225,10 +220,7 @@ Meteor.publish('votos_compartir', function(grupoid) {
 Meteor.publish('gruposComp', function(grupoid) { 
   //var useractual=this.userId;   
   
-  //var grupoid = 'YAbwJ9M7HbrC3dEd6';
-  //console.log(grupoid);
   check(grupoid, String);
-  //console.log(grupoid);
 
   var grupo = Grupo.findOne( {_id: grupoid} ); 
   //var sesion = Sesion.findOne( {_id:  grupo.sesion_id} ); 
@@ -252,13 +244,10 @@ Meteor.publish('gruposComp', function(grupoid) {
   {
       if( myDoc.compartir.compartir == 1 )  
         todos.push( myDoc._id  );  
-
-      //console.log(myDoc);
   });
-  //console.log(todos);
+
   IdeasComp = Ideas.find({_id: {$in: todos} });
    
-  //console.log(IdeasComp);
 
   var usersId = IdeasComp.map(function(p) { return p.iduser });
 

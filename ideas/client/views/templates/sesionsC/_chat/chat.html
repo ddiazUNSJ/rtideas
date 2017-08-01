@@ -1,12 +1,5 @@
 <template name="chatPage">
 
-
-      <!-- {{#if IsAnimador}}
-         {{#each get_grupos}}
-            {{contarGrupos}}
-         {{/each}}
-       {{/if}}-->
-
     <br> 
       <h3>instancia Actual: {{getInstancia}} </h3>   
       <h2 title="{{getDescInt}}">{{getTituloInt}} </h2> 
@@ -77,9 +70,7 @@
     {{/if}}
 		
 
-    {{> contenidoChat}}  
-
-    <!--{{ > tooltips }}-->
+    {{ > contenidoChat }}
 
     <style>
       .tooltip {
@@ -283,8 +274,9 @@
   </div>
 
 
-   <div id="div_instancia6" style="{{#if siInstancia6}} display:block {{else}} display:none {{/if}}" > 
+  <div id="div_instancia6" style="{{#if siInstancia6}} display:block {{else}} display:none {{/if}}" > 
     <div id="chat">
+    {{#if siInstancia6}}
       {{#each get_messages_compI6}}
         <div class="ibox collapsed">
           <div class="posts page " > 
@@ -329,6 +321,7 @@
           </div>
         </div>  
       {{/each}}
+    {{/if}}  
     </div>          
            
      

@@ -1,19 +1,26 @@
 if (Roles.find().count() === 0) 
 {
-  
   Roles.insert({
     nombre: 'Administrador',    
   });
   
   Roles.insert({
-    nombre: 'Animador', 
+    nombre: 'Estandar', 
   });
+}
 
-  Roles.insert({
-    nombre: 'Participante', 
+if (SubRoles.find().count() === 0) 
+{
+  SubRoles.insert({
+    nombre: 'Animador',    
+    rol: 'Estandar', 
   });
-
- }
+  
+  SubRoles.insert({
+    nombre: 'Participante',
+    rol: 'Estandar',  
+  });
+}
 
 
 if (Instancia.find().count() === 0) 
@@ -33,25 +40,37 @@ if (Instancia.find().count() === 0)
 
   Instancia.insert({
     numero: 3,
-    nombre: 'editar mis Idea',    
+    nombre: 'Editar Ideas en Debate',    
     descripcion: 'puedo editar mis Idea en DEBATE en base a los comentarios',
   });
 
-   Instancia.insert({
+  Instancia.insert({
     numero: 4,
-    nombre: 'votar ideas en debate',    
+    nombre: 'Votar ideas en debate',    
     descripcion: 'nuevamente debe votar las ideas en debate',
   });
 
-   Instancia.insert({
+  Instancia.insert({
     numero: 5,
-    nombre: 'compartir ideas aceptadas',    
+    nombre: 'Compartir ideas aceptadas',    
     descripcion: 'muestra listado de las ideas aceptadas, el propietario puede compartir',
   });
 
-    Instancia.insert({
+  Instancia.insert({
     numero: 6,
-    nombre: 'votar ideas en debate',    
+    nombre: 'Comentar ideas compartidas',    
+    descripcion: '',
+  });
+
+  Instancia.insert({
+    numero: 7,
+    nombre: 'Editar ideas compartidas',    
+    descripcion: 'nuevamente debe votar las ideas en debate',
+  });
+
+  Instancia.insert({
+    numero: 8,
+    nombre: 'Llenar ficha de ideas',    
     descripcion: 'nuevamente debe votar las ideas en debate',
   });
   
@@ -66,8 +85,20 @@ if (Inscripcion.find().count() === 0)
     sesion_id: '1234',    
     user_id: '1234'    
   });
+
+}
+
+
+if (Users_sesions.find().count() === 0) 
+{
   
+  Users_sesions.insert({
+    iduser: '1234',
+    idsesion: '1234', 
+    idgrupo: '1234',  
+    rol: 'Participante', 
+     
+  });
 
-
- }
+}
 
