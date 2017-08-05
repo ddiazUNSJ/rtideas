@@ -12,6 +12,7 @@ Router.configure({
 //******************************************************************************
 //====== sesionList
 //
+
 // Descripcion : Muestra el listado de sesiones activas para el usuario logeado
 Router.route('/', {name: 'sesionList'}); // muestra gr, rol, sesion a los q prtenece el usuario
 // verifica q este logeado de lo contrario no da permiso para inresar
@@ -85,6 +86,7 @@ Router.route('/submitG', {name: 'grupoSubmit'});//cintia
 Router.route('/submitSesion', {name: 'sesionSubmit'});//cintia
 Router.route('/submitCGR', {name: 'compartirSubmit'});//cintia
 Router.route('/listCGR', {name: 'GcompList'});//cintia
+Router.route('/inscriptos', {name: 'list_inscriptos'});
 
 //listado de todos los rol
 //Router.route('/rolList', {name: 'listadorol'});
@@ -339,7 +341,29 @@ var requireSubsc6 = function() {
     this.render('asignacion_anim');
   }
 }
+var requireSubsc11 = function() 
+{
+  if (! Meteor.user()) 
+    {
+      if (Meteor.loggingIn()) 
+       {
+        this.render(this.loadingTemplate);
+       } 
+      else
+       {
+        this.render('inicio');
+       }
+    }
+  else
+   {
+    Meteor.subscribe('inscripciones');    
+    Meteor.subscribe('subrol');  
+    Meteor.subscribe('sesionesCreatividad');  
+    Meteor.subscribe('usersesion');    
 
+    this.render('list_inscriptos');//lo envia a la plantilla listado de grupo
+   }
+}
 
 //------------------------------------------------------------------
 
@@ -357,3 +381,4 @@ Router.onBeforeAction(requireSubsc7, {only: 'compartirSubmit'});
 Router.onBeforeAction(requireSubsc8, {only: 'GcompList'});
 Router.onBeforeAction(requireSubsc9, {only: 'sesionSubmit'});
 Router.onBeforeAction(requireSubsc10, {only: 'asignacion_anim'});
+Router.onBeforeAction(requireSubsc11, {only: 'list_inscriptos'});

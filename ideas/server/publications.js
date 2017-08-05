@@ -149,6 +149,10 @@ Meteor.publish('rol', function() {
   return  Roles.find();      //publico todoS
 });
 
+Meteor.publish('subrol', function() {
+  return  SubRoles.find();      //publico todoS
+});
+
 Meteor.publish('compartir', function() {
   return  GruposComp.find();      //publico todoS
 });
@@ -159,6 +163,10 @@ Meteor.publish('sesionCountdown', function() {
 
 Meteor.publish('instancias', function() {
   return  Instancia.find();      //publico todoS
+});
+
+Meteor.publish('usersesion', function() {
+  return  Users_sesions.find();      //publico todoS
 });
 
 
@@ -285,6 +293,21 @@ Meteor.publish('gruposComp', function(grupoid) {
   ];
 
 });*/
+
+
+Meteor.publish('inscripciones', function() {
+
+  var Inscripciones = Inscripcion.find({});
+   
+  //var usersId = Inscripciones.map(function(p) { return p.user_id });
+  
+  return [
+    Inscripciones,
+    //Meteor.users.find({_id: {$in: usersId}}), //activos
+    Meteor.users.find({}), //activos
+
+  ];
+});
 
 
 
