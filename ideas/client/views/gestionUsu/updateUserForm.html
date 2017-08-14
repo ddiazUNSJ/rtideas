@@ -1,0 +1,21 @@
+<template name="updateUsersForm">
+
+	<!-- Solo MODIFICA nombre o lo que ubiere a profile , pues para modificar email o nombre de usuario
+	se debe llamar a funciones especificas, que chequeen si el email introducido existe, y luego pedir confirmacion a traves 
+	de envio a la cuenta de email y recien dejar la modificacion en firme 
+    Se deberia trabajar con schema y sin afQuickField 
+	-->
+
+
+	{{#autoForm collection="Meteor.users" id="afUpdateAlbum" type="update" doc=selectedUserDoc}}
+
+
+		<fieldset>
+			{{> afQuickField name='profile.nombre'}}
+			
+	    </fieldset>
+	    <button type="submit" class="btn btn-primary">Actualizar</button>
+
+	{{/autoForm}}
+
+</template>

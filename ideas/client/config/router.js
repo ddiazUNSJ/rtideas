@@ -14,7 +14,14 @@ Router.configure({
 //
 
 // Descripcion : Muestra el listado de sesiones activas para el usuario logeado
-Router.route('/', {name: 'sesionList'}); // muestra gr, rol, sesion a los q prtenece el usuario
+ 
+// DD  11/08/17 cambiado  
+//Router.route('/', {name: 'sesionList'}); // muestra gr, rol, sesion a los q prtenece el usuario
+Router.route('/sesionlist',{name: 'sesionList',
+                            template:'sesionList',
+                            layoutTemplate: 'iniciolayout'});
+
+
 // verifica q este logeado de lo contrario no da permiso para inresar
 var requireLogin2 = function() {
   if (! Meteor.user()) 
@@ -27,9 +34,7 @@ var requireLogin2 = function() {
   else {
 
 
-    var useractual = Meteor.userId(); 
-    var data = Meteor.users.findOne({_id: useractual}); 
-    Session.set('rol', data.rol);
+    
 
     //Meteor.subscribe('data_user'); //se suscribe al arrancar, en la publicacion users_sesions
     //Meteor.subscribe('users_sesions');
@@ -382,3 +387,41 @@ Router.onBeforeAction(requireSubsc8, {only: 'GcompList'});
 Router.onBeforeAction(requireSubsc9, {only: 'sesionSubmit'});
 Router.onBeforeAction(requireSubsc10, {only: 'asignacion_anim'});
 Router.onBeforeAction(requireSubsc11, {only: 'list_inscriptos'});
+
+// DD  11/08/17 - Agregado para funcionar con accountTemplate
+Router.route('/', {
+    name: 'landing',
+    template: 'landing',
+    layoutTemplate: 'landingLayout',
+});
+
+
+Router.route('/sign-out', {
+    name: 'signOut',
+    onBeforeAction: function () {
+        AccountsTemplates.logout();
+        this.redirect('/');
+    }
+});
+
+// DD  13/08/17
+// rutas para pagina inicio usuario sistema
+
+
+Router.route('/subirfoto',{name: 'subirfoto',
+                            template:'subirfoto',
+                            layoutTemplate: 'iniciolayout'
+                           });
+Router.route('/adminUsers',{name: 'adminUsers',
+                            template:'adminUsers',
+                            layoutTemplate: 'iniciolayout'
+                           });
+Router.route('/reg',{name: 'reg',
+                            template:'Register2',
+                            layoutTemplate: 'iniciolayout'
+                           });
+Router.route('/inicio', {
+    name: 'inicio',
+    template: 'inicio',
+    layoutTemplate: 'mainLayout',
+});

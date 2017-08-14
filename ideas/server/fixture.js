@@ -78,27 +78,27 @@ if (Instancia.find().count() === 0)
  }
 
 
-if (Inscripcion.find().count() === 0) 
-{
+// if (Inscripcion.find().count() === 0) 
+// {
   
-  Inscripcion.insert({
-    sesion_id: '1234',    
-    user_id: '1234'    
-  });
+//   Inscripcion.insert({
+//     sesion_id: '1234',    
+//     user_id: '1234'    
+//   });
 
-}
+// }
 
 
-if (Users_sesions.find().count() === 0) 
-{
+// if (Users_sesions.find().count() === 0) 
+// {
   
-  Users_sesions.insert({
-    iduser: '1234',
-    idsesion: '1234', 
-    idgrupo: '1234',  
-    rol: 'Participante', 
+//   Users_sesions.insert({
+//     iduser: '1234',
+//     idsesion: '1234', 
+//     idgrupo: '1234',  
+//     rol: 'Participante', 
      
-  });
+//   });
 
-}
+// }
 

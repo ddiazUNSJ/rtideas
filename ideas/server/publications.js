@@ -4,10 +4,13 @@ Meteor.publish('users_sesions', function() {
 
   var useractual=this.userId; 
   var datosUsu = Meteor.users.find({_id: useractual});
-  datosUsu.forEach( function(myDoc) 
-  {
-     RolUsu = myDoc.rol; 
-  });
+
+ //DD 11/08/17 cambiar no entiendo que se quiere hacer s
+  // datosUsu.forEach( function(myDoc) 
+  // {
+  //    RolUsu = myDoc.rol; 
+  // });
+  var RolUsu=datosUsu.rol;
 
   
   var Gactivos = Grupo.find({estado: 'activa'});

@@ -10,3 +10,7 @@ TAREAS Ideas:
 3)	En la I6 debe recargar para q aprezca, y colocar titulo de instancia
 4)	I7 colocar titulo de la  instancia
 5)	I8 puedo ver un grupo como animador cdo no debería (grupos comp),,agregar  filtro en el cliente
+
+//DD 14/08/2017
+agregando gestion de usuarios al sistema, Trabajando en el redireccionamiento a pagina de lista de sesiones si es usuario
+estandar, y si es administrador al menu del administrador.
