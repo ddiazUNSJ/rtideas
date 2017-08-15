@@ -32,28 +32,7 @@
           onLogoutHook: myPostLogout
       });
 
-//=======Luego de Logearse  
-     var mySubmitFunc = function(error, state){
-        if (!error) {
-         if (state === "signIn") {
-           if (Meteor.userId() )
-            { 
-             
-            if (getRol()=="Administrador")
-            {
-              Session.set('rol', "Administrador")
-             Router.go('inicio'); 
-             console.log( " usuario administrador logeado");
-            }   
-            console.log( " usuario logeado");
-             }
-          }
-        };
-      };
 
-      AccountsTemplates.configure({
-        onSubmitHook: mySubmitFunc
-      });
 
 //=========Usuario habilitado
 

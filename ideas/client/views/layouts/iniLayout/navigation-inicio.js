@@ -33,7 +33,8 @@ Template.navigationinicio.onCreated(function () {
     
     });
 
-    Session.set('rol',"Administrador");
+   //DD 15/08/17 Eliminado ver problemas seguridad con session variables
+    //Session.set('rol',"Administrador");
 
 });
 

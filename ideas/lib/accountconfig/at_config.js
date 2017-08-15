@@ -147,3 +147,26 @@ AccountsTemplates.addField({
     maxLength:50,
     errStr: 'Debe ingresar un nombre entre 3 y 50 caracteres',
 });
+//=======Luego de Logearse  
+     var mySubmitFunc = function(error, state){
+        if (!error) {
+         if (state === "signIn") {
+           if (Meteor.userId() )
+            { 
+             Meteor.call("getRol", function(err, salida){  
+               if (salida=="Administrador")
+               {
+                 Session.set('rol', "Administrador")
+                 Router.go('inicio'); 
+                 console.log( " usuario administrador logeado");
+                }   
+               console.log( " usuario logeado");
+               });
+           }
+        }
+      }
+    };
+
+      AccountsTemplates.configure({
+        onSubmitHook: mySubmitFunc
+      });
