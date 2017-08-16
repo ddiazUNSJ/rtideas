@@ -17,7 +17,7 @@ Template.creaSSubmit.events({
       // display the error to the user and abort
      // if (error)
         //return alert(error.reason);
-       bootbox.alert("LA CARGA FUE EXITOSA");  
+       bootbox.alert("LA CARGA FUE EXITOSA2");  
         $("#SC").val('');   
          $("#Des").val('');  
       Router.go('creaSSubmit', {_id: result._id});

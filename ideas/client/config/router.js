@@ -369,6 +369,22 @@ var requireSubsc11 = function()
     this.render('list_inscriptos');//lo envia a la plantilla listado de grupo
    }
 }
+var requiresSesionList = function() 
+  {
+    if (! Meteor.user()) {
+    if (Meteor.loggingIn()) {
+      this.render(this.loadingTemplate);
+    } else {
+      this.render('inicio');
+    }
+  } else {
+       
+    Meteor.subscribe('tematica'); //consultar por cuestion de seguridad????????
+    Meteor.subscribe('sesionesCreatividad'); 
+    this.next();
+  
+   } 
+  }
 
 //------------------------------------------------------------------
 
@@ -387,6 +403,8 @@ Router.onBeforeAction(requireSubsc8, {only: 'GcompList'});
 Router.onBeforeAction(requireSubsc9, {only: 'sesionSubmit'});
 Router.onBeforeAction(requireSubsc10, {only: 'asignacion_anim'});
 Router.onBeforeAction(requireSubsc11, {only: 'list_inscriptos'});
+
+Router.onBeforeAction(requiresSesionList, {only: 'sesionDispo'});
 
 // DD  11/08/17 - Agregado para funcionar con accountTemplate
 Router.route('/', {
@@ -424,4 +442,10 @@ Router.route('/inicio', {
     name: 'inicio',
     template: 'inicio',
     layoutTemplate: 'mainLayout',
+});
+
+Router.route('/sesionDispo', {
+    name: 'sesionDispo',
+    template: 'sesionDispo',
+    layoutTemplate: 'iniciolayout',
 });
