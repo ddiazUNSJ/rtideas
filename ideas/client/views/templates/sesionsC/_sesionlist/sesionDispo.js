@@ -40,3 +40,8 @@ Template.sesionDispo.helpers({
  
   
 });
+ Template.sesionDispo.events
+ ({
+  
+
+ });
