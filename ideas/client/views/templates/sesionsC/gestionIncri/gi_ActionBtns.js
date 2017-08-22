@@ -1,12 +1,12 @@
-Template.usersActionBtns.events({
+Template.giActionBtns.events({
 
-	'click #btnUpdate': function(){
+	'click #giBtnUpdate': function(){
 		console.log("click btnUpdate");
 
 		if (Meteor.userId()) {
 
-			Session.set("usuarioId", this._id);
-			  Modal.show('TmplModalUpdate');
+			Session.set("inscriID", this._id);
+			Modal.show('giModalUpdateInscri');
 
 
 		} else {
@@ -16,11 +16,12 @@ Template.usersActionBtns.events({
 
 	},
 
-	'click #btnRemove': function(){
+	'click #giBtnRemove': function(){
           console.log("click btnRemove");
 		if (Meteor.userId()) {
 
-			Session.set("IdusuarioAEliminar", this._id);
+			Session.set("inscriID", this._id);
+			Modal.show('giModalRemoveInscri');
 
 		} else {
 

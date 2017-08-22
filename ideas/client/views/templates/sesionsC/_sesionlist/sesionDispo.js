@@ -38,7 +38,35 @@ Template.sesionDispo.helpers({
     return data.nombre;
   },
  
-  
+   sid:function(){
+    return this._id;
+   },
+   usuario_ID:function(){
+    var usu=Meteor.userId();
+    return usu;
+   },
+   
+   // Inscripcion_ID:function(){
+   //   Meteor.subscribe('inscripciones'); 
+   //   var leyenda;
+   //   var incluir;
+   //  var inscriUsu=Inscripcion.findOne({sesion:this._id});
+   //  if ((inscriUsu ==="")||(inscriUsu ===undefined)||(inscriUsu === null))
+   //   {leyenda="No registrado";}
+   //  else {leyenda="Registrado";}
+   
+   // },
+   incluirSesion:function(){
+     //var q2=Inscripcion.findOne({_id:"udBZd9o8PKPaBXtZQ"});
+     Meteor.subscribe('inscripciones'); 
+    
+    var inscriUsu=Inscripcion.findOne({sesion:this._id});
+   if ((inscriUsu ==="")||(inscriUsu ===undefined)||(inscriUsu === null))
+     {return false;}
+    else {return true;}
+
+    
+   }
 });
  Template.sesionDispo.events
  ({

@@ -107,3 +107,4 @@ aldeed:simple-schema@1.5.3
 useraccounts:iron-routing
 accounts-ui
 useraccounts:bootstrap
+#mdg:validated-method

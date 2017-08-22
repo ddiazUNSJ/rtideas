@@ -53,6 +53,7 @@ demeAvatarUrl:function(){
 
 //preguntamos si hay nombre repetido
 hayNombreRepetido: function(nameArg){
+  check(nameArg,String);
     if (!this.userId) {
       throw new Meteor.Error('Acceso invalido',
         'Ustede no esta logeado');

@@ -153,7 +153,8 @@ AccountsTemplates.addField({
          if (state === "signIn") {
            if (Meteor.userId() )
             { 
-             Meteor.call("getRol", function(err, salida){  
+              console.log("llamando a getUserRol");
+             Meteor.call("getUserRol", function(err, salida){  
                if (salida=="Administrador")
                {
                  Session.set('rol', "Administrador")

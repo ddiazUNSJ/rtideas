@@ -1,13 +1,13 @@
 Meteor.methods({
 
-getRol:function(){
+getUserRol:function(){
 	var rol;
 	if (!this.userId) {
       throw new Meteor.Error('Acceso invalido',
         'Ustede no esta logeado');
     };
     rol=Meteor.users.findOne({_id:this.userId}).rol;
-    console.log("getRol: "+ rol);
+    console.log("getUserRol: "+ rol);
 	return rol;
 },
 isActiveUser:function(){
@@ -21,5 +21,15 @@ isActiveUser:function(){
 	return isActive;
 },
 
+getUserNombre:function(){
+    var rol;
+    if (!this.userId) {
+      throw new Meteor.Error('Acceso invalido',
+        'Ustede no esta logeado');
+    };
+    nombre=Meteor.users.findOne({_id:this.userId}).profile.nombre;
+    console.log("getUserNombre: "+ nombre);
+    return nombre;
+},
 
 })

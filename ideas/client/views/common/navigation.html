@@ -6,28 +6,32 @@
             <!-- You can remove this tag if you dont use offCanvas menu -->
             <a class="close-canvas-menu"><i class="fa fa-times"></i></a>
             <!-- End offCanvas menu toggle -->
-            {{> loginButtons}}
+       
 
-            
-            <ul class="nav" id="side-menu">
-                <li class="nav-header">
+            <ul class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                    <div class="dropdown profile-element"> <span>
+                            <!-- <img alt="image" class="img-circle" src="img/profile_small.jpg" /> -->
 
-                    <div class="dropdown profile-element">
-
-                        <span>
-                            <img alt="image" class="img-circle" src="images/cintiamuñoz.jpg" />
-                        </span>
-
+                            <img alt="image" class="img-circle" src={{dataUriAvatar}}   height="60" width="60" />
+                             </span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <span class="clear"> 
-                               <span class="block m-t-xs">
-                                    <strong class="font-bold">Cintia Muñoz</strong>
-                               </span>
-                            </span>
-                        </a>                            
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{nombre}}</strong>
+                             </span> <span class="text-muted text-xs block">Creativo <b class="caret"></b></span> </span> </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                           <!--  <li><a href="{{pathFor route='profile'}}">Profile</a></li>
+                            <li><a href="{{pathFor route='contacts'}}">Contacts</a></li>
+                            <li><a href="{{pathFor route='mailbox'}}">Mailbox</a></li>
+                            <li class="divider"></li>
+                          -->   <li><a href="{{pathFor route='login'}}">Logout</a></li>
+                        </ul>
                     </div>
-                   
-                </li>                
+                    <div class="logo-element">
+                        IN+
+                    </div>
+                </li>
+            
+                     
                
          {{#if currentUser}} 
             {{#if isAnim}} 
@@ -131,6 +135,9 @@
                 </a>
                             
                 <ul class="nav nav-second-level {{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor' className='in'}}">
+                    <li class="{{isActiveRoute regex='formBasic'}}">
+                        <a href="{{pathFor 'giAdminInscri'}}">Gestionar Inscripciones</a>
+                    </li>
 
                     <li class="{{isActiveRoute regex='formBasic'}}">
                         <a href="{{pathFor 'asignacion'}}">Asignar Participantes</a>
@@ -167,6 +174,7 @@
                     
                 </ul>
             </li> 
+
          {{/if}}
      {{/if}}
              

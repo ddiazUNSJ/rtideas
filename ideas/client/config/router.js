@@ -449,3 +449,10 @@ Router.route('/sesionDispo', {
     template: 'sesionDispo',
     layoutTemplate: 'iniciolayout',
 });
+
+
+Router.route('/giAdminInscri', {
+    name: 'giAdminInscri',
+    template: 'giAdminInscri',
+    layoutTemplate: 'mainLayout',
+});

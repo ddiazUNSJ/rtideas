@@ -14,3 +14,6 @@ TAREAS Ideas:
 //DD 14/08/2017
 agregando gestion de usuarios al sistema, Trabajando en el redireccionamiento a pagina de lista de sesiones si es usuario
 estandar, y si es administrador al menu del administrador.
+
+//17/08/2017
+Parado en la fucion findOne usada en  el helper "estadoInscri" del template sesionDispo , no me entrega nada a pesar que hay elementos en la base de datos

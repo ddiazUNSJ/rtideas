@@ -1,0 +1,15 @@
+<template name="giUpdateInscriForm">
+
+
+	{{#autoForm collection="Inscripcion" id="afUpdateIncripto" type="update" doc=selectedInscriDoc}}
+
+
+		<fieldset>
+			{{> afQuickField name='estadoInscripcio'}}
+			
+	    </fieldset>
+	    <button type="submit" class="btn btn-primary">Actualizar</button>
+
+	{{/autoForm}}
+
+</template>

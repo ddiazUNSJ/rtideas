@@ -1,12 +1,13 @@
 <template name="sesionDispo">
 
 
-
+{{#if Template.subscriptionsReady}}
         {{#each sesionTodas}}
-
+ {{#unless incluirSesion}}
         <div class="col-lg-10">
                 <div class="jumbotron">
                     <h1>{{tematicadelasesion}}</h1>
+                    
                     <p>{{descripciondelatematica}}</p>
                     
                      <table class="table">
@@ -28,7 +29,7 @@
                             </tr>
                             </tbody>
                         </table>
-                         <p>{{>inscriActionBtns}} </p>
+                         <p>{{>inscriActionBtns sesion_ID=sid usuario=usuario_ID }} </p>
                         <!--  <p><button type="button" class="btn btn-primary btn-lg btn-block" id="inscribime">Inscribirse</button>
                         </p>
                        <p><a href="http://www.jquery-steps.com/GettingStarted" target="_blank" class="btn btn-primary btn-lg btn-block" role="button" id="inscribime" >Inscribirse</a>
@@ -44,8 +45,10 @@
                         <h5><span>Sesion: {{sesionnameA }}</span></h5> -->
                   </div>
               </div>
+
+  {{/unless}} 
         {{/each}}
 
- 
+  {{/if}}
 
 </template>           

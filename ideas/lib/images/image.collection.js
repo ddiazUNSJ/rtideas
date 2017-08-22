@@ -61,9 +61,15 @@ Schemas.Posts = new SimpleSchema({
 
 Posts.attachSchema(Schemas.Posts);
 
-Schemas.InscriViewSchema = new SimpleSchema({
+Schemas.profileSchema = new SimpleSchema({
   
   nombre: {
+    type: String,
+    max: 25,
+    min: 3,
+    optional: true
+  }, 
+  ocupacion: {
     type: String,
     max: 25,
     min: 3,
@@ -109,7 +115,7 @@ Schemas.User = new SimpleSchema({
         type: Date
     },
     profile: {
-        type:Schemas.InscriViewSchema,
+        type:Schemas.profileSchema,
         optional: true
     },
     // Make sure this services field is in your schema if you're using any of the accounts packages

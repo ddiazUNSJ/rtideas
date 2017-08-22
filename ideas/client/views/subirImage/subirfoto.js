@@ -206,7 +206,7 @@ Template.subirfoto.rendered = function () {
       var siga=false;
       var inputValue="";
       swal({
-            title: "Ingresar de Archivo!",
+            title: "Ingresar Nombre de Archivo!",
             text: "Nombre Archivo:",
             type: "input",
             showCancelButton: true,

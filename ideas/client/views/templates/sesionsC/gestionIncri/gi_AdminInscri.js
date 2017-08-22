@@ -1,4 +1,4 @@
-Template.adminUsers.helpers({
+Template.giAdminInscri.helpers({
 
    isAdmin: function() {
          
@@ -13,13 +13,15 @@ Template.adminUsers.helpers({
     var rol=Session.get('rol')
 
           return  (rol==="Animador"); 
+    },
+
+   selector() {
+    return {activa: true}; // this could be pulled from a Session var or something that is reactive
     }
-
-
 });
 
-Template.adminUsers.onCreated(function () {
-	Meteor.subscribe('allUsers');
+Template.giAdminInscri.onCreated(function () {
+	Meteor.subscribe('inscripciones');
 
   
           Meteor.call('getUserRol',function (error, result){ 

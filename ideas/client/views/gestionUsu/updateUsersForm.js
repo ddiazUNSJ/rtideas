@@ -9,7 +9,7 @@ AutoForm.addHooks('afUpdateAlbum', {
 
 		swal("Se actualizaron los datos de", data.profile.name);
 		
-
+		Modal.hide('TmplModalUpdate');
 	}
 
 });

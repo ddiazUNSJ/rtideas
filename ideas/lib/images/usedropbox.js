@@ -1,4 +1,4 @@
-import Tabular from 'meteor/aldeed:tabular';
+
 
 
 var Dropbox, Request, bound, client, fs, Collections = {};
@@ -201,36 +201,6 @@ Meteor.publish("miDropbox", function (id) {
 });
 }
 
-TabularTables = {};
-
-Meteor.isClient && Template.registerHelper('TabularTables', TabularTables);
-
-  TabularTables.myFiles=new Tabular.Table({
-  name: "myFiles",
-  collection: dropboxF.collection,
-  columns: [
-    {data: "name", title: "nombre"},
-    {data: "userId", title: "cod. Author"},
-    {data: "_id", title: "cod. Imagen"},
-    {data: "versions.original.meta.pipeFrom", title: "url"},
-    {
-      tmpl: Meteor.isClient && Template.eliminarActualizar
-    }
-    ]
-  });
-
-TabularTables.usuarios=new Tabular.Table({
-  name: "usuarios",
-  collection: Meteor.users,
-  columns: [
-    {data: "profile.nombre", title: "nombre"},
-    {data: "active", title: "Activo"},
-    {data: "rol", title: "Rol"},
-    {
-      tmpl: Meteor.isClient && Template.usersActionBtns, class: "col-md-1"
-    }
-    ]
-  });
 
 
  // Meteor.publish('dropboxFiles.images.all', function () {
