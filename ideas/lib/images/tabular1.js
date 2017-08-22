@@ -4,6 +4,7 @@
 // import { Meteor } from 'meteor/meteor';
 // import { Books } from './collections/Books';
 import Tabular from 'meteor/aldeed:tabular';
+import {dropboxF} from './usedropbox.js' 
 
 TabularTables = {};
 
@@ -47,7 +48,7 @@ TabularTables.inscripTab=new Tabular.Table({
     {data: "active", title: "Activo"},
    
     {
-      tmpl: Meteor.isClient && Template.inscriActionBtns, class: "col-md-1"
+      tmpl: Meteor.isClient && Template.gi_ActionBtns, class: "col-md-1"
     }
     ]
   });

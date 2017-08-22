@@ -17,3 +17,9 @@ estandar, y si es administrador al menu del administrador.
 
 //17/08/2017
 Parado en la fucion findOne usada en  el helper "estadoInscri" del template sesionDispo , no me entrega nada a pesar que hay elementos en la base de datos
+
+//22/08/2017
+trabajando en la funcion updateEstadoInscripcion de /lib/collections/inscripciones.js
+No puedo aun determinar como validar al parametro modifier, pues modifier trae lo siguiente
+      
+      // en modifier viene { '$set': { estadoInscripcio: 'no_aceptado' } }

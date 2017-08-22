@@ -1,4 +1,4 @@
-Template.giActionBtns.events({
+Template.gi_ActionBtns.events({
 
 	'click #giBtnUpdate': function(){
 		console.log("click btnUpdate");
@@ -6,7 +6,7 @@ Template.giActionBtns.events({
 		if (Meteor.userId()) {
 
 			Session.set("inscriID", this._id);
-			Modal.show('giModalUpdateInscri');
+			Modal.show('gi_ModalUpdateInscri');
 
 
 		} else {
@@ -21,7 +21,7 @@ Template.giActionBtns.events({
 		if (Meteor.userId()) {
 
 			Session.set("inscriID", this._id);
-			Modal.show('giModalRemoveInscri');
+			Modal.show('gi_ModalRemoveInscri');
 
 		} else {
 

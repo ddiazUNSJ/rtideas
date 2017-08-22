@@ -1,5 +1,5 @@
 
 
-Template.giModalUpdateInscri.helpers({
+Template.gi_ModalUpdateInscri.helpers({
 
 });

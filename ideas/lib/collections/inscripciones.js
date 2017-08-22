@@ -59,54 +59,58 @@ Schemas.InscripcionSchema = new SimpleSchema({
 Inscripcion.attachSchema(Schemas.InscripcionSchema);
 
 
+if (Meteor.isServer)
+{
 
-Meteor.methods({
-  inscripcionInsert:function(sesioncId)
-  { 
-    check(sesioncId,String);
-   // check(doc, Inscripcion.simpleSchema());
-  //  console.log("sesioncId: "+sesioncId);
-    // check( doc,{dato1:String,dato2:String});
-    //   console.log("dato1: "+doc.dato1+"  dato2:"+doc.dato2);
-    // // check( doc,{
-    //     sesioncId:String,
-    // });
-     var nombreU=Meteor.call('getUserNombre')
-     var datos = {
-                nombre:nombreU,
-                userId:this.userId,
-                sesion:sesioncId,
-                activa:true,
-                estadoInscripcio:"Pendiente",
-                estadoRazones:"Procesando la Inscripcion"
+    Meteor.methods({
+      inscripcionInsert:function(sesioncId)
+      { 
+        check(sesioncId,String);
+       // check(doc, Inscripcion.simpleSchema());
+      //  console.log("sesioncId: "+sesioncId);
+        // check( doc,{dato1:String,dato2:String});
+        //   console.log("dato1: "+doc.dato1+"  dato2:"+doc.dato2);
+        // // check( doc,{
+        //     sesioncId:String,
+        // });
+         var nombreU=Meteor.call('getUserNombre')
+         var datos = {
+                    nombre:nombreU,
+                    userId:this.userId,
+                    sesion:sesioncId,
+                    activa:true,
+                    estadoInscripcio:"Pendiente",
+                    estadoRazones:"Procesando la Inscripcion"
 
-        };
-        Inscripcion.simpleSchema().validate(datos, {check});
-     //check(datos, Inscripcion.simpleSchema());
-    return Inscripcion.insert(datos);
- //return true;
-  },
-  /*InsertInscripcion: function(IAttributes) //se verifica q el ususario este autenticado
-  {
-    check(Meteor.userId(), String);
-    check(IAttributes, {
-      idgrupo: String,
-      idrol: String,
-      iduser:String,
-    });
+            };
+            Inscripcion.simpleSchema().validate(datos, {check});
+         //check(datos, Inscripcion.simpleSchema());
+        return Inscripcion.insert(datos);
+     //return true;
+      },
+     inhabilitarinscripcion:function(inscriId)
+     {
+      check(inscriId,String);
+      return Inscripcion.update({ _id: inscriId }, { $set: {'activa' : false }});
 
+     },
+
+     updateEstadoInscripcion: function (modifier, objID) {
+      console.log(modifier);
+      check(objID,String);
+      check(modifier,String);
+      
+      // en modifier viene { '$set': { estadoInscripcio: 'no_aceptado' } }
+
+      //check(modifier, Inscripcion.simpleSchema());
     
-    var user = Meteor.user();
-    var users_sesions = _.extend(IAttributes, {
-      userId: user._id,
-      author: user.username,
-      submitted: new Date(),
-    estado: 'activa'
+       return Inscripcion.update(objID, modifier);
+      },
+
     });
-    var IId = Users_sesions.insert(users_sesions);
-    return {
-      _id: IId
-    };
-  }*/
-});
+
+
+
+
+};
 

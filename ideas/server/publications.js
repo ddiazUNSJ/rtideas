@@ -298,18 +298,47 @@ Meteor.publish('gruposComp', function(grupoid) {
 });*/
 
 
+// DD 22/08/2017 Nuevas publicaciones para coleccion de inscripciones que valida por usuario comun o administrador
+
 Meteor.publish('inscripciones', function() {
+    if (!this.userId) {
+      throw new Meteor.Error('Acceso invalido',
+        'Usted no esta logeado');
+      }
 
-  var Inscripciones = Inscripcion.find({});
-   
-  //var usersId = Inscripciones.map(function(p) { return p.user_id });
-  
-  return [
-    Inscripciones,
-    //Meteor.users.find({_id: {$in: usersId}}), //activos
-    Meteor.users.find({}), //activos
+    var usuario= Meteor.users.findOne({_id: this.userId});
+    nombre = usuario.profile.nombre;
+ console.log(nombre+ " esta publicando los datos de sus inscripciones");
+ // Ojo se publican todas las inscripciones del usuario, las activas y las no activas
+ return Inscripcion.find({'userId': this.userId}, {fields:{_id:1,_nombre:1,userId:1,sesion:1,activa:1, estadoInscripcio:1, 
+                                            estadoRazones:1,  grupo:1, nombreGrupo:1}});
+});
 
-  ];
+
+// --- Publica todos los inscripciones, pero solo a los administradores
+
+Meteor.publish('allInscripciones', function() {
+    var usuario, nombre, rol;
+    if (!this.userId) {
+      throw new Meteor.Error('Acceso invalido',
+        'Usted no esta logeado');
+      }
+    else // verifica si tiene privilegios de administrador
+      { 
+        usuario= Meteor.users.findOne({_id: this.userId});
+        nombre = usuario.profile.nombre;
+        rol=usuario.rol;
+        if  (rol!="Administrador") 
+        {
+            console.log("error no es administrador");
+            throw new Meteor.Error('Acceso invalido',
+            ' Para acceder a esta funcionalidad necesita ser Administrador');
+        }
+       }
+    console.log(nombre+ " esta publicando todos las inscripciones");
+    return Inscripcion.find({}, {fields: { _id:1,_nombre:1,userId:1,sesion:1,activa:1, estadoInscripcio:1, 
+                                            estadoRazones:1,  grupo:1, nombreGrupo:1}});
+
 });
 
 

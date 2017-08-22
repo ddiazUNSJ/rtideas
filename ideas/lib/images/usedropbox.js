@@ -18,7 +18,7 @@ if (Meteor.isServer) {
   });
 }
 
-dropboxF = new FilesCollection({
+export const dropboxF = new FilesCollection({
   debug: false, // Change to `true` for debugging
   throttle: false,
   storagePath: 'assets/app/uploads/uploadedFiles',

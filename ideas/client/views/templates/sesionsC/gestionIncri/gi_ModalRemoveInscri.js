@@ -1,4 +1,4 @@
-Template.giModalRemoveInscri.helpers({
+Template.gi_ModalRemoveInscri.helpers({
 
 	data: function(){
 
@@ -11,20 +11,24 @@ Template.giModalRemoveInscri.helpers({
 
 
 
-Template.giModalRemoveInscri.events({
+Template.gi_ModalRemoveInscri.events({
 
 	"click  #confirmTrue": function(){
-
+        var idInscripcion=Session.get('inscriID');
 		if (Meteor.userId()) {
 
 
-			var data = Inscripcion.findOne({_id: Session.get('inscriID')});
+			var data = Inscripcion.findOne({_id:idInscripcion });
 
-			swal("Se eliminaran la inscripcion de", data.nombre);
+			swal("Se eliminará la inscripcion de", data.nombre);
 			
 			// NO se elimina se marca como eliminado y en publicar se filtra por eliminados
-		
-	        Inscripcion.update({ _id: Session.get('inscriID') }, { $set: {'activa' : false }});
+			Meteor.call('inhabilitarinscripcion', idInscripcion, function(error, result) 
+        	{      
+         		if (error) return alert(error.reason);
+         		 //Router.go('chatPage', {idgrupo:Session.get('idgrupo')});
+      		  }); 
+	       
       
 
 

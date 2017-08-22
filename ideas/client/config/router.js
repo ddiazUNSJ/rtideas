@@ -451,8 +451,8 @@ Router.route('/sesionDispo', {
 });
 
 
-Router.route('/giAdminInscri', {
-    name: 'giAdminInscri',
-    template: 'giAdminInscri',
+Router.route('/gi_AdminInscri', {
+    name: 'gi_AdminInscri',
+    template: 'gi_AdminInscri',
     layoutTemplate: 'mainLayout',
 });

@@ -8,7 +8,7 @@ AutoForm.addHooks('afUpdateIncripto', {
 
 		swal("Se actualizaron los datos de", data.nombre);
 		
-		Modal.hide('giModalUpdateInscri');
+		Modal.hide('gi_ModalUpdateInscri');
 	}
 
 });
@@ -17,7 +17,7 @@ AutoForm.addHooks('afUpdateIncripto', {
 
 
 
-Template.giUpdateInscriForm.helpers({
+Template.gi_UpdateInscriForm.helpers({
 
 // Selecciona el documento del usuario y lo pone autoform
 	selectedInscriDoc: function(){

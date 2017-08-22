@@ -1,4 +1,4 @@
-<template name="giAdminInscri">
+<template name="gi_AdminInscri">
  <div id="adminInscriptos">
  
 	<div class="wrapper wrapper-content animated fadeInRight">
@@ -13,16 +13,18 @@
                     <div class="ibox-content">
 
                         <div class="table-responsive">
-                       		{{#if isAdmin}}
 
-      							      {{> giModalUpdate}}
+                          {{#if isAdmin}}
+                           
+                             <!-- Inicializa modal que usa tabla gestion de inscriptos  -->
+                          	 {{> gi_ModalUpdateInscri}}
 
-           							 {{> giModalRemove}}
+                   					 {{> gi_ModalRemoveInscri}}
 
-     					 			 
-        					{{> tabular table=TabularTables.inscripTab selector=selector class="table table-striped table-bordered table-condensed"}}
+             					 			 <!-- Crea tabla de gestion de inscriptos con tabular -->
+                				    	{{> tabular table=TabularTables.inscripTab selector=selector class="table table-striped table-bordered table-condensed"}}
 
-        					{{/if}}	
+                					{{/if}}	
 
                         </div>
 

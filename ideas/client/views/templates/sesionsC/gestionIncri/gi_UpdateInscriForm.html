@@ -1,11 +1,16 @@
-<template name="giUpdateInscriForm">
+<template name="gi_UpdateInscriForm">
 
-
-	{{#autoForm collection="Inscripcion" id="afUpdateIncripto" type="update" doc=selectedInscriDoc}}
-
+	{{#autoForm doc=selectedInscriDoc collection="Inscripcion" id="afUpdateIncripto" type="method-update" meteormethod="updateEstadoInscripcion"}}
+<!-- 
+      </span></span>
+          {{> afFieldInput name='estadoInscripcio' type='select' options="allowed" class="form-control custom-control" placeholder="Indica tu facultad"}}
+        </div>  
+        {{#if afFieldIsInvalid name='profile.facultad'}}
+          <span class="help-block">{{afFieldMessage name='profile.facultad'}}</span>
+        {{/if}}    --> 
 
 		<fieldset>
-			{{> afQuickField name='estadoInscripcio'}}
+			{{> afQuickField name='estadoInscripcio' options="allowed"}}
 			
 	    </fieldset>
 	    <button type="submit" class="btn btn-primary">Actualizar</button>
