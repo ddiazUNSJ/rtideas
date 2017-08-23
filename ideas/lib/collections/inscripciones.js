@@ -55,6 +55,17 @@ Schemas.InscripcionSchema = new SimpleSchema({
     }
 });
 
+Schemas.modifierEstadoInscripcioSchema = new SimpleSchema({
+  estadoInscripcio: {
+        type: String,
+        label: "Estado de la inscripcion", // deberia tener  tres estados, (pendiente, aceptado, no aceptado)
+        allowedValues: [
+         'pendiente',
+         'aceptado',
+         'no_aceptado'
+         ]
+    }
+});
 
 Inscripcion.attachSchema(Schemas.InscripcionSchema);
 
@@ -95,20 +106,22 @@ if (Meteor.isServer)
 
      },
 
-     updateEstadoInscripcion: function (modifier, objID) {
+     update2EstadoInscripcion: function (modifier, objID) {
+      //Mostrando lo que trae modifier
       console.log(modifier);
-      check(objID,String);
-      check(modifier,String);
-      
-      // en modifier viene { '$set': { estadoInscripcio: 'no_aceptado' } }
+      //probando si modifier tiene un dato valido
+      var esvalido=Schemas.modifierEstadoInscripcioSchema.namedContext().validate(modifier, {modifier: true});
+      console.log("esvalido: ",esvalido);
 
-      //check(modifier, Inscripcion.simpleSchema());
-    
-       return Inscripcion.update(objID, modifier);
+
+      check(objID,String);
+      check(modifier,Schemas.modifierEstadoInscripcioSchema);
+     //  return Inscripcion.update({ _id: inscriId }, { $set: {'activa' : false }});
+      return Inscripcion.update(objID, modifier);
       },
 
-    });
-
+      
+          });
 
 
 
