@@ -345,7 +345,32 @@ Meteor.publish('allInscripciones', function() {
 
 });
 
+//DD 28/08/2017
+//--- Publica todos la lista de animadores posibles pero al administrador
 
+
+Meteor.publish('allAnimadores', function() {
+    var usuario, nombre, rol;
+    if (!this.userId) {
+      throw new Meteor.Error('Acceso invalido',
+        'Usted no esta logeado');
+      }
+    else // verifica si tiene privilegios de administrador
+      { 
+        usuario= Meteor.users.findOne({_id: this.userId});
+        nombre = usuario.profile.nombre;
+        rol=usuario.rol;
+        if  (rol!="Administrador") 
+        {
+            console.log("error no es administrador");
+            throw new Meteor.Error('Acceso invalido',
+            ' Para acceder a esta funcionalidad necesita ser Administrador');
+        }
+       }
+    console.log(nombre+ " esta publicando todos las inscripciones");
+    return Animadores.find({});
+
+});
 
 
 

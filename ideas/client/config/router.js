@@ -457,7 +457,8 @@ Router.route('/gi_AdminInscri', {
     layoutTemplate: 'mainLayout',
 });
 
-Router.route('/createUsuarioForm',{name: 'createUsuarioForm',
-                            template:'createUsuarioForm',
-                            layoutTemplate: 'iniciolayout'
+
+Router.route('/adminAnima',{name: 'adminAnima',
+                            template:'adminAnima',
+                            layoutTemplate: 'mainLayout'
                            });

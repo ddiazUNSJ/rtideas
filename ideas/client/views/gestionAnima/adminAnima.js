@@ -1,5 +1,4 @@
-
-Template.adminUsers.helpers({
+Template.adminAnima.helpers({
 
    isAdmin: function() {
          
@@ -19,9 +18,9 @@ Template.adminUsers.helpers({
 
 });
 
-Template.adminUsers.onCreated(function () {
-    // Trae Usuarios
-     handleAllUsers =  Meteor.subscribe('allUsers');
+Template.adminAnima.onCreated(function () {
+    // Trae Animadores
+	  Meteor.subscribe('allAnimadores');
     //Obtiene rol
     Meteor.call('getUserRol',function (error, result){ 
              if (error){
@@ -33,9 +32,4 @@ Template.adminUsers.onCreated(function () {
               Session.set('rol',rol);
               }
     });
-});
-Template.adminUsers.onDestroyed(function () {
-    // Trae Usuarios
-    console.log("destruyendo suscripciones");
-     handleAllUsers.stop(); 
 });

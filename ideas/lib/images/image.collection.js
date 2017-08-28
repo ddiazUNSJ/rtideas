@@ -235,6 +235,43 @@ Meteor.publish('allUsers', function() {
     return Meteor.users.find({}, {fields: {_id: 1, profile: 1, rol:1, active:1}});
 });
 
+Meteor.publish('usersActivosNoAnimadores', function() {
+    var usuario, nombre, rol;
+    if (!this.userId) {
+      throw new Meteor.Error('Acceso invalido',
+        'Usted no esta logeado');
+      }
+    else // verifica si tiene privilegios de administrador
+      { 
+        usuario= Meteor.users.findOne({_id: this.userId});
+        nombre = usuario.profile.nombre;
+        rol=usuario.rol;
+        if  (rol!="Administrador") 
+        {
+            console.log("error no es administrador");
+            throw new Meteor.Error('Acceso invalido',
+            ' Para acceder a esta funcionalidad necesita ser Administrador');
+        }
+       }
+    //console.log(Meteor.users.find({}, {fields: {_id: 1, profile: 1, rol:1}}).fetch());
+    // Buscamos todos los animadores que estan activos
+    var AnimadoresOn = Animadores.find({active: true});
+
+    // listamos el userId de los animadores no activos
+    var idUserAnimadoresOn = AnimadoresOn.map(function(p) { return p.iduser });
+
+      console.log(idUserAnimadoresOn);
+
+    console.log(nombre+ "  usuarios activos no animadores activos");
+    var noAnimators= Meteor.users.find({ _id:{$nin: idUserAnimadoresOn}, active:true}, {fields: {_id: 1, profile: 1, rol:1, active:1}});
+    var noAnimatorsArray=noAnimators.map(function(p) { return p._id });
+    console.log('noAnimators:');
+    console.log(noAnimatorsArray);
+    return noAnimators;
+});
+
+
+
 Meteor.publish('datosUsuario', function() {
     if (!this.userId) {
       throw new Meteor.Error('Acceso invalido',

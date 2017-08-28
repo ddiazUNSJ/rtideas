@@ -53,4 +53,32 @@ TabularTables.inscripTab=new Tabular.Table({
     ]
   });
 
+//DD 28/08/2017
+// Datos para la tabla de gestion de animadores
+TabularTables.animadorTab=new Tabular.Table({
+  name: "animadorTab",
+  collection: Animadores,
+  columns: [
+    {data: "_id", title: "cod Animador"},
+    {data: "nombre", title: "nombre"},
+    {data: "iduser", title: "cod Usuario"},
+   
+    {
+      tmpl: Meteor.isClient && Template.ga_ActionBtns, class: "col-md-1"
+    }
+    ]
+  });
+
+TabularTables.usuariosParaAni=new Tabular.Table({
+  name: "usuarios",
+  collection: Meteor.users,
+  columns: [
+    {data: "_id", title: "id Usuario"},
+    {data: "profile.nombre", title: "nombre"},
+    
+    {
+      tmpl: Meteor.isClient && Template.ga_usersActionBtns, class: "col-md-1"
+    }
+    ]
+  });
 
