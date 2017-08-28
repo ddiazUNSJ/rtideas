@@ -60,8 +60,9 @@ TabularTables.animadorTab=new Tabular.Table({
   collection: Animadores,
   columns: [
     {data: "_id", title: "cod Animador"},
+    {data: "iduser",title:"idusuario"},
     {data: "nombre", title: "nombre"},
-    {data: "iduser", title: "cod Usuario"},
+    {data: "active", title: "Activos"},
    
     {
       tmpl: Meteor.isClient && Template.ga_ActionBtns, class: "col-md-1"
@@ -71,7 +72,28 @@ TabularTables.animadorTab=new Tabular.Table({
 
 TabularTables.usuariosParaAni=new Tabular.Table({
   name: "usuarios",
+
   collection: Meteor.users,
+  
+  selector:function() {
+
+    // Buscamos todos los animadores que estan activos
+    var AnimadoresOn = Animadores.find({active: true});
+
+    // listamos el userId de los animadores activos
+    var idUserAnimadoresOn = AnimadoresOn.map(function(p) { return p.iduser });
+
+    var noAnimators= Meteor.users.find({ _id:{$nin: idUserAnimadoresOn}, active:true}, {fields: {_id: 1, profile: 1, rol:1, active:1}});
+    var noAnimatorsArray=noAnimators.map(function(p) { return p._id });
+    var noAnimatorsNameArray=noAnimators.map(function(p) { return p.profile.nombre });
+
+    console.log("noAnimators from selector:");
+    console.log(noAnimatorsArray);
+    console.log(noAnimatorsNameArray);
+    return { _id:{$in: noAnimatorsArray} }
+  },
+  responsive: true,
+
   columns: [
     {data: "_id", title: "id Usuario"},
     {data: "profile.nombre", title: "nombre"},

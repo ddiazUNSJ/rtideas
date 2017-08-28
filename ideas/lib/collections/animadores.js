@@ -139,11 +139,11 @@ if (Meteor.isServer)
        //Buscar el usuario en la coleccion animadores y retornar su id de animador
        var Animador=Animadores.findOne({iduser:usuarioId});
        if (Animador==undefined){
-        console.log("este usuario no esta registrado como animador");
+        console.log("este usuario no esta registrado como animador:usuarioEsAnimador");
         return undefined;
        }
        else{
-        console.log("este usuario  es animador");
+        console.log("este usuario  es animador:usuarioEsAnimador");
         return Animador._id;
        }
        

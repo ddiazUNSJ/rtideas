@@ -65,8 +65,24 @@ hayNombreRepetido: function(nameArg){
       else {return false;}
       
 
-	}
+	},
+  userAniNotActive:function(){
+  //console.log(Meteor.users.find({}, {fields: {_id: 1, profile: 1, rol:1}}).fetch());
+    // Buscamos todos los animadores que estan activos
+    var AnimadoresOn = Animadores.find({active: true});
 
+    // listamos el userId de los animadores no activos
+    var idUserAnimadoresOn = AnimadoresOn.map(function(p) { return p.iduser });
 
+     // console.log(idUserAnimadoresOn);
+
+    //console.log(nombre+ "  usuarios activos no animadores activos");
+    var noAnimators= Meteor.users.find({ _id:{$nin: idUserAnimadoresOn}, active:true}, {fields: {_id: 1, profile: 1, rol:1, active:1}});
+    var noAnimatorsArray=noAnimators.map(function(p) { return p._id });
+    //console.log('noAnimators:');
+    //console.log(noAnimatorsArray);
+    return noAnimatorsArray;
+
+    },
 
 })

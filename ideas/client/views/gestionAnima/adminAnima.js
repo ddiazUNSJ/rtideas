@@ -6,7 +6,9 @@ Template.adminAnima.helpers({
         
          return  (rol==="Administrador"); 
     },
-
+    selector:function(){
+      return {active: true}
+    },
   // isAnim: function() {
          
           

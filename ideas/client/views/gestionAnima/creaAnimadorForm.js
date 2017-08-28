@@ -6,7 +6,9 @@ Template.creaAnimadorForm.helpers({
         
          return  (rol==="Administrador"); 
     },
-
+   selector1:function() {
+     return {active: true}; // this could be pulled from a Session var or something that is reactive
+    }
   
 });
 
@@ -23,4 +25,13 @@ Template.creaAnimadorForm.onCreated(function () {
               Session.set('rol',result);
               }
     });
+});
+
+Template.creaAnimadorForm.onRendered(function(){
+  
+   this.autorun(function(){
+    console.log("Aqui cambio Algo:Template.creaAnimadorForm.onRendered ");
+     Template.currentData();
+   });
+
 });

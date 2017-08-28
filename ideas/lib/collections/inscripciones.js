@@ -90,7 +90,7 @@ if (Meteor.isServer)
                     userId:this.userId,
                     sesion:sesioncId,
                     activa:true,
-                    estadoInscripcio:"Pendiente",
+                    estadoInscripcio:"pendiente",
                     estadoRazones:"Procesando la Inscripcion"
 
             };
