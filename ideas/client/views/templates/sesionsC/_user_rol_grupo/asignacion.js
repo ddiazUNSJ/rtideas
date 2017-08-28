@@ -108,14 +108,28 @@ Template.asignacion.events
 
 
 Template.asignacion.helpers({ 
+ //DD 23/08/2017
+  get_inscriptos_estaba: function() { 
 
-  get_inscriptos: function() { 
-    var sesionid = Session.get('sesionId');
-    var inscriptos = Users_sesions.find({ idsesion:sesionid, rol:'Participante' });
+    var sesionid = Session.get('sesionId'); //obtiene idsesion 
+  //  var inscriptos = Users_sesions.find({ idsesion:sesionid, rol:'Participante' });
+   
     var users = inscriptos.map(function(p) { return p.iduser });
     return Meteor.users.find({_id: {$in: users}}, {sort: {username: 1}});	
   },
 
+ //DD 23/08/2017
+  get_inscriptos: function() { 
+ // Trae todas las inscripciones que se le permiten ver
+    Meteor.subscribe('allInscripciones');
+
+    var sesionid = Session.get('sesionId'); //obtiene idsesion 
+  //  var inscriptos = Inscripcion.find({ idsesion:sesionid, estadoInscripcio:'Aceptado', activa:true })
+     var inscriptos = Inscripcion.find({});
+    var users = inscriptos.map(function(p) { return p.userId });
+ //   return users;
+   return Meteor.users.find({_id: {$in: users}}, {sort: {username: 1}}); 
+  },
   /*get_animadores: function() {
     var sesionid = Session.get('sesionId'); 
     //var animadores = Animador_sesion.find({ sesion_id:sesionid });

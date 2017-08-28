@@ -456,3 +456,8 @@ Router.route('/gi_AdminInscri', {
     template: 'gi_AdminInscri',
     layoutTemplate: 'mainLayout',
 });
+
+Router.route('/createUsuarioForm',{name: 'createUsuarioForm',
+                            template:'createUsuarioForm',
+                            layoutTemplate: 'iniciolayout'
+                           });

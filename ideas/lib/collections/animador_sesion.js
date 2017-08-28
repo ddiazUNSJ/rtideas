@@ -1,3 +1,28 @@
+Animadores=new Mongo.Collection('animadores');
+AnimadoresSchema=new SimpleSchema({
+  iduser: {
+        type: String,
+        label: "userId",
+        },
+  nombre: {
+        type: String,
+        label: "nombre Animador",
+      }, 
+  author: { //persona quien gestiona ABM animador
+        type: String,
+        label: "idUser",
+      },
+  submitted: {// fecha de alta animador
+        type: Date,
+        label: "fechayhora",
+       },
+  active: {
+        type: Boolean,
+        label: "on/off", // indicada si el animador esta activa o no, para poner inactivo 
+                         // un animador no tiene que tener sesiones abiertas
+       },
+
+});
 
 /*Animador_sesion = new Mongo.Collection('animador_sesion');
 

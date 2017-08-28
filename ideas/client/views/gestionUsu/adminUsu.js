@@ -1,3 +1,4 @@
+
 Template.adminUsers.helpers({
 
    isAdmin: function() {

@@ -111,7 +111,11 @@ Meteor.publish('participantes_sesion', function(sesionid) {
     //usuarios inscriptos a la sesion
     //var inscriptos = Users_sesions.find({ idsesion:sesionid });
     var inscriptos = Users_sesions.find({ idsesion:sesionid, rol:'Participante', idgrupo:'' });
-    
+    //DD 23708/2017
+     //aplica la funcion a cada componente del cursor y lo devuelve en un array
+     //ver https://docs.mongodb.com/manual/reference/method/cursor.map/#example
+     // a continuacion extrae todos los id de los usuarios del cursor inscriptos y lo coloca en el arreglo users
+
     var users = inscriptos.map(function(p) { return p.iduser });
 
     /*//todos los grupos de la sesion

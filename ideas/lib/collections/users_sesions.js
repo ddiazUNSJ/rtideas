@@ -1,5 +1,37 @@
+//DD 26/08/2017
+//usuarios de la Sesion de Creatvidad
 
 Users_sesions = new Mongo.Collection('users_sesions');
+
+Users_sesionsSchema = new SimpleSchema({
+ 
+  iduser: {
+        type: String,
+        label: "userId",
+      },
+  idsesion: {
+        type: String,
+        label: "userId",
+      },
+  idgrupo: {
+        type: String,
+        label: "rol",  
+    },
+  rol: {
+        type: String,
+        label: "Nombre",  
+    },  
+  author: { //persona quien gestiona inscripcion
+        type: String,
+        label: "idUser",
+      },
+  submitted: {
+        type: Date,
+        label: "fechayhora",
+       },
+});
+
+Users_sesions.attachSchema(Users_sesionsSchema);
 
 Meteor.methods({
   participantesAlGrupo: function(IAttributes) //se verifica q el ususario este autenticado

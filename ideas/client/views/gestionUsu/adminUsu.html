@@ -8,21 +8,24 @@
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
                         <h5>Listado de Usuarios</h5>
-                        {{>iboxTools}}
+                        {{>gu_iboxTools}} 
+                        
                     </div>
                     <div class="ibox-content">
 
                         <div class="table-responsive">
                        		{{#if isAdmin}}
 
-      							      {{> TmplModalUpdate}}
+          							     {{> TmplModalUpdate}}
 
-           							 {{> TmplModalRemove}}
+               							 {{> TmplModalRemove}}
 
-     					 			 
-        					{{> tabular table=TabularTables.usuarios class="table table-striped table-bordered table-condensed"}}
+                             {{> TmplModalChangePass}}
+                             {{> TmplModalCreateUser}}
+         					 			 
+            					       {{> tabular table=TabularTables.usuarios class="table table-striped table-bordered table-condensed"}}
 
-        					{{/if}}	
+        					       {{/if}}	
 
                         </div>
 

@@ -1,10 +1,10 @@
-import Tabular from 'meteor/aldeed:tabular';
+
 
 Inscripcion = new Mongo.Collection('inscripcion');
 
-var Schemas = {};
+//var Schemas = {};
 
-Schemas.InscripcionSchema = new SimpleSchema({
+InscripcionSchema = new SimpleSchema({
     nombre: {
         type: String,
         label: "Nombre",
@@ -55,7 +55,7 @@ Schemas.InscripcionSchema = new SimpleSchema({
     }
 });
 
-Schemas.modifierEstadoInscripcioSchema = new SimpleSchema({
+modifierEstadoInscripcioSchema = new SimpleSchema({
   estadoInscripcio: {
         type: String,
         label: "Estado de la inscripcion", // deberia tener  tres estados, (pendiente, aceptado, no aceptado)
@@ -67,7 +67,7 @@ Schemas.modifierEstadoInscripcioSchema = new SimpleSchema({
     }
 });
 
-Inscripcion.attachSchema(Schemas.InscripcionSchema);
+Inscripcion.attachSchema(InscripcionSchema);
 
 
 if (Meteor.isServer)
@@ -99,6 +99,8 @@ if (Meteor.isServer)
         return Inscripcion.insert(datos);
      //return true;
       },
+      //DD 23/08/2017
+      // Pone deshabilita la inscripcion, es como eliminar la inscripcion 
      inhabilitarinscripcion:function(inscriId)
      {
       check(inscriId,String);
@@ -106,16 +108,19 @@ if (Meteor.isServer)
 
      },
 
-     update2EstadoInscripcion: function (modifier, objID) {
+      //DD 23/08/2017
+      // Procesando la inscripcion comunmente pasamos estado pendiente a aceptada o no aceptada
+
+     updateEstadoInscripcion: function (modifier, objID) {
       //Mostrando lo que trae modifier
       console.log(modifier);
-      //probando si modifier tiene un dato valido
-      var esvalido=Schemas.modifierEstadoInscripcioSchema.namedContext().validate(modifier, {modifier: true});
-      console.log("esvalido: ",esvalido);
+      //Validando mediante contexto al contenido de modifier es decir al estadoInscripcio
+       var esvalido=modifierEstadoInscripcioSchema.namedContext().validate(modifier, {modifier: true});
+       console.log("esvalido: ",esvalido);
 
 
       check(objID,String);
-      check(modifier,Schemas.modifierEstadoInscripcioSchema);
+      check(modifier,modifierEstadoInscripcioSchema);
      //  return Inscripcion.update({ _id: inscriId }, { $set: {'activa' : false }});
       return Inscripcion.update(objID, modifier);
       },

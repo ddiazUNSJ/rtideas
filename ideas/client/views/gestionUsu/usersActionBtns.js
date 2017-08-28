@@ -30,6 +30,38 @@ Template.usersActionBtns.events({
 		}
 
 
-	}
+	},
+	'click #btnChangePass': function(){
+		console.log("click btnChangePass");
+
+		if (Meteor.userId()) {
+
+			Session.set("usuarioId", this._id);
+			  Modal.show('TmplModalChangePass');
+
+
+		} else {
+
+           swal("Actualizacion no permitida!", "Por favor, inicie como usuario");
+		}
+
+	},
+	
+	'click #btnNewUser': function(){
+		console.log("click btnChangePass");
+
+		if (Meteor.userId()) {
+
+			Session.set("usuarioId", this._id);
+			  Modal.show('TmplModalCreateUser');
+
+
+		} else {
+
+           swal("Actualizacion no permitida!", "Por favor, inicie como usuario");
+		}
+
+	},
+
 
 });
