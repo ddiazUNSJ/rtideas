@@ -45,9 +45,9 @@ Template.creaAnimadorForm.onCreated(function () {
 
 Template.creaAnimadorForm.onRendered(function(){
   
-   this.autorun(function(){
-    console.log("Aqui cambio Algo:Template.creaAnimadorForm.onRendered ");
-     Template.currentData();
-   });
+   // this.autorun(function(){
+   //  console.log("Aqui cambio Algo:Template.creaAnimadorForm.onRendered ");
+   //   Template.currentData();
+   // });
 
 });

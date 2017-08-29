@@ -23,3 +23,5 @@ trabajando en la funcion updateEstadoInscripcion de /lib/collections/inscripcion
 No puedo aun determinar como validar al parametro modifier, pues modifier trae lo siguiente
       
       // en modifier viene { '$set': { estadoInscripcio: 'no_aceptado' } }
+28/08/2017
+Faltaria comprobar que tabular tables no viola las medidas de seguridad , es decir si un usario comun puede acceder a las paginas donde hay un tabular y puede ver los id de todos los usuarios por ejemplo

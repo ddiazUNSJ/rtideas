@@ -23,6 +23,7 @@ Template.gi_AdminInscri.helpers({
 Template.gi_AdminInscri.onCreated(function () {
 	
   // Trae todas las inscripciones que se le permiten ver
+   
     Meteor.subscribe('allInscripciones');
 
   

@@ -27,15 +27,25 @@ Meteor.isClient && Template.registerHelper('TabularTables', TabularTables);
 TabularTables.usuarios=new Tabular.Table({
   name: "usuarios",
   collection: Meteor.users,
-  selector:function() {
-    var usuariosTodos= Meteor.users.find({}, {fields: {_id: 1, profile: 1, rol:1, active:1}});
-    var usuariosTodosIds=usuariosTodos.map(function(p) { return p._id });
-    var usuariosTodosIds=usuariosTodos.map(function(p) { return p._id });
-    var usuariosTodosName=usuariosTodos.map(function(p) { return p.profile.nombre });
-    console.log("usuariosTodos");
-    console.log(usuariosTodosIds);
+  // selector:function() {
+  //   var usuariosTodos= Meteor.users.find({}, {fields: {_id: 1, profile: 1, rol:1, active:1}});
+  //   var usuariosTodosIds=usuariosTodos.map(function(p) { return p._id });
+  //   var usuariosTodosIds=usuariosTodos.map(function(p) { return p._id });
+  //   var usuariosTodosName=usuariosTodos.map(function(p) { return p.profile.nombre });
+  //   console.log("usuariosTodos");
+  //   console.log(usuariosTodosIds);
     
-    return { _id:{$in: usuariosTodosIds} }
+  //   return { _id:{$in: usuariosTodosIds} }
+  // },
+  allow(userId) {
+    var usuario=Meteor.users.findOne({_id:userId});
+   // console.log("usuario en allow-TabularTables.usuarios: "+usuario);
+    var rol= usuario.rol;
+    //console.log("rol en allow-TabularTables.usuarios: "+rol);
+    var salida=false;
+    if (rol==="Administrador") {salida=true};
+    console.log("salida allow TabularTables.usuarios: "+salida);
+    return salida; // don't allow this person to subscribe to the data
   },
   columns: [
      {data:"_id", title:"idUser"},
@@ -51,6 +61,14 @@ TabularTables.usuarios=new Tabular.Table({
 TabularTables.inscripTab=new Tabular.Table({
   name: "inscripTab",
   collection: Inscripcion,
+  allow(userId) {
+    //Chequea que solo el usuario administrador tenga acceso a ver la tabla inscripTab
+    var usuario=Meteor.users.findOne({_id:userId});
+    var salida=false;
+    if (usuario.rol==="Administrador") {salida=true};
+    console.log("salida allow - TabularTables.inscripTab: "+salida);
+    return salida; // don't allow this person to subscribe to the data
+  },
   columns: [
     {data: "_id", title: "cod Inscri"},
     {data: "nombre", title: "nombre"},
@@ -69,6 +87,16 @@ TabularTables.inscripTab=new Tabular.Table({
 TabularTables.animadorTab=new Tabular.Table({
   name: "animadorTab",
   collection: Animadores,
+
+   allow(userId) {
+    //Chequea que solo el usuario administrador tenga acceso a ver la tabla animadores
+    var usuario=Meteor.users.findOne({_id:userId});
+    var salida=false;
+    if (usuario.rol==="Administrador") {salida=true};
+    console.log("salida allow - TabularTables.animadorTab: "+salida);
+    return salida; // don't allow this person to subscribe to the data
+  },
+
   columns: [
     {data: "_id", title: "cod Animador"},
     {data: "iduser",title:"idusuario"},
@@ -85,6 +113,14 @@ TabularTables.usuariosParaAni=new Tabular.Table({
   name: "usuariosParaAni",
 
   collection: Meteor.users,
+  allow(userId) {
+    //Chequea que solo el usuario administrador tenga acceso a ver la tabla usuariosParaAni
+    var usuario=Meteor.users.findOne({_id:userId});
+    var salida=false;
+    if (usuario.rol==="Administrador") {salida=true};
+    console.log("salida allow - TabularTables.usuariosParaAni: "+salida);
+    return salida; // don't allow this person to subscribe to the data
+  },
   
   selector:function() {
 
