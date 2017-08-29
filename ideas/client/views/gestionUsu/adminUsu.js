@@ -36,6 +36,6 @@ Template.adminUsers.onCreated(function () {
 });
 Template.adminUsers.onDestroyed(function () {
     // Trae Usuarios
-    console.log("destruyendo suscripciones");
-     handleAllUsers.stop(); 
+    // console.log("destruyendo suscripciones");
+    //  handleAllUsers.stop(); 
 });

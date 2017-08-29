@@ -1,12 +1,13 @@
 <template name="creaAnimadorForm">
  <div id="creaAnimador">
  {{#if Template.subscriptionsReady}}
-		{{#if isAdmin}}				 			 
-      {{> tabular table=TabularTables.usuariosParaAni class="table table-striped table-bordered table-condensed"}}
+	{{#if isAdmin}}				
+	    <div class="wrapper wrapper-content animated fadeInRight">
+		     <div class="row">
+		      {{> tabular table=TabularTables.usuariosParaAni selector=selector1 class="table table-striped table-bordered table-condensed"}}
+		     </div>
+		</div>
     {{/if}} 
-     {{/if}}
-        				   
-
-	
-  </div>
- </template>
+ {{/if}}
+ </div>
+</template>

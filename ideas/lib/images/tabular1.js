@@ -27,7 +27,18 @@ Meteor.isClient && Template.registerHelper('TabularTables', TabularTables);
 TabularTables.usuarios=new Tabular.Table({
   name: "usuarios",
   collection: Meteor.users,
+  selector:function() {
+    var usuariosTodos= Meteor.users.find({}, {fields: {_id: 1, profile: 1, rol:1, active:1}});
+    var usuariosTodosIds=usuariosTodos.map(function(p) { return p._id });
+    var usuariosTodosIds=usuariosTodos.map(function(p) { return p._id });
+    var usuariosTodosName=usuariosTodos.map(function(p) { return p.profile.nombre });
+    console.log("usuariosTodos");
+    console.log(usuariosTodosIds);
+    
+    return { _id:{$in: usuariosTodosIds} }
+  },
   columns: [
+     {data:"_id", title:"idUser"},
     {data: "profile.nombre", title: "nombre"},
     {data: "active", title: "Activo"},
     {data: "rol", title: "Rol"},
@@ -71,7 +82,7 @@ TabularTables.animadorTab=new Tabular.Table({
   });
 
 TabularTables.usuariosParaAni=new Tabular.Table({
-  name: "usuarios",
+  name: "usuariosParaAni",
 
   collection: Meteor.users,
   
@@ -87,9 +98,9 @@ TabularTables.usuariosParaAni=new Tabular.Table({
     var noAnimatorsArray=noAnimators.map(function(p) { return p._id });
     var noAnimatorsNameArray=noAnimators.map(function(p) { return p.profile.nombre });
 
-    console.log("noAnimators from selector:");
-    console.log(noAnimatorsArray);
-    console.log(noAnimatorsNameArray);
+    // console.log("noAnimators from selector:");
+    // console.log(noAnimatorsArray);
+    // console.log(noAnimatorsNameArray);
     return { _id:{$in: noAnimatorsArray} }
   },
   responsive: true,

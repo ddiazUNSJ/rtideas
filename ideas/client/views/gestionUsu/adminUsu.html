@@ -7,13 +7,14 @@
             <div class="col-lg-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>Listado de Usuarios</h5>
+                        <h5>Listado1 de Usuarios</h5>
                         {{>gu_iboxTools}} 
                         
                     </div>
                     <div class="ibox-content">
 
                         <div class="table-responsive">
+                        {{#if Template.subscriptionsReady}}
                        		{{#if isAdmin}}
 
           					   {{> TmplModalUpdate}}
@@ -24,7 +25,7 @@
             				   {{> tabular table=TabularTables.usuarios class="table table-striped table-bordered table-condensed"}}
 
         				    {{/if}}	
-
+                       {{/if}}  
                         </div>
 
                     </div>

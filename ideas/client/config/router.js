@@ -430,10 +430,7 @@ Router.route('/subirfoto',{name: 'subirfoto',
                             template:'subirfoto',
                             layoutTemplate: 'iniciolayout'
                            });
-Router.route('/adminUsers',{name: 'adminUsers',
-                            template:'adminUsers',
-                            layoutTemplate: 'iniciolayout'
-                           });
+
 Router.route('/reg',{name: 'reg',
                             template:'Register2',
                             layoutTemplate: 'iniciolayout'
@@ -460,5 +457,9 @@ Router.route('/gi_AdminInscri', {
 
 Router.route('/adminAnima',{name: 'adminAnima',
                             template:'adminAnima',
+                            layoutTemplate: 'mainLayout'
+                           });
+Router.route('/adminUsers',{name: 'adminUsers',
+                            template:'adminUsers',
                             layoutTemplate: 'mainLayout'
                            });

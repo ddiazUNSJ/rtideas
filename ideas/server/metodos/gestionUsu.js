@@ -109,4 +109,20 @@ setForcedNewPass:function (docSchema){
         {return false;}
    
 },
+
+   usuariosNoAnime:function(){
+    // Buscamos todos los animadores que estan activos
+    var AnimadoresOn = Animadores.find({active: true});
+
+    // listamos el userId de los animadores activos
+    var idUserAnimadoresOn = AnimadoresOn.map(function(p) { return p.iduser });
+
+    var noAnimators= Meteor.users.find({ _id:{$nin: idUserAnimadoresOn}, active:true}, {fields: {_id: 1, profile: 1, rol:1, active:1}});
+    var noAnimatorsArray=noAnimators.map(function(p) { return p._id });
+    var noAnimatorsNameArray=noAnimators.map(function(p) { return p.profile.nombre });
+
+    
+    return noAnimatorsArray;
+   },
+
 })
