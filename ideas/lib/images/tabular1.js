@@ -72,12 +72,39 @@ TabularTables.inscripTab=new Tabular.Table({
   columns: [
     {data: "_id", title: "cod Inscri"},
     {data: "nombre", title: "nombre"},
+    {data: "userId",title:"idusuario"},
     {data: "sesion", title: "sesion"},
     {data: "estadoInscripcio", title: "estado"},
-    {data: "active", title: "Activo"},
+   // {data: "active", title: "Activo"},
    
     {
       tmpl: Meteor.isClient && Template.gi_ActionBtns, class: "col-md-1"
+    }
+    ]
+  });
+
+//DD31/08/2017 
+TabularTables.selInscripTab=new Tabular.Table({
+  name: "selInscripTab",
+  collection: Inscripcion,
+  allow(userId) {
+    //Chequea que solo el usuario administrador tenga acceso a ver la tabla inscripTab
+    var usuario=Meteor.users.findOne({_id:userId});
+    var salida=false;
+    if (usuario.rol==="Administrador") {salida=true};
+    console.log("salida allow - TabularTables.selInscripTab: "+salida);
+    return salida; // don't allow this person to subscribe to the data
+  },
+  columns: [
+    {data: "_id", title: "cod Inscri"},
+    {data: "userId",title:"idusuario"},
+    {data: "nombre", title: "nombre"},
+    {data: "sesion", title: "sesion"},
+    {data: "estadoInscripcio", title: "estado"},
+   
+   
+    {
+      tmpl: Meteor.isClient && Template.gp_selInscriActionBtns, class: "col-md-1"
     }
     ]
   });
@@ -147,6 +174,33 @@ TabularTables.usuariosParaAni=new Tabular.Table({
     
     {
       tmpl: Meteor.isClient && Template.ga_usersActionBtns, class: "col-md-1"
+    }
+    ]
+  });
+
+//DD 29/08/2017
+// Datos para la tabla de gestion de participantes
+TabularTables.participantesTab=new Tabular.Table({
+  name: "participantesTab",
+  collection: Users_sesions,
+
+   allow(userId) {
+    //Chequea que solo el usuario administrador tenga acceso a ver la tabla animadores
+    var usuario=Meteor.users.findOne({_id:userId});
+    var salida=false;
+    if (usuario.rol==="Administrador") {salida=true};
+    console.log("salida allow - TabularTables.participantesTab: "+salida);
+    return salida; // don't allow this person to subscribe to the data
+  },
+
+  columns: [
+    {data: "_id", title: "cod user-sesion"},
+    {data: "iduser",title:"idusuario"},
+    {data: "idsesion", title: "SesionId"},
+    {data: "rol", title: "Rol"},
+   
+    {
+      tmpl: Meteor.isClient && Template.gp_ActionBtns, class: "col-md-1"
     }
     ]
   });

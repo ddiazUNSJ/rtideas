@@ -372,5 +372,44 @@ Meteor.publish('allAnimadores', function() {
 
 });
 
+//DD 31/08/2017
+//--- publica todos los datos de user_sesion pero para determinada sesion
+//--- usada al aceptar como participante de una sesion a un inscripto de esa sesion de creatividsa
+Meteor.publish('sesion_de_userSesion', function(sesionCActual) { 
+
+  check(sesionCActual,String);
+   // Chequeos de Seguridad 
+   var usuario, nombre, rol;
+    if (!this.userId) {
+      throw new Meteor.Error('Acceso invalido',
+        'Usted no esta logeado');
+      }
+    else // verifica si tiene privilegios de administrador
+      { 
+        usuario= Meteor.users.findOne({_id: this.userId});
+        nombre = usuario.profile.nombre;
+        rol=usuario.rol;
+        if  (rol!="Administrador") 
+        {
+            console.log("error no es administrador");
+            throw new Meteor.Error('Acceso invalido',
+            ' Para acceder a esta funcionalidad necesita ser Administrador');
+        }
+       }
+    // Verifica si la sesion esta activa
+       var sesionEstado= Sesion.findOne({sesion:sesionCActual}).estado;
+       if (sesionEstado!="activa")
+        {
+            console.log("Error en publicacion sesion_de_userSesion,sesion no activa");
+            throw new Meteor.Error('Acceso invalido',
+            ' Esta intentando publicar usersesion de sesion no activa');
+        }
+     // Enviar datos de user_sesion para la sesion solicitada
+     return Users_sesions.find({sesion:sesionCActual});
+
+   
+
+});
+
 
 

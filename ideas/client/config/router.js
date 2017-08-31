@@ -463,3 +463,10 @@ Router.route('/adminUsers',{name: 'adminUsers',
                             template:'adminUsers',
                             layoutTemplate: 'mainLayout'
                            });
+
+
+Router.route('/gp_AdminPartici', {
+    name: 'gp_AdminPartici',
+    template: 'gp_AdminPartici',
+    layoutTemplate: 'mainLayout',
+});

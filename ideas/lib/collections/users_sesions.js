@@ -29,11 +29,82 @@ Users_sesionsSchema = new SimpleSchema({
         type: Date,
         label: "fechayhora",
        },
+  
 });
 
 Users_sesions.attachSchema(Users_sesionsSchema);
 
 Meteor.methods({
+
+   // Agrega un nuevo participante a la sesion de creatividad
+   // Parametros
+   // inscriId : id de documento de inscripcion
+   // usuarioId: id del usuario inscripto
+   // sesionId: id de la sesion en la que esta inscripto
+
+   agregarParticipante:function(datos){
+      var inscriId=datos.inscriId;
+      var usuarioId=datos.usuarioId;
+      var sesionId=datos.sesionId;
+
+      console.log("agregarParticipante users_sesions.js");
+      console.log(this.sesion);
+      console.log(this.userId);
+      console.log(this._id);
+     check(inscriId,String);
+     check(usuarioId,String);
+     check(sesionId,String);
+     
+      //Verifica Identidad 
+      if (!this.userId) {
+          throw new Meteor.Error('Acceso invalido',
+            'Ustede no esta logeado');
+        }
+      else // verifica si tiene privilegios de administrador
+       { 
+        usuario= Meteor.users.findOne({_id: this.userId});
+        rol=usuario.rol;
+        if  (rol!="Administrador") 
+        {
+            console.log("error no es administrador");
+            throw new Meteor.Error('Acceso invalido',
+            ' Para acceder a esta funcionalidad necesita ser Administrador');
+        }
+       }
+      
+     //Habilitado para registrar participante
+     //El participante ya esta acentado en user-sesion 
+     var estaEnUserSesion=Users_sesions.findOne( {iduser:usuarioId, idsesion: sesionId} ); 
+     if  (estaEnUserSesion){
+         return estaEnUserSesion;
+      }
+     //No esta registrado , creamos participante en usersesion 
+     else
+     {
+      var participanteNuevo={iduser: usuarioId,
+                     idsesion:sesionId,
+                     idgrupo:"notiene",
+                     rol:"Participante",
+                     author:this.userId,
+                     submitted:new Date(),
+                           };
+
+      check(participanteNuevo,Users_sesionsSchema);
+      var participanteAgregado=Users_sesions.insert(participanteNuevo);
+      // Actualizar coleccion de inscriptos
+      // llamo al metodo UpdateEstadoInscripcion: function (modifier, objID)
+      // el modifier es el mongo modifier y objID es el id de inscripcion
+       Meteor.call ("UpdateEstadoInscripcion","{ '$set': { estadoInscripcio: 'aceptado' } }", inscriId); 
+  
+
+      return     participanteAgregado           
+     }
+      
+    
+    },
+
+  //31/08/2017
+  // Lo que Estaba--------------------
   participantesAlGrupo: function(IAttributes) //se verifica q el ususario este autenticado
   {
     check(Meteor.userId(), String);

@@ -23,7 +23,7 @@
                             <li><a href="{{pathFor route='contacts'}}">Contacts</a></li>
                             <li><a href="{{pathFor route='mailbox'}}">Mailbox</a></li>
                             <li class="divider"></li>
-                          -->   <li><a href="{{pathFor route='login'}}">Logout</a></li>
+                          -->   <li><a href="{{pathFor route='signOut'}}">Logout</a></li>
                         </ul>
                     </div>
                     <div class="logo-element">
@@ -153,6 +153,30 @@
                     
                 </ul>
             </li> 
+
+
+            <li class="{{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor'}}">
+                <a href="#">
+                    <i class="fa fa-edit"></i>
+                        <span class="nav-label">Datos Sesion</span>
+
+                        <span class="fa arrow"></span>
+                </a>
+                            
+                <ul class="nav nav-second-level {{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor' className='in'}}">
+                    <li class="{{isActiveRoute regex='formBasic'}}">
+                        <a href="{{pathFor 'gp_AdminPartici'}}">Gestionar Participantes</a>
+                    </li>
+
+                    
+                    
+                </ul>
+            </li> 
+
+            
+
+
+
 
             <li class="{{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor'}}">
                 <a href="#">

@@ -108,10 +108,36 @@ if (Meteor.isServer)
 
      },
 
+
+
       //DD 23/08/2017
       // Procesando la inscripcion comunmente pasamos estado pendiente a aceptada o no aceptada
+      // Los parametos son
+      // modifier :para este caso  es el  Mongo modifier { '$set': { estadoInscripcio: 'aceptado' } }
+      // objID: es el identificador de documento de inscripcion ( el _id de Inscripcion)InscriId
+      // en el caso de ser llamada desd autoform estos parametros los carga autoform directamente al 
+      // hacer submit.
 
      updateEstadoInscripcion: function (modifier, objID) {
+
+      console.log
+      //Chequeo de seguridad - Verifica Identidad 
+      if (!this.userId) {
+          throw new Meteor.Error('Acceso invalido',
+            'Ustede no esta logeado');
+        }
+      else // verifica si tiene privilegios de administrador
+       { 
+        usuario= Meteor.users.findOne({_id: this.userId});
+        rol=usuario.rol;
+        if  (rol!="Administrador") 
+        {
+            console.log("error no es administrador");
+            throw new Meteor.Error('Acceso invalido',
+            ' Para acceder a esta funcionalidad necesita ser Administrador');
+        }
+       }
+
       //Mostrando lo que trae modifier
       console.log(modifier);
       //Validando mediante contexto al contenido de modifier es decir al estadoInscripcio

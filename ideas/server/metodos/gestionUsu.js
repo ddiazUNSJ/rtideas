@@ -124,5 +124,16 @@ setForcedNewPass:function (docSchema){
     
     return noAnimatorsArray;
    },
+   //DD 29/08/2017 
+   //--- Busca en la coleccion inscriptos de la sesion de creatividad
+   //--- todos aquellos inscriptos no aceptados y retorna una arreglo con 
+   //--- el id de inscriptos que aun no han sido aceptados, es decir aun no han sido procesados 
+
+   inscriptosNoAceptados:function(idSesion){
+    check( idSesion,String);
+   var inscriNoAceptados=Inscripcion.find({estadoInscripcio:{$nin:"aceptado"}});
+   var inscriNoAceptadosArray=inscriNoAceptados.map(function(p) { return p._id });
+   return inscriNoAceptadosArray
+   },
 
 })
