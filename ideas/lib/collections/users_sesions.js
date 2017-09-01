@@ -31,31 +31,33 @@ Users_sesionsSchema = new SimpleSchema({
        },
   
 });
+//31/08/2017
+//Definido para validar datos en agregarParticipante
+datosPartici=new SimpleSchema({
+  inscriId:{
+        type: String,
+        label: "inscriId",
+      },
+  sesionId: {
+        type: String,
+        label: "userId",
+      },
+  userId: {
+        type: String,
+        label: "userId",
+      },
+})
 
 Users_sesions.attachSchema(Users_sesionsSchema);
 
 Meteor.methods({
 
-   // Agrega un nuevo participante a la sesion de creatividad
-   // Parametros
-   // inscriId : id de documento de inscripcion
-   // usuarioId: id del usuario inscripto
-   // sesionId: id de la sesion en la que esta inscripto
+   
 
    agregarParticipante:function(datos){
-      var inscriId=datos.inscriId;
-      var usuarioId=datos.usuarioId;
-      var sesionId=datos.sesionId;
-
-      console.log("agregarParticipante users_sesions.js");
-      console.log(this.sesion);
-      console.log(this.userId);
-      console.log(this._id);
-     check(inscriId,String);
-     check(usuarioId,String);
-     check(sesionId,String);
      
-      //Verifica Identidad 
+     check(datos, datosPartici);
+    //  Verifica Identidad 
       if (!this.userId) {
           throw new Meteor.Error('Acceso invalido',
             'Ustede no esta logeado');
@@ -72,17 +74,17 @@ Meteor.methods({
         }
        }
       
-     //Habilitado para registrar participante
-     //El participante ya esta acentado en user-sesion 
-     var estaEnUserSesion=Users_sesions.findOne( {iduser:usuarioId, idsesion: sesionId} ); 
+     // //Habilitado para registrar participante
+     // //El participante ya esta acentado en user-sesion 
+     var estaEnUserSesion=Users_sesions.findOne( {iduser:datos.userId, idsesion: datos.sesionId} ); 
      if  (estaEnUserSesion){
          return estaEnUserSesion;
       }
-     //No esta registrado , creamos participante en usersesion 
+     // //No esta registrado , creamos participante en usersesion 
      else
      {
-      var participanteNuevo={iduser: usuarioId,
-                     idsesion:sesionId,
+      var participanteNuevo={iduser: datos.userId,
+                     idsesion:datos.sesionId,
                      idgrupo:"notiene",
                      rol:"Participante",
                      author:this.userId,
@@ -91,15 +93,17 @@ Meteor.methods({
 
       check(participanteNuevo,Users_sesionsSchema);
       var participanteAgregado=Users_sesions.insert(participanteNuevo);
-      // Actualizar coleccion de inscriptos
-      // llamo al metodo UpdateEstadoInscripcion: function (modifier, objID)
-      // el modifier es el mongo modifier y objID es el id de inscripcion
-       Meteor.call ("UpdateEstadoInscripcion","{ '$set': { estadoInscripcio: 'aceptado' } }", inscriId); 
+     // Actualizar coleccion de inscriptos
+     Inscripcion.update( {_id:datos.inscriId}, { $set: { estadoInscripcio: 'aceptado' } } );
+     //  // llamo al metodo UpdateEstadoInscripcion: function (modifier, objID)
+     //  // el modifier es el mongo modifier y objID es el id de inscripcion
+
+      //  Meteor.call ("UpdateEstadoInscripcion","{ '$set': { estadoInscripcio: 'aceptado' } }", datos.inscriId); 
   
 
-      return     participanteAgregado           
-     }
-      
+
+     //  return     participanteAgregado       
+      }
     
     },
 

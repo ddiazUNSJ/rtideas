@@ -6,7 +6,7 @@ Template.gp_selInscriActionBtns.events({
 		 console.log(this.sesion);
          console.log(this.userId);
          console.log(this._id);
-         var datos={inscriId:this._id,
+          datos={inscriId:this._id,
          	        userId:this.userId,
          	        sesionId:this.sesion,
                    };
@@ -16,16 +16,26 @@ Template.gp_selInscriActionBtns.events({
 	//	if (Meteor.userId()) {
 		  if ( (datos.inscriId!=undefined) &&(datos.userId!=undefined)&&(datos.sesionId!=undefined))
 			{
-  
+				console.log("datosInscri en cliente:"+datos.inscriId);
 				Meteor.call('agregarParticipante',datos,function (error, result)
 				{ 
 		             if (error){
-		              swal("No esta habilitado para esta accion bolas")
+		              swal("No esta habilitado para esta accion "+ datos.inscriId)
 		             }
 		             else{
 		              swal("Animador Agregado ")
 		              }
 		           });
+  
+				// Meteor.call('agregarParticipante',datos,function (error, result)
+				// { 
+		  //            if (error){
+		  //             swal("No esta habilitado para esta accion bolas")
+		  //            }
+		  //            else{
+		  //             swal("Animador Agregado ")
+		  //             }
+		  //          });
 		      }
                 //Aqui this apunta a la fila actualmente seleccionada
 

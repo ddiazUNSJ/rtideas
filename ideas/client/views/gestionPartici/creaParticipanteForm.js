@@ -12,23 +12,22 @@ Template.creaParticipanteForm.helpers({
     },
      selector:function(){
       console.log("Session.get_sesionCActual:",Session.get("sesionCActual"));
-      return{sesion:Session.get("sesionCActual")}
-     }
+      return{sesion:Session.get("sesionCActual") };
 
     // selector:function() {
-
+    //      console.log("this.sesion: ",this.sesion)
     //    // Muestra los inscriptos que aun no han sido aceptados
-    //     Meteor.call('inscriptosNoAceptados',this.sesion, function (error, result){ 
-    //            if (error){
-    //             swal("Usted no es usuario del sistema now ")
-    //            }
-    //            else{
-    //              console.log("entrando a buscar inscriptosNoAceptados:creaParticipanteForm.helpers.selector1:");
-    //             Session.set('inscriptoNoA',result);
-    //             }
-    //     });
-    //     return { _id:{$in: Session.get('inscriptoNoA')} };
-    //    }
+        // Meteor.call('inscriptosNoAceptados',this.sesion, function (error, result){ 
+        //        if (error){
+        //         swal("Usted no es usuario del sistema now ")
+        //        }
+        //        else{
+        //          console.log("entrando a buscar inscriptosNoAceptados:creaParticipanteForm.helpers.selector1:");
+        //         Session.set('inscriptoNoA',result);
+        //         }
+        // });
+        //return { _id:{$in: Session.get('inscriptoNoA')} };
+    // }
   
 });
 
