@@ -16,14 +16,14 @@ Template.gp_selInscriActionBtns.events({
 	//	if (Meteor.userId()) {
 		  if ( (datos.inscriId!=undefined) &&(datos.userId!=undefined)&&(datos.sesionId!=undefined))
 			{
-				console.log("datosInscri en cliente:"+datos.inscriId);
+				//console.log("datosInscri en cliente:"+datos.inscriId);
 				Meteor.call('agregarParticipante',datos,function (error, result)
 				{ 
 		             if (error){
-		              swal("No esta habilitado para esta accion "+ datos.inscriId)
+		              swal("No esta autorizado para agregar participantes")
 		             }
 		             else{
-		              swal("Animador Agregado ")
+		              swal("Participante Agregado ")
 		              }
 		           });
   

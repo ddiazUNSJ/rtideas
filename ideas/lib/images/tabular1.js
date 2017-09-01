@@ -95,11 +95,15 @@ TabularTables.selInscripTab=new Tabular.Table({
     console.log("salida allow - TabularTables.selInscripTab: "+salida);
     return salida; // don't allow this person to subscribe to the data
   },
+  // selector:function(){
+  //     console.log("Session.get_sesionCActual:",Session.get("sesionCActual"));
+  //     return{sesion:Session.get("sesionCActual"), estadoInscripcio: { $in: ['pendiente', 'no_aceptado' ] } };
+  //   },  
   columns: [
-    {data: "_id", title: "cod Inscri"},
-    {data: "userId",title:"idusuario"},
+    {data: "_id", title: "cod Inscri", visible: false},
+    {data: "userId",title:"idusuario",visible: false},
     {data: "nombre", title: "nombre"},
-    {data: "sesion", title: "sesion"},
+    {data: "sesion", title: "sesion",visible: false},
     {data: "estadoInscripcio", title: "estado"},
    
    
@@ -195,6 +199,7 @@ TabularTables.participantesTab=new Tabular.Table({
 
   columns: [
     {data: "_id", title: "cod user-sesion"},
+    {data: "nombre", title: "nombre"},
     {data: "iduser",title:"idusuario"},
     {data: "idsesion", title: "SesionId"},
     {data: "rol", title: "Rol"},

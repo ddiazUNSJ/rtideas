@@ -15,12 +15,16 @@ Users_sesionsSchema = new SimpleSchema({
       },
   idgrupo: {
         type: String,
-        label: "rol",  
+        label: "grupo",  
     },
   rol: {
         type: String,
-        label: "Nombre",  
+        label: "rol",  
     },  
+  nombre: {
+        type: String,
+        label: "nombre",  
+    }, 
   author: { //persona quien gestiona inscripcion
         type: String,
         label: "idUser",
@@ -49,14 +53,16 @@ datosPartici=new SimpleSchema({
 })
 
 Users_sesions.attachSchema(Users_sesionsSchema);
-
-Meteor.methods({
+if (Meteor.isServer)
+{
+  Meteor.methods({
 
    
 
    agregarParticipante:function(datos){
      
      check(datos, datosPartici);
+     var usuario, nombreU, rolU;
     //  Verifica Identidad 
       if (!this.userId) {
           throw new Meteor.Error('Acceso invalido',
@@ -65,8 +71,9 @@ Meteor.methods({
       else // verifica si tiene privilegios de administrador
        { 
         usuario= Meteor.users.findOne({_id: this.userId});
-        rol=usuario.rol;
-        if  (rol!="Administrador") 
+        
+        rolU=usuario.rol;
+        if  (rolU!="Administrador") 
         {
             console.log("error no es administrador");
             throw new Meteor.Error('Acceso invalido',
@@ -74,7 +81,9 @@ Meteor.methods({
         }
        }
       
+
      // //Habilitado para registrar participante
+     nombreU=Meteor.users.findOne({_id: datos.userId}).profile.nombre;
      // //El participante ya esta acentado en user-sesion 
      var estaEnUserSesion=Users_sesions.findOne( {iduser:datos.userId, idsesion: datos.sesionId} ); 
      if  (estaEnUserSesion){
@@ -87,6 +96,7 @@ Meteor.methods({
                      idsesion:datos.sesionId,
                      idgrupo:"notiene",
                      rol:"Participante",
+                     nombre:nombreU,
                      author:this.userId,
                      submitted:new Date(),
                            };
@@ -217,3 +227,5 @@ Meteor.methods({
   }
 
 });
+
+} //fin if (Meteor.isServer)

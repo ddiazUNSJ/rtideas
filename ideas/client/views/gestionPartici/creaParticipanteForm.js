@@ -12,7 +12,8 @@ Template.creaParticipanteForm.helpers({
     },
      selector:function(){
       console.log("Session.get_sesionCActual:",Session.get("sesionCActual"));
-      return{sesion:Session.get("sesionCActual") };
+      return{sesion:Session.get("sesionCActual"), estadoInscripcio: { $in: ['pendiente', 'no_aceptado' ] } };
+    },  
 
     // selector:function() {
     //      console.log("this.sesion: ",this.sesion)
@@ -47,11 +48,16 @@ Template.creaParticipanteForm.onCreated(function () {
     });
 });
 
+
+
 Template.creaParticipanteForm.onRendered(function(){
   
    // this.autorun(function(){
    //  console.log("Aqui cambio Algo:Template.creaAnimadorForm.onRendered ");
    //   Template.currentData();
    // });
+       var table = $('#table_id').DataTable();
+        var column = table.column(0);
+        column.visible( false );
 
 });
