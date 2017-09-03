@@ -397,7 +397,13 @@ Meteor.publish('sesion_de_userSesion', function(sesionCActual) {
         }
        }
     // Verifica si la sesion esta activa
-       var sesionEstado= Sesion.findOne({sesion:sesionCActual}).estado;
+    console.log("sesion en actual 'sesion_de_userSesion': "+sesionCActual);
+       var sesion= Sesion.findOne({_id:sesionCActual})
+       console.log("sesion en 'sesion_de_userSesion': "+sesion);
+       var sesionEstado=sesion.estado;
+       
+       console.log("sesionEstado en 'sesion_de_userSesion': "+sesionEstado);
+      
        if (sesionEstado!="activa")
         {
             console.log("Error en publicacion sesion_de_userSesion,sesion no activa");

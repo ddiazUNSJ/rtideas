@@ -31,6 +31,34 @@ if (Meteor.isServer)
 {
 
   Meteor.methods({
+        // Extrae todos los animadores empadronados que no estan inscriptos en la sesion
+
+      animadorNoInscriptoEnLaSesion:function(sesionId){
+          check(sesionId,String);
+           // Buscamos todos los animadores que estan activos
+          var AnimadoresOn = Animadores.find({active: true});
+
+          // listamos el userId de los animadores activos
+          var idUserAnimadoresOnArray = AnimadoresOn.map(function(p) { return p.iduser });
+        
+          //obtenemos los que estan inscriptos en la sesion y empadronados como animadores 
+          var animadorInscripto= Inscripcion.find({userId:{$in:idUserAnimadoresOnArray},sesion:sesionId});
+          var animadorInscriptoArray=animadorInscripto.map(function(p) { return p.userId });
+          var animadorInscriptoNombreArray=animadorInscripto.map(function(p) { return p.nombre });
+           console.log("animadorInscriptoArray from animadorEstaInscripto method:");
+           console.log(animadorInscriptoArray);
+           console.log(animadorInscriptoNombreArray);
+          // Obtiene los animdores empadronados que no estan inscriptos en la sesion 
+          var animadorNoInscripto= Animadores.find({iduser:{$nin:animadorInscriptoArray}})
+          var animadorNoInscriptoArray=animadorNoInscripto.map(function(p) { return p.iduser });
+          var animadorNoInscriptoNombreArray=animadorNoInscripto.map(function(p) { return p.nombre });
+          console.log("animadorNoInscripto from animadorEstaInscripto method:");
+           console.log(animadorNoInscriptoArray);
+           console.log(animadorNoInscriptoNombreArray);
+
+         
+           return animadorNoInscriptoArray;
+      }, 
 
       isActiveAnimador:function(animadorId){
 

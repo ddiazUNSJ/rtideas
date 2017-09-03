@@ -56,9 +56,85 @@ Users_sesions.attachSchema(Users_sesionsSchema);
 if (Meteor.isServer)
 {
   Meteor.methods({
+    
+   //Determina si el actual usuario es animador
+   // Se utiliza para 
+   isAnimadorUserSesion:function(sesionId){
+      check(sesionId,String);
+    //  Verifica Identidad 
+      if (!this.userId) {
+          throw new Meteor.Error('Acceso invalido',
+            'Ustede no esta logeado');
+        }
+    var usuarioEnUserSesion=Users_sesions.findOne({iduser: this.userId},idsesion:sesionId);
+    if (usuarioEnUserSesion.rol==="Animador"){
+      return true;
+      }
+    else{
+      return false;
+    }
+  },
+  
+   agregarAnimadorSesion:function(datos){
+     
+     check(datos, datosPartici);
+     var usuario, nombreU, rolU;
+    //  Verifica Identidad 
+      if (!this.userId) {
+          throw new Meteor.Error('Acceso invalido',
+            'Ustede no esta logeado');
+        }
+      else // verifica si tiene privilegios de administrador
+       { 
+        usuario= Meteor.users.findOne({_id: this.userId});
+        
+        rolU=usuario.rol;
+        if  (rolU!="Administrador") 
+        {
+            console.log("error no es administrador");
+            throw new Meteor.Error('Acceso invalido',
+            ' Para acceder a esta funcionalidad necesita ser Administrador');
+        }
+       }
+      
+      // Verifica que no tenga un pedido de inscripcion para la sesion que pretende ser animador
+       var usuarioEnUserSesion=Users_sesions.findOne({iduser: this.userId},idsesion:sesionId);
+        if (usuarioEnUserSesion.rol==="Participante"){
+          console.log("error el animador no puede tener un pedido de inscripcion a la sesion que intenta animar");
+            throw new Meteor.Error('Acceso invalido',
+            ' Animador solicito antes ser Participante');
+          }
+        
 
-   
+     // //Habilitado para registrar animador
+     nombreU=Meteor.users.findOne({_id: datos.userId}).profile.nombre;
+     // //El participante ya esta acentado en user-sesion 
+     var estaEnUserSesion=Users_sesions.findOne( {iduser:datos.userId, idsesion: datos.sesionId} ); 
+     if  (estaEnUserSesion){
+         return estaEnUserSesion;
+      }
+     // //No esta registrado , creamos participante en usersesion 
+     else
+     {
+      var animadorSesionNuevo={iduser: datos.userId,
+                     idsesion:datos.sesionId,
+                     idgrupo:"notiene",
+                     rol:"Animador",
+                     nombre:nombreU,
+                     author:this.userId,
+                     submitted:new Date(),
+                           };
 
+      check(animadorSesionNuevo,Users_sesionsSchema);
+      var animadorSesionAgregado=Users_sesions.insert(animadorSesionNuevo);
+     
+          
+      }
+    
+    },
+
+
+//--------------
    agregarParticipante:function(datos){
      
      check(datos, datosPartici);

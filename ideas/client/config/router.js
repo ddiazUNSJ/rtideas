@@ -418,6 +418,7 @@ Router.route('/sign-out', {
     name: 'signOut',
     onBeforeAction: function () {
         AccountsTemplates.logout();
+        swal("Saliendo del sistema");
         this.redirect('/');
     }
 });
@@ -464,9 +465,16 @@ Router.route('/adminUsers',{name: 'adminUsers',
                             layoutTemplate: 'mainLayout'
                            });
 
-
+// Datos Sesion - Gestionar Participantes
 Router.route('/gp_AdminPartici', {
     name: 'gp_AdminPartici',
     template: 'gp_AdminPartici',
+    layoutTemplate: 'mainLayout',
+});
+
+//Datos Sesion - Gestionar Animadores de Sesion
+Router.route('/as_AdminAnimaS', {
+    name: 'as_AdminAnimaS',
+    template: 'as_AdminAnimaS',
     layoutTemplate: 'mainLayout',
 });

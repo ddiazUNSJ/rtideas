@@ -210,3 +210,70 @@ TabularTables.participantesTab=new Tabular.Table({
     ]
   });
 
+//DD 01/09/2017
+// Datos para la tabla de gestion de animador de Sesion
+TabularTables.animadorSesionTab=new Tabular.Table({
+  name: "animadorSesionTab",
+  collection: Users_sesions,
+
+   allow(userId) {
+    //Chequea que solo el usuario administrador tenga acceso a ver la tabla animadores
+    var usuario=Meteor.users.findOne({_id:userId});
+    var salida=false;
+    if (usuario.rol==="Administrador") {salida=true};
+    console.log("salida allow - TabularTables.animadorSesionTab: "+salida);
+    return salida; // don't allow this person to subscribe to the data
+  },
+   selector:function(){
+      //filtra el datatable por el campo rol definido con ese nombre en tabular y en la coleccion users_sesion
+      return{rol:"Animador" };
+    },
+  
+  columns: [
+    {data: "_id", title: "cod user-sesion"},
+    {data: "nombre", title: "nombre"},
+    {data: "iduser",title:"idusuario"},
+    {data: "idsesion", title: "SesionId"},
+    {data: "rol", title: "Rol"},
+   
+    {
+      tmpl: Meteor.isClient && Template.as_ActionBtns, class: "col-md-1"
+    }
+    ]
+  });
+
+
+//DD 01/09/2017
+// Datos para la datatable de seleccion de animadores de sesion
+TabularTables.selAnimaSTab=new Tabular.Table({
+  name: "selAnimaSTab",
+  collection: Animadores,
+
+   allow(userId) {
+    //Chequea que solo el usuario administrador tenga acceso a ver la tabla animadores
+    console.log("userId en TabularTables.selAnimaSTab: ", userId);
+    var usuario=Meteor.users.findOne({_id:userId});
+    
+    var salida=false;
+    if (usuario.rol==="Administrador") {salida=true};
+    console.log("salida allow - TabularTables.animadorTab: "+salida);
+    return salida; // don't allow this person to subscribe to the data
+  },
+    // envia todos los animadores activos
+   selector:function() {
+    
+    
+     return{active: true};
+  },
+
+  columns: [
+    {data: "_id", title: "cod Animador"},
+    {data: "iduser",title:"idusuario"},
+    {data: "nombre", title: "nombre"},
+    {data: "active", title: "Activos"},
+   
+    {
+      tmpl: Meteor.isClient && Template.as_selAnimaSActionBtns, class: "col-md-1"
+    }
+    ]
+  });

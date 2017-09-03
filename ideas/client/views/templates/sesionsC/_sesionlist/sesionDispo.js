@@ -56,14 +56,36 @@ Template.sesionDispo.helpers({
    //  else {leyenda="Registrado";}
    
    // },
+
+
+    // Pregunta si el usuario esta como animador de la sesion a la que
+    // intenta inscribirse
+  
+
+   
    incluirSesion:function(){
-     //var q2=Inscripcion.findOne({_id:"udBZd9o8PKPaBXtZQ"});
+     
+     // verifica si ya esta inscripto 
+     var incluir=false;
+
      Meteor.subscribe('inscripciones'); 
-    
-    var inscriUsu=Inscripcion.findOne({sesion:this._id});
-   if ((inscriUsu ==="")||(inscriUsu ===undefined)||(inscriUsu === null))
-     {return false;}
-    else {return true;}
+     var inscriUsu=Inscripcion.findOne({sesion:this._id});
+     if ((inscriUsu ==="")||(inscriUsu ===undefined)||(inscriUsu === null))
+      {incluir= false;}
+     else {incluir= true;}
+
+     // verifica que el usuario no este como animador en la sesion
+     Meteor.call('isAnimadorUserSesion', sesionId, function(error, result) //se define un metodo para insertar
+        {      
+          if (error)
+            return alert(error.reason);
+          else
+              Session.set("isAnimatorS",result);
+        });
+     if (Session.get("isAnimatorS") ) { incluir=false} // NO lo incluya
+     else {incluir=true } ; //incluyalo
+
+     return incluir;
 
     
    }
