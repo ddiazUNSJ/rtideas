@@ -34,3 +34,4 @@ Un animador o un inscripto o participante se puede eliminar solo si la sesion es
       Luegon en funcion de este estado activar los diferentes botones de eliminacion que tienen los distintos abm
      Animador, gestionar participante y gestionar inscriptos
  
+ Trabajado en asignaAniS

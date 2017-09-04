@@ -43,21 +43,39 @@ if (Meteor.isServer)
         
           //obtenemos los que estan inscriptos en la sesion y empadronados como animadores 
           var animadorInscripto= Inscripcion.find({userId:{$in:idUserAnimadoresOnArray},sesion:sesionId});
-          var animadorInscriptoArray=animadorInscripto.map(function(p) { return p.userId });
+          var idanimadorInscriptoArray=animadorInscripto.map(function(p) { return p.userId });
           var animadorInscriptoNombreArray=animadorInscripto.map(function(p) { return p.nombre });
            console.log("animadorInscriptoArray from animadorEstaInscripto method:");
-           console.log(animadorInscriptoArray);
+           console.log(idanimadorInscriptoArray);
            console.log(animadorInscriptoNombreArray);
-          // Obtiene los animdores empadronados que no estan inscriptos en la sesion 
-          var animadorNoInscripto= Animadores.find({iduser:{$nin:animadorInscriptoArray}})
-          var animadorNoInscriptoArray=animadorNoInscripto.map(function(p) { return p.iduser });
-          var animadorNoInscriptoNombreArray=animadorNoInscripto.map(function(p) { return p.nombre });
-          console.log("animadorNoInscripto from animadorEstaInscripto method:");
-           console.log(animadorNoInscriptoArray);
-           console.log(animadorNoInscriptoNombreArray);
+
+           //obtenemos los que estan userSesion como animadoresla sesion 
+          var animadoresEnUserSesion=Users_sesions.find( { idsesion: sesionId, rol:"Animador"} ); 
+          var idAnimadoresEnUserSesionArray = animadoresEnUserSesion.map(function(p) { return p.iduser });
+          var nombreAnimadoresEnUserSesionArray = animadoresEnUserSesion.map(function(p) { return p.nombre });
+           console.log("idAnimadoresEnUserSesionArray from animadorEstaInscripto method:");
+           console.log(idAnimadoresEnUserSesionArray);
+           console.log("nombreAnimadoresEnUserSesionArray: "+nombreAnimadoresEnUserSesionArray);
+
+           //contruye un arreglo con los animadores de userSesion y con los que ya estan incriptos en la sesion
+          // var animadoresNoPermitidosArray=[idanimadorInscriptoArray,idAnimadoresEnUserSesionArray];
+            var animadoresNoPermitidosArray=idanimadorInscriptoArray,idAnimadoresEnUserSesionArray;
+           console.log("animadoresNoPermitidosArray: ",animadoresNoPermitidosArray);
+
+          // Obtiene los animdores empadronados que no estan inscriptos ni tampoco estan en la sesion 
+          var animadoresPosibles= Animadores.find({iduser:{$nin:animadoresNoPermitidosArray}})
+          var animadoresPosiblesArray=animadoresPosibles.map(function(p) { return p.iduser });
+          var animadoresPosiblesNombreArray=animadoresPosibles.map(function(p) { return p.nombre });
+          console.log("animadoresPosibles from animadorEstaInscripto method:");
+           console.log(animadoresPosiblesArray);
+           console.log(animadoresPosiblesNombreArray);
 
          
-           return animadorNoInscriptoArray;
+
+          
+     
+           return animadoresPosiblesArray;
+           
       }, 
 
       isActiveAnimador:function(animadorId){

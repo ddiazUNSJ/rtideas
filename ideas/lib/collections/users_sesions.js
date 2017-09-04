@@ -78,6 +78,7 @@ if (Meteor.isServer)
    agregarAnimadorSesion:function(datos){
      
      check(datos, datosPartici);
+     console.log("datos en agregarAnimadorSesion:",datos);
      var usuario, nombreU, rolU;
     //  Verifica Identidad 
       if (!this.userId) {
@@ -98,8 +99,8 @@ if (Meteor.isServer)
        }
       
       // Verifica que no tenga un pedido de inscripcion para la sesion que pretende ser animador
-       var usuarioEnUserSesion=Users_sesions.findOne({iduser: this.userId},idsesion:sesionId);
-        if (usuarioEnUserSesion.rol==="Participante"){
+       var usuarioEnUserSesion=Inscripcion.findOne({userId: datos.userId,sesion:datos.sesionId});
+        if (usuarioEnUserSesion){
           console.log("error el animador no puede tener un pedido de inscripcion a la sesion que intenta animar");
             throw new Meteor.Error('Acceso invalido',
             ' Animador solicito antes ser Participante');

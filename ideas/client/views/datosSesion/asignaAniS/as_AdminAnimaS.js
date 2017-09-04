@@ -35,7 +35,7 @@ Template.as_AdminAnimaS.onCreated(function () {
     Session.set("sesionCActual","9BKdcZajxeB3o5MkE") //a piñon fijo luego este debe ser la entrada al modulo
     console.log("sesionCActual- en as_AdminAnimaS :",Session.get("sesionCActual"));
 
-    Meteor.subscribe('sesion_de_userSesion', Session.get('sesionCActual') );
+   // Meteor.subscribe('sesion_de_userSesion', Session.get('sesionCActual') );
   
     Meteor.call('getUserRol',function (error, result){ 
              if (error){

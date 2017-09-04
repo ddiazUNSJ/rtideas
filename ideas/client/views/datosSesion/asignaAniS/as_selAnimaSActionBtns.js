@@ -3,13 +3,15 @@ Template.as_selAnimaSActionBtns.events({
 	'click #btnAgregar': function(){
 
 		 console.log("click btnAgregar");
-		 console.log(this.sesion);
-         console.log(this.userId);
+		 console.log(Session.get("sesionCActual"));
+         console.log(this.iduser);
          console.log(this._id);
           datos={inscriId:this._id,
-         	        userId:this.userId,
-         	        sesionId:this.sesion,
+         	        userId:this.iduser,
+         	        sesionId:Session.get("sesionCActual"),
                    };
+
+
          //   if (Template.instance().subscriptionsReady()) {
 	        
 	     
@@ -27,6 +29,16 @@ Template.as_selAnimaSActionBtns.events({
 		              }
 		           });
   
+            // Meteor.call("animadorNoInscriptoEnLaSesion",Session.get("sesionCActual"),function (error, result){
+            //  if (error){
+            //    swal("Usted no es usuario del sistema ")
+            //   }
+            //  else{
+            //    Session.set('animadorNoInscriptoEnSesion',result);
+            //    }
+
+            //  });
+            
 				// Meteor.call('agregarParticipante',datos,function (error, result)
 				// { 
 		  //            if (error){
