@@ -32,7 +32,8 @@ Template.as_AdminAnimaS.onCreated(function () {
   // Trae todas las Participciones que estan en la coleccion users-sesion  
    
    // Meteor.subscribe('users_sesions');
-    Session.set("sesionCActual","9BKdcZajxeB3o5MkE") //a piñon fijo luego este debe ser la entrada al modulo
+     Session.set("sesionCActual","iGySuLtgibA4J3T9r") //a piñon fijo luego este debe ser la entrada al modulo
+  //  Session.set("sesionCActual","9BKdcZajxeB3o5MkE") //a piñon fijo luego este debe ser la entrada al modulo
     console.log("sesionCActual- en as_AdminAnimaS :",Session.get("sesionCActual"));
 
    // Meteor.subscribe('sesion_de_userSesion', Session.get('sesionCActual') );

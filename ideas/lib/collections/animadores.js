@@ -58,15 +58,21 @@ if (Meteor.isServer)
            console.log("nombreAnimadoresEnUserSesionArray: "+nombreAnimadoresEnUserSesionArray);
 
            //contruye un arreglo con los animadores de userSesion y con los que ya estan incriptos en la sesion
-          // var animadoresNoPermitidosArray=[idanimadorInscriptoArray,idAnimadoresEnUserSesionArray];
-            var animadoresNoPermitidosArray=idanimadorInscriptoArray,idAnimadoresEnUserSesionArray;
-           console.log("animadoresNoPermitidosArray: ",animadoresNoPermitidosArray);
+           var animadoresNoPermitidosArray=idanimadorInscriptoArray;
+           for (i=0;i<idAnimadoresEnUserSesionArray.length;i++){
+                // console.log("idAnimadoresEnUserSesionArray["+i+"]: "+ idAnimadoresEnUserSesionArray[i]);
+                 animadoresNoPermitidosArray.push(idAnimadoresEnUserSesionArray[i]);
+             }
+           console.log("animadoresNoPermitidosArray salida: ",animadoresNoPermitidosArray);
 
-          // Obtiene los animdores empadronados que no estan inscriptos ni tampoco estan en la sesion 
+
+          // Obtiene los animdores posibles los cuales son el resultado de extraer de los
+          // animadores empradronados todos aquellos que estan inscriptos en la sesion creatividad en cuestion
+          // y/o que ya estan como animadores de la sesion en cuestion
           var animadoresPosibles= Animadores.find({iduser:{$nin:animadoresNoPermitidosArray}})
           var animadoresPosiblesArray=animadoresPosibles.map(function(p) { return p.iduser });
           var animadoresPosiblesNombreArray=animadoresPosibles.map(function(p) { return p.nombre });
-          console.log("animadoresPosibles from animadorEstaInscripto method:");
+           console.log("animadoresPosibles from animadorEstaInscripto method:");
            console.log(animadoresPosiblesArray);
            console.log(animadoresPosiblesNombreArray);
 
