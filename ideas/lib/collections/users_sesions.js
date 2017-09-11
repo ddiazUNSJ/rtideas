@@ -13,8 +13,21 @@ Users_sesionsSchema = new SimpleSchema({
         type: String,
         label: "userId",
       },
+
+  // addresses: {
+  //       type: [String],
+  //       minCount: 1,
+  //       maxCount: 4
+  //   },
+  //   "addresses.$.street": {
+  //       type: String
+  //   },
+  //   "addresses.$.city": {
+  //       type: String
+  //   }    
+      
   idgrupo: {
-        type: String,
+        type: [String],
         label: "grupo",  
     },
   rol: {

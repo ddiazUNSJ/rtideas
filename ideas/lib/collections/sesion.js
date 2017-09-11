@@ -1,6 +1,58 @@
 Sesion = new Mongo.Collection('sesion');
 
 
+// "_id" : "PaAdymb5DTTYtZ3cd",
+//     "tematica_id" : "t58p2YhAZecscBXCY",
+//     "nombre" : "Diciembre2017",
+//     "fecha1" : "12/01/2017",
+//     "fecha2" : "12/04/2017",
+//     "hora1" : "12:00",
+//     "hora2" : "12:00",
+//     "instancia1" : "1",
+//     "instancia2" : "1",
+//     "instancia3" : "1",
+//     "instancia4" : "1",
+//     "instancia5" : "1",
+//     "instancia6" : "1",
+//     "instancia7" : "1",
+//     "instancia8" : "1",
+//     "userId" : "z5L5gBYKCtuyjzhg3",
+//     "author" : "ddiaz",
+//     "submitted" : ISODate("2017-08-31T11:39:10.444Z"),
+//     "estado" : "activa",
+//     "instActual" : -1
+// SesionSchema = new SimpleSchema({
+ 
+//   tematica_id: {
+//         type: String,
+//         label: "IdTematica",
+//       },
+
+//   nombre: {
+//         type: String,
+//         label: "nombre",
+//       },
+//   fecha1: {
+//         type: Date,
+//         label: "fecha1",
+//       },
+
+//   fecha2: {
+//         type: Date,
+//         label: "fecha2",
+//       },
+//   tematica_id: {
+//         type: String,
+//         label: "IdTematica",
+//       },
+
+//   nombre: {
+//         type: String,
+//         label: "nombre",
+//       },    
+// });
+
+
 //Cuenta Regresiva
 function tpo_instancia(sesionId,instancia)
 {   
