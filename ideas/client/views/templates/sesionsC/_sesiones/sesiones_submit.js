@@ -9,9 +9,9 @@ Template.sesionSubmit.rendered = function()
        // $("#datetimepicker1").on("dp.change", function (e) {
        //          $('#datetimepicker2').data("DateTimePicker").minDate(e.date);
        //      });   
-       $("#datetimepicker2").on("dp.change", function (e) {
-                $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
-            });
+       //$("#datetimepicker2").on("dp.change", function (e) {
+       //         $('#datetimepicker1').data("DateTimePicker").maxDate(e.date);
+       //     });
 
 
            
@@ -103,12 +103,12 @@ Template.sesionSubmit.events({
         var inicioDate = new Date($(e.target).find('[name=fecha1]').val());
         var finDate=new Date( $(e.target).find('[name=fecha2]').val());
         var fecha1=inicioDate.toLocaleDateString("en-GB");
-        var hora1=inicioDate.getHours();
+        var hora1=inicioDate.toLocaleTimeString("en-GB");
         var fecha2=finDate.toLocaleDateString("en-GB");
 
-        var hora2=finDate.getHours();
-         // console.log("fecha1: "+ fecha1);
-         // console.log("fecha2: "+ fecha2);
+        var hora2=finDate.toLocaleTimeString("en-GB");
+          console.log("hora1: "+ hora1);
+          console.log("hora2: "+ hora2);
 
 
         var ses = {
@@ -119,28 +119,43 @@ Template.sesionSubmit.events({
           hora1:hora1,
           hora2:hora2,
         };
+        
+        //Carga en la variable instancias todos los valores del form control instancias,
+        // que en realiadad  es un arreglo, el cual recorre y va agregado a los datos del
+        // documento cada valor de cada instancia en particular
+        // al final se genera los siguientes campos del documento de sesion
+                // instancia1=1
+                // instancia2=1
+                // instancia3=1
+                // instancia4=1
+                // instancia5=1
+                // instancia6=1
+                // instancia7=1
+                // instancia8=1
 
-        var instancias = $(e.target).find('.numInst'); 
-        console.log ("instancias: "+instancias);
+
+        var instancias = $(e.target).find('.instancias'); 
+     
         for (var i = 0; i < instancias.length; i++)
         {
 
+            console.log ("i: "+i);
             var id = $(instancias[i]).attr('id');
             var valor = $(instancias[i]).val();
-           
-
+             console.log("id: "+ id+ "  valor: "+valor);
             var arre = {
               [id]:valor,
              };
 
-            //ses.push(arre);
+             //ses.push(arre);
             ses = _.extend(ses,
             {
               [id]: valor,
             });
+            
         }
     	
-      console.log(ses);
+       // llama a insertar sesion para crear nuevo documento en la coleccion sesion
 
         if(ses.sesion_id != -1)
           Meteor.call('sesionInsert', ses, function(error, result) //se define un metodo para insertar

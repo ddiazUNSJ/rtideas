@@ -21,37 +21,150 @@ Sesion = new Mongo.Collection('sesion');
 //     "submitted" : ISODate("2017-08-31T11:39:10.444Z"),
 //     "estado" : "activa",
 //     "instActual" : -1
-// SesionSchema = new SimpleSchema({
+SesionSchema = new SimpleSchema({
  
-//   tematica_id: {
-//         type: String,
-//         label: "IdTematica",
-//       },
+  tematica_id: {
+        type: String,
+        label: "IdTematica",
+      },
 
-//   nombre: {
-//         type: String,
-//         label: "nombre",
-//       },
-//   fecha1: {
-//         type: Date,
-//         label: "fecha1",
-//       },
+  nombre: {
+        type: String,
+        label: "nombre",
+      },
+  fecha1: {
+        type: String,
+        label: "fecha1",
+      },
 
-//   fecha2: {
-//         type: Date,
-//         label: "fecha2",
-//       },
-//   tematica_id: {
-//         type: String,
-//         label: "IdTematica",
-//       },
+  fecha2: {
+        type: String,
+        label: "fecha2",
+      },
+  hora1: {
+        type: String,
+        label: "hora1",
+      },
+  hora2: {
+        type: String,
+        label: "hora2",
+      },
+  instancia1: {
+        type: String,
+        label: "instancia1",
+      },    
+  instancia2: {
+        type: String,
+        label: "instancia2",
+      }, 
+  instancia3: {
+        type: String,
+        label: "instancia3",
+      },    
+  instancia4: {
+        type: String,
+        label: "instancia4",
+      },
+   instancia5: {
+        type: String,
+        label: "instancia5",
+      },    
+  instancia6: {
+        type: String,
+        label: "instancia6",
+      }, 
+  instancia7: {
+        type: String,
+        label: "instancia7",
+      },    
+  instancia8: {
+        type: String,
+        label: "instancia8",
+      }, 
+  userId: {
+        type: String,
+        label: "userId",
+      },  
+  author: {
+        type: String,
+        label: "author",
+      }, 
+   
+  submitted: {
+        type: Date,
+        label: "submitted",
+      },  
+   
+  estado: {
+        type: String,
+        label: "estado",
+      },  
+  instActual: {
+        type: Number,
+        label: "instanciaActual",
+      },                             
+});
 
-//   nombre: {
-//         type: String,
-//         label: "nombre",
-//       },    
-// });
 
+SesionBasicSchema = new SimpleSchema({
+ 
+  tematica_id: {
+        type: String,
+        label: "IdTematica",
+      },
+  nombre: {
+        type: String,
+        label: "nombre",
+      },
+  fecha1: {
+        type: String,
+        label: "fecha1",
+      },
+  fecha2: {
+        type: String,
+        label: "fecha2",
+      },
+  hora1: {
+        type: String,
+        label: "hora1",
+      },
+  hora2: {
+        type: String,
+        label: "hora2",
+      },
+  instancia1: {
+        type: String,
+        label: "instancia1",
+      },    
+  instancia2: {
+        type: String,
+        label: "instancia2",
+      }, 
+  instancia3: {
+        type: String,
+        label: "instancia3",
+      },    
+  instancia4: {
+        type: String,
+        label: "instancia4",
+      },
+   instancia5: {
+        type: String,
+        label: "instancia5",
+      },    
+  instancia6: {
+        type: String,
+        label: "instancia6",
+      }, 
+  instancia7: {
+        type: String,
+        label: "instancia7",
+      },    
+  instancia8: {
+        type: String,
+        label: "instancia8",
+      }, 
+});
 
 //Cuenta Regresiva
 function tpo_instancia(sesionId,instancia)
@@ -269,34 +382,88 @@ function stop_timer(sesionId,minutos,segundos,instancia,fechaA)
 
 
 Meteor.methods({
-  sesionInsert: function(crAttributes) //se verifica q el ususario este autenticado
-  {
-    check(Meteor.userId(), String);
-    // check(crAttributes, {
-    //    SC: String
-    // });
-    check(crAttributes, Match.Where(function(crAttributes){
-        _.each(crAttributes, function (doc) {
-          // do your checks and return false if there is a problem 
-        });
-        // return true if there is no problem
-        return true;
 
-      }));
+      sesionInsert: function(datosSesion) //se verifica q el ususario este autenticado
+        {
+           // validacion 
+          check(datosSesion,SesionBasicSchema);
 
-    var user = Meteor.user();
-    var datos = _.extend(crAttributes, {
-      userId: user._id,
-      author: user.username,
-      submitted: new Date(),
-	    estado: 'activa',
-      instActual: -1
-    });
-    var crId = Sesion.insert(datos);
-    return {
-      _id: crId
-    };
-  },
+          console.log("pase validacion datos sesion");
+          //Verifica Identidad y autorizacion para crear sesion
+              if (!this.userId) {
+                   throw new Meteor.Error('Acceso invalido',
+                  'Ustede no esta logeado');
+                 }
+              else // verifica si tiene privilegios de administrador
+               { 
+                usuario= Meteor.users.findOne({_id: this.userId});
+                rol=usuario.rol;
+                if  (rol!="Administrador") 
+                {
+                    console.log("error no es administrador");
+                    throw new Meteor.Error('Acceso invalido',
+                    ' Para acceder a esta funcionalidad necesita ser Administrador');
+                }
+               }
+                // Si esta autorizado comienza proceso
+          
+          var user = Meteor.user(); // Estoy servidor 
+          var docSesion={
+            tematica_id:datosSesion.tematica_id,
+            nombre:datosSesion.nombre,
+            fecha1:datosSesion.fecha1,
+            fecha2:datosSesion.fecha2,
+            hora1:datosSesion.hora1,
+            hora2:datosSesion.hora2,
+            instancia1:datosSesion.instancia1,
+            instancia2:datosSesion.instancia2,
+            instancia3:datosSesion.instancia3,
+            instancia4:datosSesion.instancia4,
+            instancia5:datosSesion.instancia5,
+            instancia6:datosSesion.instancia6,
+            instancia7:datosSesion.instancia7,
+            instancia8:datosSesion.instancia8,
+            userId: user._id,
+            author: user.username,
+            submitted: new Date(),
+            estado: 'activa',
+            instActual: -1
+            }       
+                // Valida el documento , luego inserta nueva sesion   
+                check(docSesion, SesionSchema)
+        return Sesion.insert(docSesion);
+        },   
+
+
+//----Old---Eliminar
+  // sesionInsert: function(crAttributes) //se verifica q el ususario este autenticado
+  // {
+  //   check(Meteor.userId(), String);
+  //   // check(crAttributes, {
+  //   //    SC: String
+  //   // });
+  //   check(crAttributes, Match.Where(function(crAttributes){
+  //       _.each(crAttributes, function (doc) {
+  //         // do your checks and return false if there is a problem 
+  //       });
+  //       // return true if there is no problem
+  //       return true;
+
+  //     }));
+
+  //   var user = Meteor.user();
+  //   var datos = _.extend(crAttributes, {
+  //     userId: user._id,
+  //     author: user.username,
+  //     submitted: new Date(),
+	 //    estado: 'activa',
+  //     instActual: -1
+  //   });
+  //   var crId = Sesion.insert(datos);
+  //   return {
+  //     _id: crId
+  //   };
+  // },
 
 
   pasardeInstantcia: function(crAttributes) //se verifica q el ususario este autenticado
