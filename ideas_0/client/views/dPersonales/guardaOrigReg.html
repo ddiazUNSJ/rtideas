@@ -1,0 +1,78 @@
+<template name="guardaReg">
+
+
+
+{{> modalUserNameUpdate}}
+
+  <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Datos Personales <small>Gestione sus datos personales</small></h5>
+                        <!-- {{>iboxTools}} -->
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-6 b-r">
+                               <!--  <h3 class="m-t-none m-b">Sign in</h3>
+                                <p>Sign in today for more expirience.</p> -->
+
+
+                                 {{#autoForm collection="Meteor.users"  id="actDatosUsu" doc=currentUser type="update" validation="submit" autosave=true  class=formCss}}
+                                 <fieldset>
+                                     <!-- <form role="form">  -->
+                                        <div class="form-group"><label>Nombre</label> 
+                                          {{> afFieldInput name='profile.nombre' template="plain" class="form-control" placeholder="Tu Nombre"}}
+                                          {{#if afFieldIsInvalid name='profile.nombre'}}
+                                                    <span class="help-block">{{afFieldMessage name='profile.nombre'}}</span>
+                                           {{/if}}
+                                        
+                                        </div>
+
+                                        <div class="form-group"><label>nombre de usuario</label> 
+                                          {{> afFieldInput name='username' class="form-control" placeholder="Tu username"}}
+                                          {{#if afFieldIsInvalid name='username'}}
+                                                    <span class="help-block">{{afFieldMessage name='username'}}</span>
+                                           {{/if}}
+                                        </div>
+
+                                        <div> 
+                                            <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Moficar Datosos</strong></button>
+                                            <label> <input type="checkbox" class="i-checks"> Remember me </label>
+                                        </div>
+<button id="btnChangePass" type="button" class="btn btn-sm btn-default"  data-toggle="modal" data-target="#updateUserName">
+
+    <span class="glyphicon glyphicon-pencil"></span>
+
+  </button>
+<a data-toggle="modal" href="http://fiddle.jshell.net/Sherbrow/bHmRB/0/show/" data-target="#myModal">Click me !</a>
+
+
+                                   <!--   </form> -->
+                                  </fieldset>
+                                  {{/autoForm}}
+
+                            </div>
+                            <div class="col-sm-6"><h4>Not a member?</h4>
+                                <p>Click paraYou can create an account:</p>
+                                <a href="{{pathFor route='subirfoto'}}"> Click aqui para crear y/o modificar </a>
+                               <p>{{firstName}}</p>
+                                 <p>{{dirFile}}</p>
+                                <img src="{{dirFile}}" alt="image" class="text-center img-circle m-t-xs img-responsive" height="120" width="120">
+                       - <!--        <a href="{{avatar}}" target="_blank" class="thumbnail">
+                               <img src="{{avatar}}" />
+                               <img src="{{link}}" alt="{{name}}" />
+
+                               </a> -->
+ 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+</template>
+

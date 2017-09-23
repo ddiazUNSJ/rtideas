@@ -1,0 +1,69 @@
+<template name="grupoSubmit">
+  <br>
+  <div class="col-md-12 page">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4>Crear Grupo </h4>
+        </div> 
+
+
+         <div class="panel-body">        
+          <form class="main form">
+             <div class="form-group">
+                 <label class="control-label" for="gr">Grupo</label>
+                 <div class="controls">
+                        <input name="gr" id="gr" type="text" value="" placeholder="" class="form-control" required/>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label" for="descripcion">Descripcion del Grupo</label>
+                    <div class="controls">
+                        <input name="descripcion" id="descripcion" type="text" value="" placeholder="" class="form-control" required/>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                        <label class="control-label" for="tematica">Tematica</label>
+                        <div class="controls">
+
+                            <select class="input-xlarge country" id="tematica" name="tematica">
+                                 <option value="-1" selected>Seleccione...</option>
+                                {{#each get_sesiones}}
+                                   <option value="{{_id}}" data-id={{_id}}>{{SC}}</option>
+                                {{/each}}
+                            </select> 
+                        </div>
+                  </div>
+
+                  <div class="form-group">
+                        <label class="control-label" for="sesion">Sesion</label>
+                        <div class="controls">
+
+                            <select class="input-xlarge country" id="sesion" name="sesion" disabled>
+                                 <option value="-1" selected>Seleccione...</option>
+                                {{#each get_sesiones2}}
+                                   <option value="{{_id}}" data-id={{_id}}>{{fecha1}}&nbsp;&nbsp; {{hora1}}  ({{nombre}})</option>
+                                {{/each}}
+                            </select> 
+                        </div>
+                  </div>
+
+                          
+                 <br>
+              	 <br>
+
+                  <input type="submit" value="Guardar" class="btn btn-primary"/>
+
+                </form>
+
+                {{> quickForm id="types1" schema=selectSchema}}
+                
+        </div>
+
+      </div>
+  </div>
+
+  
+</template> 
+

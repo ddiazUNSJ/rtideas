@@ -1,0 +1,20 @@
+
+{
+  "private": {
+    "email": {
+      "username": "tcrearinnovar@gmail.com",
+      "password": "taller22y23",
+      "server" : "smtp.gmail.com",
+      "port" : "587",
+      "receiver":"yddiaz@gmail.com"
+
+    },
+    "dropbox": {
+      "key": "g8kvrpk421a9zcb",
+      "secret": "nvv4w9ckxajvi70",
+      "token" : "6cndTya_2RcAAAAAAAAFpvpy1JQ5CRH7EKQrq9xyZI_jO2q1L38ChLHZkJWD-0Cy"
+    }
+  }
+}
+
+
