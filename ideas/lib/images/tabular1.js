@@ -4,13 +4,16 @@
 // import { Meteor } from 'meteor/meteor';
 // import { Books } from './collections/Books';
 import Tabular from 'meteor/aldeed:tabular';
+
 //import {dropboxF} from './usedropbox.js' 
+
 
 TabularTables = {};
 
 Meteor.isClient && Template.registerHelper('TabularTables', TabularTables);
 
-  /*TabularTables.myFiles=new Tabular.Table({
+/*TabularTables.myFiles=new Tabular.Table({
+
   name: "myFiles",
   collection: dropboxF.collection,
   columns: [
@@ -23,6 +26,7 @@ Meteor.isClient && Template.registerHelper('TabularTables', TabularTables);
     }
     ]
   });*/
+
 
 TabularTables.usuarios=new Tabular.Table({
   name: "usuarios",

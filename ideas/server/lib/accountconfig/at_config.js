@@ -70,8 +70,10 @@ Meteor.startup(function() {
 
   if(Meteor.isServer) {
     console.log('preparando el setting de MAIL_URL');  
+
     //console.log(  Meteor.settings.private.email.username );
     console.log(  Meteor.settings.private );
+
 
     var email = {
       username: Meteor.settings && Meteor.settings.private && Meteor.settings.private.email && Meteor.settings.private.email.username || '',

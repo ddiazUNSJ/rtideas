@@ -30,6 +30,18 @@ Template.navigation.helpers({
 
         return Session.get('rol')=='Animador'; 
   },
+  nombre:function(){
+    var name="Desconocido"
+    Meteor.call('getUserNombre', function (error, result){
+     Session.set("nombreAmostrar",result);
+    });
+  
+    return Session.get("nombreAmostrar");
+  },
+
+   dataUriAvatar: function () {
+    return Session.get('avatarDataUri');
+  },
 
   nombre:function(){
     var name="Desconocido"
@@ -39,6 +51,7 @@ Template.navigation.helpers({
   
     return Session.get("nombreAmostrar");
   },
+  
    dataUriAvatar: function () {
     return Session.get('avatarDataUri');
   }

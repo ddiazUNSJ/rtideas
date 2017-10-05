@@ -187,7 +187,6 @@ SesionBasicSchema=new SimpleSchema({
 Sesion.attachSchema(SesionBasicSchema);
 Sesion.attachSchema(SesionSchema);
 
-
 //Cuenta Regresiva
 function tpo_instancia(sesionId,instancia)
 {   
@@ -406,6 +405,7 @@ if (Meteor.isServer)
 {
  Meteor.methods({
 
+
   sesionInsert: function(datosSesion) //se verifica q el ususario este autenticado
   {
 
@@ -452,7 +452,7 @@ if (Meteor.isServer)
       instActual: -1
     };
 
-    // Valida el documento , luego inserta nueva tematica   
+    // Valida el documento , luego inserta nueva sesion   
     //check(datos,SesionSchema);
 
     return Sesion.insert(datos);

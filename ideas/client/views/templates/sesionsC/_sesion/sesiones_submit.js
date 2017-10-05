@@ -7,7 +7,6 @@ Template.sesionSubmit.rendered = function()
       
 }
 
-Template.dpReplacement.replaces("afBootstrapDateTimePicker");
 
  /*function summarHoras(inicio, fin)
   {  

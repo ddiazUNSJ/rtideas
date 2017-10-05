@@ -1,6 +1,6 @@
 
-
 /*
+
 var Dropbox, Request, bound, client, fs, Collections = {};
 
 if (Meteor.isServer) {
@@ -205,7 +205,10 @@ Meteor.publish("miDropbox", function (id) {
 
  // Meteor.publish('dropboxFiles.images.all', function () {
  //    return dropboxF.collection.find({userId:this.userId });
+
  //  });
 
 
  */
+
+

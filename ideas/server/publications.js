@@ -364,7 +364,9 @@ Meteor.publish('allAnimadores', function() {
     console.log(nombre+ " esta publicando todos las inscripciones");
     return Animadores.find({});
 
+
 });
+
 
 //DD 31/08/2017
 //--- publica todos los datos de user_sesion pero para determinada sesion
@@ -396,14 +398,14 @@ Meteor.publish('sesion_de_userSesion', function(sesionCActual) {
        console.log("sesion en 'sesion_de_userSesion': "+sesion);
        var sesionEstado=sesion.estado;
        
-       console.log("sesionEstado en 'sesion_de_userSesion': "+sesionEstado);
+      console.log("sesionEstado en 'sesion_de_userSesion': "+sesionEstado);
       
-       if (sesionEstado!=true)
-        {
-            console.log("Error en publicacion sesion_de_userSesion,sesion no activa");
-            throw new Meteor.Error('Acceso invalido',
-            ' Esta intentando publicar usersesion de sesion no activa');
-        }
+      if (sesionEstado!=true)
+      {
+          console.log("Error en publicacion sesion_de_userSesion,sesion no activa");
+          throw new Meteor.Error('Acceso invalido',
+          ' Esta intentando publicar usersesion de sesion no activa');
+      }
      // Enviar datos de user_sesion para la sesion solicitada
      return Users_sesions.find({sesion:sesionCActual});
 
