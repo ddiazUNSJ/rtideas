@@ -1,0 +1,18 @@
+<template name="changePassForm">
+
+	
+
+	{{#autoForm schema=traeSchema id="afChangePass" type="method" doc=selectedUserDoc meteormethod="setForcedNewPass"}}
+
+
+		<fieldset>
+			{{> afQuickField name='userId' value=idUsuario  readonly=true}}
+			{{> afQuickField name='password' }}
+			{{> afQuickField name='confirmPassword'}}
+			
+	    </fieldset>
+	    <button type="submit" class="btn btn-primary">Actualizar</button>
+
+	{{/autoForm}}
+
+</template>

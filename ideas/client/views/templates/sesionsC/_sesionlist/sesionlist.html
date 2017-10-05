@@ -1,0 +1,89 @@
+<template name="sesionList">
+
+   <div class="col-md-12 page">
+      <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4>Mis Sesiones</h4>
+          </div>
+        <div class="stepwizard">
+           <div class="stepwizard-row">
+              <div class="stepwizard-step">
+                    <button type="button" class="btn btn-default btn-circle">1</button>
+                  <p>Cart</p>
+              </div>
+              <div class="stepwizard-step">
+                  <button type="button" class="btn btn-primary btn-circle">2</button>
+                  <p>Shipping</p>
+              </div>
+              <div class="stepwizard-step">
+                  <button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button>
+                  <p>Payment</p>
+              </div>  
+              <div class="stepwizard-step">
+                    <button type="button" class="btn btn-default btn-circle">4</button>
+                  <p>Finalizar</p>
+              </div>
+          </div>
+       </div>
+
+        
+
+            {{#each sesionsUser}}
+              <div class="panel-body">
+                  <div class="posts page">
+                         {{> sesionItem}} 
+                  </div>
+              </div>
+            {{/each}}
+
+
+            <!--{{#each gruposU}}
+              <div class="panel-body">
+                  <div class="posts page">
+                         {{> grupoItem}} 
+                  </div>
+              </div>
+            {{/each}}-->
+
+      </div>
+    </div>
+</template>
+
+<!--<template name="grupoItem">  
+    <a href="{{pathFor 'chatPage'}}">
+      <div class="discuss btn btn-default"> 
+          <h3>
+            <a>{{gruponame }}</a>
+          </h3>
+          <h5>
+    
+            <br>
+          <span>Sesion: {{sesionname }}</span>
+          <br> 
+          <span>Tematica: {{tematicaname }}</span>
+           <br> 
+
+      
+          <label class="discuss">estado grupo: {{estado}}</label> 
+
+          </h5>     
+      </div>
+    </a> 
+</template>-->
+
+
+<template name="sesionItem">  
+    <a href="{{pathFor 'chatPage'}}">
+      <div class="discuss btn btn-default">           
+          
+          <h4> <span>Tematica: {{tematicanameA }}</span> </h4>
+         
+          <h5><span>Sesion: {{sesionnameA }}</span></h5>
+          
+          {{#if IsEstandar}}
+            <h5><span>Rol: {{rol}}</span></h5>
+          {{/if}} 
+              
+      </div>
+    </a> 
+</template>

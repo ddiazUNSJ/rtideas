@@ -1,7 +1,0 @@
-Mapa de programas
-
-View-> common 
- Aqui se encuentran todos los templates que componen la cabeza y pie , menu izq, menu der, menu arriba, etc.
- Cuando quiero modificar o agrega funcionalidades debo ingresarlas aqui y agregarlas tambien en router 
-  Algunos archivos importantes
-    navigation: contiene navegacion cuando para el usuario del sistema 

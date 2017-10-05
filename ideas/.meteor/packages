@@ -17,5 +17,90 @@ es5-shim@4.6.15                # ECMAScript 5 compatibility for older browsers
 ecmascript@0.8.2              # Enable ECMAScript2015+ syntax in app code
 shell-server@0.2.4            # Server-side component of the `meteor shell` command
 
-autopublish@1.0.7             # Publish all data to the clients (for prototyping)
-insecure@1.0.7                # Allow all DB writes from clients (for prototyping)
+#autopublish@1.0.7             # Publish all data to the clients (for prototyping)
+#insecure@1.0.7                # Allow all DB writes from clients (for prototyping)
+
+
+session
+less
+iron:router
+twbs:bootstrap
+fortawesome:fontawesome
+zimme:iron-router-active
+okgrow:router-autoscroll
+
+
+
+sacha:spin
+
+underscore
+accounts-password
+audit-argument-checks
+check
+mrt:jquery-ui
+mrt:jquery-ui-bootstrap
+peppelg:bootstrap-3-modal
+natestrauser:select2@4.0.1
+
+zimme:select2-bootstrap3-css
+mizzao:bootboxjs
+mrt:datatables-bootstrap3
+tsega:bootstrap3-datetimepicker@=3.1.3_3
+risul:moment-timezone
+flyandi:reactive-countdown
+
+
+
+#########################
+
+
+
+
+
+dbarrett:dropzonejs
+
+aldeed:collection2-core@1.2.0
+
+service-configuration
+
+zimme:active-route
+
+
+logging
+reload
+random
+ejson
+spacebars
+
+
+#para gestion de imagenes y archivos
+ostrio:autoform-files
+ostrio:files
+
+
+
+jonblum:jquery-cropper
+aldeed:tabular@2.1.1
+
+kevohagan:sweetalert
+jplack:bootstrap-timepicker
+jquery@1.11.10
+
+
+aldeed:autoform
+aldeed:collection2@2.10.0
+aldeed:schema-deny@1.1.0
+aldeed:schema-index@1.1.1
+aldeed:simple-schema@1.5.3
+aldeed:autoform-select2   #problema no es responsive
+#rgnevashev:autoform-select2
+aldeed:autoform-bs-datetimepicker
+#aldeed:template-extension #icono calendar en los datetime
+
+useraccounts:iron-routing
+accounts-ui
+useraccounts:bootstrap
+#mdg:validated-method
+
+
+

@@ -1,0 +1,56 @@
+<template name="Register2">
+
+
+
+
+  <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Datos Personales <small>Gestione sus datos personales</small></h5>
+                
+                    </div>
+                    <div class="ibox-content">
+                        <div class="row">
+                            <div class="col-sm-6 b-r">
+                              
+
+
+                                 {{#autoForm collection="Meteor.users"  id="actDatosUsu" doc=currentUser type="update" validation="submit" autosave=true  class=formCss}}
+                                 <fieldset>
+                                   
+                                        <div class="form-group"><label>Nombre</label> 
+                                          {{> afFieldInput name='profile.nombre' template="plain" class="form-control" placeholder="Tu Nombre"}}
+                                          {{#if afFieldIsInvalid name='profile.nombre'}}
+                                                    <span class="help-block">{{afFieldMessage name='profile.nombre'}}</span>
+                                           {{/if}}
+                                        
+                                        </div>
+
+                                        <div> 
+                                            <button class="btn btn-sm btn-primary pull-right m-t-n-xs" type="submit"><strong>Moficar tus Datos</strong></button>
+                                            
+                                        </div>
+
+                                  </fieldset>
+                                  {{/autoForm}}
+
+                            </div>
+                            <div class="col-sm-6"><h4>Tu foto de portada</h4>
+                                
+                                <a href="{{pathFor route='subirfoto'}}"> Click aqui para crear y/o modificar </a>
+                              
+                                <img src="{{dirFile}}" alt="image" class="text-center img-circle m-t-xs img-responsive" height="120" width="120">
+                       -
+ 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+</template>
+

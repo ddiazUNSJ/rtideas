@@ -1,0 +1,38 @@
+<template name="adminAnima">
+ <div id="adminAnimadores">
+ 
+	<div class="wrapper wrapper-content animated fadeInRight">
+ 
+		<div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Listado de Animadores</h5>
+                        {{>ga_iboxTools}} 
+                        
+                    </div>
+                    <div class="ibox-content">
+
+                        <div class="table-responsive">
+                       		{{#if isAdmin}}
+
+          					  <!--  {{> TmplModalOnOffAni}}
+                       {{> TmplModalRemoveAni}} -->
+                       {{> TmplModalCreateAnimador}}
+                              
+         					 			 
+            				   {{> tabular table=TabularTables.animadorTab selector=selector class="table table-striped table-bordered table-condensed"}}
+
+        				    {{/if}}	
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+		</div>          
+
+
+    </div>
+  </div>
+ </template>

@@ -1,0 +1,5 @@
+
+
+Template.TmplModalUpdate.helpers({
+
+});
