@@ -2,6 +2,9 @@ Template.tematicaSubmit.events({
   'submit form': function(e) {
     e.preventDefault();
 
+
+    alert ('submit');
+    
     var scre = {
       SC: $(e.target).find('[name=SC]').val(),
       Des: $(e.target).find('[name=Des]').val()

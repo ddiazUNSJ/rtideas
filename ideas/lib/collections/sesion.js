@@ -453,7 +453,7 @@ if (Meteor.isServer)
     };
 
     // Valida el documento , luego inserta nueva sesion   
-    //check(datos,SesionSchema);
+    check(datos,SesionSchema);
 
     return Sesion.insert(datos);
  },

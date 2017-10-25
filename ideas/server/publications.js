@@ -178,13 +178,15 @@ Meteor.publish('ideas', function(grupoid) {
   //var grupoid = 'YAbwJ9M7HbrC3dEd6';
   check(grupoid, String);
 
-  var IdeasRel = Ideas.find({idgrupo:grupoid, estado: 'activa' });
+  var IdeasRel = Ideas.find({idgrupo:grupoid, estado: true });
   var usersId = IdeasRel.map(function(p) { return p.iduser });
   var ideasId = IdeasRel.map(function(p) { return p._id });
   return [
     IdeasRel,
     Meteor.users.find({_id: {$in: usersId}}),  //activos
-    Comentarios.find({ididea: {$in: ideasId}, instancia:2})
+    //Comentarios.find({ididea: {$in: ideasId}, instancia:2})
+    Comentarios.find({ididea: {$in: ideasId}, estado: true })
+
   ];
 
 });
@@ -237,11 +239,14 @@ Meteor.publish('gruposComp', function(grupoid) {
   
 
   if(grupC)
+  {  
     grupC = grupC.gruposIds;
-  else grupC = 0;
+    var busq = grupC.indexOf(grupoid);
+  }
+  else { grupC = 0; busq == -1;}
 
   //los grupos que no estan en grupC no pueden ver las ideas compartidas
-  var busq = grupC.indexOf(grupoid);
+  
   if(busq == -1)
     var IdeasComp = Ideas.find({idgrupo: grupoid });
   else  
@@ -264,13 +269,13 @@ Meteor.publish('gruposComp', function(grupoid) {
   var varGrupos = Grupo.find({_id: {$in: grupC} });
 
   var ideasId = IdeasComp.map(function(p) { return p._id });
-  var coments = Comentarios.find({ididea: {$in: ideasId}, estado: 'activa',  instancia: 6}); 
+  //var coments = Comentarios.find({ididea: {$in: ideasId}, estado: true,  instancia: 6}); 
 
   //console.log(idsGrupos);
   return [
     IdeasComp,
     varGrupos,
-    coments,
+    //coments,
     GruposComp.find({sesion_id: grupo.sesion_id}),
     Meteor.users.find({_id: {$in: usersId}}), //activos
   ];

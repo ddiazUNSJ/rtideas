@@ -5,6 +5,8 @@ function rezisePantalla()
 	var posicion = elemento.position();
 	var posicion2 = elemento2.position();
 	var posY = (posicion.top - posicion2.top) - 10;
+
+	console.log(posY);
 	$("#chat").css('min-height', posY);
 	$("#chat").css('max-height', posY);
 }
@@ -15,10 +17,10 @@ function rezisePantalla()
 Template.chatPage.renderer = function (){
 
 
-	/*rezisePantalla();
+	rezisePantalla();
 	$(window).resize(function() {
 	  rezisePantalla();
-	});*/
+	});
 	
  };
 
@@ -613,6 +615,10 @@ Template.contenidoChat.helpers({
     	var trs = $('#tablares tbody tr');
     	return trs.length + 1;
     },
+   
+   	getIdGrupo:  function() {    	
+    	return Session.get('idgrupo');
+    },
  
 });
 
@@ -828,75 +834,47 @@ Template.chatPage.events ({
         });  //FIN DIALOG
 	},
 	
- });
+});
 
 
 
 
-  //Listen for the following events on the entry template
-  Template.contenidoChat.events ({
-   
-   'keyup #messageBox': function(e)
-    {
-      if(e.which === 13)
-      { 
-		if( $("#messageBox").val() !='')
-		{
-			var new_message = {
-			  messageBox: $("#messageBox").val(),
-			  idgrupo: Session.get('idgrupo'),
-			  iduser: Meteor.userId(),
-			  compartir: '0',
-			};
-
-			Meteor.call('ideasInsert', new_message, function(error, result) //se define un metodo para insertar
-			{      
-			  if (error)
-					return alert(error.reason);
-			  //Router.go('chatPage', {idgrupo:Session.get('idgrupo')});
-			}); 
-			
-		} else bootbox.alert("Debe ingresar una idea", function() { });
-          
-       $("#messageBox").val("");
-       $("#messageBox").focus();
-        
-        $("#chat").scrollTop(9999999);
-      }
-    },
+//Listen for the following events on the entry template
+Template.contenidoChat.events ({  
 	
-	'click #enviar': function(e)
-    {
-    	//alert( $("#messageBox").val());
-		if( $("#messageBox").val() !='')
-		{
+	'submit #enviarIdea': function(e)
+    {	
+    	//e.preventDefault();	
+
+		if( e.target.checkValidity() ){
+
 			var new_message = {
 			  messageBox: $("#messageBox").val(),
 			  idgrupo: Session.get('idgrupo'),
-			  iduser: Meteor.userId(),
-			  compartir: '0',
 			};
 
 			Meteor.call('ideasInsert', new_message, function(error, result) //se define un metodo para insertar
-			{      
-			  if (error)
+			{  			    
+			  	if (error)
 					return alert(error.reason);
-			  //Router.go('chatPage', {idgrupo:Session.get('idgrupo')});
-			}); 
+				else{  	
+			  		//Router.go('chatPage', {idgrupo:Session.get('idgrupo')});
+			  	}
+			});
+
+			$("#messageBox").val("");
+	   		//$("#messageBox").focus();
+	   		$("#chat").scrollTop(9999999);
+
+	   		rezisePantalla();
 		} 
-		else
-			bootbox.alert("Debe ingresar una idea", function() { });
-	      
-	   $("#messageBox").val("");
-	   $("#messageBox").focus();
-	    
-	   $("#chat").scrollTop(9999999);
-      
+		//else alert('vacio');	     
+	         
     },
 
 
      // Collapse ibox function
-   'click .collapse-link': function(e) { //console.log(e);
+   /*'click .collapse-link': function(e) { 
         var ibox = $(e.target).closest('div.ibox');
         var button = $(e.target).find('i');
         var content = ibox.find('div.ibox-content');
@@ -907,156 +885,54 @@ Template.chatPage.events ({
             ibox.resize();
             ibox.find('[id^=map-]').resize();
         }, 50);
-    },
+    },*/
 
     'click .coment': function(e)
 	{
 		e.preventDefault();
-		//var resp = prompt('Ingrese Comentario');
-		bootbox.dialog({
-              backdrop: true,
-              title: "Comenatar Idea...",
-              message:  
-                    '<div class="row">'+
-                         '<form id="comment" novalidate="novalidate">'+
-                            '<div class="form-group">'+
-                                '<div class="form-group">'+
-                                  '<label class="control-label" for="nombre">Comentario</label>'+
-                                  '<textarea name="comentario" id="comentario" placeholder="" class="form-control" required> </textarea>'+
-                                '</div>'+
-                            '</div>'+
-                          '</form>'+
-                    '</div>',
-              buttons: {
-                  success: {
-                      label: "Guardar",
-                      className: "btn-primary",
-                      callback: function (ev) { 
-                           ev.preventDefault();
+		
+        var idIdea = $(e.target);
+		idIdea = $(idIdea[0]).attr('name');
 
-                           //console.log($('#comment #comentario'));
-
-                          var $myForm = $('#comment');
-                          if ($myForm[0].checkValidity()) 
-                          {
-                         	var idIdea = $(e.target);
-							idIdea = $(idIdea[0]).attr('name');
-							var arre = {
-						      comentario:  $('#comment #comentario').val(),
-						      ididea: idIdea,
-						      idgrupo: Session.get('idgrupo')
-						    };
-						    Meteor.call('comentInsert', arre, function(error, result) //se define un metodo para insertar
-						    {      
-						      if (error)
-						        return console.log(error.reason);
-						       //Router.go('chatPage', {_id: result._id}); 
-						    });
-                           
-                            bootbox.hideAll();
-                          }
-                          else {
-                                bootbox.alert("Ingrese comentario");
-                                return false;
-                                }
-                                                                 
-                      }//fin calback
-                  }//fin success
-              },//fin Buttons
-
-              onEscape: function() {return ;},
-        });  //FIN DIALOG
+        $('#insertComent #ididea').val( idIdea );
+        $('#insertComent #comentario').val( '' );
+        $('#modal_insert_comentario').modal('show');
 	},
 
-    'click .editar': function(e)
+	'click .editar': function(e)
 	{
 		e.preventDefault();
+		
+        //var idIdea = $(e.target);
+		//idIdea = $(idIdea[0]).attr('name');
 
 		var idIdea = $(e.target);
 		idIdea = $(idIdea[0]).attr('name');
 		var idea = Ideas.findOne( {_id: idIdea} );
 		ideaname = idea.messageBox;
-		//var resp = prompt('Ingrese Comentario');
-		bootbox.dialog({
-              backdrop: true,
-              title: "Editar Idea...",
-              message:  
-                    '<div class="row">'+
-                         '<form id="edit" novalidate="novalidate">'+
-                            '<div class="form-group">'+
-                                '<div class="form-group">'+
-                                  '<label class="control-label" for="nombre">Idea</label>'+
-                                  '<textarea name="editar" id="editar" placeholder="" class="form-control" required> '+ideaname+' </textarea>'+
-                                '</div>'+
-                            '</div>'+
-                          '</form>'+
-                    '</div>',
 
-              buttons: {
-                  success: {
-                      label: "Guardar",
-                      className: "btn-primary",
-                      callback: function (ev) { 
-                           ev.preventDefault();
+        $('#editarIdea #editar').val( ideaname );        
+        $('#editarIdea #ididea').val( idea._id );                
+        $('#modal_editar_idea').modal('show');
+	},
 
-                           //console.log($('#comment #comentario'));
-
-                          var $myForm = $('#edit');
-                          if ($myForm[0].checkValidity()) 
-                          {
-                         	
-							var arre = {
-						      editar:  $('#edit #editar').val(),
-						      ididea: idIdea,
-						      idgrupo:  Session.get('idgrupo'),
-						    };
-						    Meteor.call('editIdea', arre, function(error, result) //se define un metodo para insertar
-						    {      
-						      if (error)
-						        return console.log(error.reason);
-						       //Router.go('chatPage', {_id: result._id}); 
-						    });
-                           
-                            bootbox.hideAll();
-                          }
-                          else {
-                                bootbox.alert("Ingrese nueva Idea");
-                                return false;
-                                }
-                                                                 
-                      }//fin calback
-                  }//fin success
-              },//fin Buttons
-
-              onEscape: function() {return ;},
-        });  //FIN DIALOG
-	  },
-
-
+    
 	'click .radiovota2': function(e)
 	{
 		//e.preventDefault();
-
-     	var radio = $(e.target);
-     
+     	var radio = $(e.target);     
 		id = $(radio[0]).attr('id');
-
 		$(radio[0]).attr('checked','checked');
 
 		var aux = new Array();
 		aux=id.split('_');
-
 		var voto = aux[0];
 		var ididea = aux[1];
-
 
 		var arre = {
 		  idea_id:ididea,
 	      voto: voto 
-
 	    };
-
-	    //console.log(arre);
 
 	    Meteor.call('InsertVotI2', arre, function(error, result) //se define un metodo para insertar
 	    {      
@@ -1069,27 +945,18 @@ Template.chatPage.events ({
 	'click .radiovota4': function(e)
 	{
 		//e.preventDefault();
-
-     	var radio = $(e.target);
-     
+     	var radio = $(e.target);     
 		id = $(radio[0]).attr('id');
-
 		$(radio[0]).attr('checked','checked');
-
 		var aux = new Array();
 		aux=id.split('_');
-
 		var voto = aux[0];
 		var ididea = aux[1];
-
 
 		var arre = {
 		  idea_id:ididea,
 	      voto: voto 
-
 	    };
-
-	    //console.log(arre);
 
 	    Meteor.call('InsertVotI4', arre, function(error, result) //se define un metodo para insertar
 	    {      
@@ -1099,30 +966,19 @@ Template.chatPage.events ({
 	    });     
   	},
 
-
   	'click .comp': function(e)
 	{
 		//e.preventDefault();
-
-     	var radio = $(e.target);
-     
+     	var radio = $(e.target);     
 		id = $(radio[0]).attr('id');
-
-		//$(radio[0]).attr('checked','checked');
-
 		var aux = new Array();
 		aux=id.split('_');
-
-		//var voto = aux[0];
 		var ididea = aux[1];
-
 
 		var arre = {
 		  idea_id:ididea,
 	      grupo_id: Session.get('idgrupo'),
 	    };
-
-	    //Sconsole.log(arre);
 
 	    Meteor.call('InsertVotI5', arre, function(error, result) //se define un metodo para insertar
 	    {      
@@ -1239,10 +1095,64 @@ Template.chatPage.events ({
 
               onEscape: function() {return ;},
         });  //FIN DIALOG
-	  },
+	},
 
 	
-  });
+});
+
+
+Template.modales.events ({
+
+	'submit #insertComent': function(e)
+	{
+		//e.preventDefault();
+
+		if( e.target.checkValidity() )
+	    {	     	
+			var arre = {
+		      comentario: $('#insertComent #comentario').val(),
+		      ididea: $('#insertComent #ididea').val(),
+		      idgrupo: Session.get('idgrupo'),
+		      instancia: 2,
+		    };
+		    Meteor.call('comentInsert', arre, function(error, result) //se define un metodo para insertar
+		    {      
+		      if (error)
+		        return console.log(error.reason);
+		       //Router.go('chatPage', {_id: result._id}); 
+		    });
+	       
+	        //bootbox.hideAll();
+	        $('#modal_insert_comentario').modal('hide');
+	    }
+	},
+
+
+	'submit #editarIdea': function(e)
+	{
+		//e.preventDefault();
+
+		if( e.target.checkValidity() )
+	    {	     	
+			var arre = {
+		      editar:  $('#editarIdea #editar').val(),
+		      ididea: $('#editarIdea #ididea').val( ),
+		      idgrupo:  Session.get('idgrupo'),
+		    };
+
+		    Meteor.call('editIdea', arre, function(error, result) //se define un metodo para insertar
+		    {      
+		      if (error)
+		        return console.log(error.reason);
+		       //Router.go('chatPage', {_id: result._id}); 
+		    });
+	       
+	        //bootbox.hideAll();
+	        $('#modal_editar_idea').modal('hide');
+	    }
+	},
+
+});
 
 
 

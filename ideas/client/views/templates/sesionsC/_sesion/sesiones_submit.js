@@ -48,6 +48,7 @@ Template.sesionSubmit.rendered = function()
 Template.sesionSubmit.events({
 
   'submit form': function(e) {
+
     e.preventDefault();
 
 

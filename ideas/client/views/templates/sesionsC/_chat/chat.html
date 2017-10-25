@@ -72,6 +72,8 @@
 
     {{ > contenidoChat }}
 
+    {{ > modales }}
+
     <style>
       .tooltip {
         z-index: 1001;
@@ -123,15 +125,10 @@
                   <!--Todos pueden comentar ideas -->
                   {{#if siInstancia2}} 
                     <a class="coment pull-right fa fa-comments" name="{{_id}}" title="Comentar Idea"></a>
+                    <!--{{#afModalShow formId="addComent" collection="Comentarios" type="insert" class="coment pull-right fa fa-comments"}}
+                      Add
+                    {{/afModalShow}}-->
                   {{/if}} 
-                  <!-- Solo puede editar el autor 
-                  {{#if siInstancia3}}
-                    {{#if ownIdea}}
-                      <a class="editar pull-right fa fa-edit" name="{{_id}}" title="Editar Idea"></a>
-                    {{/if}}                          
-                  {{/if}}-->
-                 
-                 
             </div>
             <!-- Comentarios, en el Deplegable -->
             {{#if siInstancia2}}
@@ -152,15 +149,29 @@
           </div>
         </div>  
       {{/each}}
-    </div>          
-           
+    </div>         
+              
      
-      <div class="form-group" id="piechat">
-        {{#if siInstancia1}}
-          <input type="text" id="messageBox" name="messageBox" class="form-control" placeholder="Ingresa tu idea" required />
-          <input type="button" id="enviar" name="enviar" Value="Enviar" class="btn btn-primary" style="margin-top:-5px"/> 
-        {{/if}}     
-      </div>
+    {{#if siInstancia1}}  
+      <br>
+      <div id="piechat" style="position: absolute;"> 
+        <!--<input type="text" id="messageBox" name="messageBox" class="form-control" placeholder="Ingresa tu idea" required />
+        <input type="button" id="enviar" name="enviar" Value="Enviar" class="btn btn-primary" style="margin-top:-5px"/>-->
+
+        {{#autoForm id="enviarIdea" collection="Ideas" schema=IdeasBasicSchema type="insert"}}            
+        
+            {{> afQuickField name ='messageBox' id='messageBox' label=false placeholder="Ingresa tu idea"}} 
+
+            <!--{{> afQuickField name ='idgrupo' id='idgrupo' label=false type="hidden" value=getIdGrupo}} -->
+            
+            <div class="form-group" style="float:left">
+                <button type="submit" class="btn btn-primary" style="margin-top:-5px">Enviar</button>
+            </div>
+
+        {{/autoForm}}
+      </div>  
+    {{/if}}     
+    
      
   </div>
 

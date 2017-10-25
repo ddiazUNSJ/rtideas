@@ -1,93 +1,196 @@
 Ideas = new Mongo.Collection('ideas');
 
+IdeasBasicSchema=new SimpleSchema
+({
+
+  messageBox: { 
+    type: String,
+    label: "Idea",   
+  },
+
+  idgrupo:{
+    type: String,
+    label: "Id grupo",
+  },
+ 
+});
+
+
+compSchema=new SimpleSchema
+({
+  cant: { 
+    type: Number,
+    label: "cant",
+  },
+  compartir: { 
+    type: Boolean,
+    label: "compartir",
+  },
+});
+
+vot2Schema=new SimpleSchema
+({
+  cantA: { 
+    type: Number,
+    label: "cantA_V2",
+  },
+  cantD: { 
+    type: Number,
+    label: "cantD_V2",
+  },
+  cantR: { 
+    type: Number,
+    label: "cantR_V2",
+  },
+  resultado: { 
+    type: String,
+    label: "resultadoV2",   
+  },
+});
+
+vot4Schema=new SimpleSchema
+({
+  cantA: { 
+    type: Number,
+    label: "cantA",
+  },  
+  cantR: { 
+    type: Number,
+    label: "cantR",
+  },
+  resultado: { 
+    type: String,
+    label: "resultado",   
+  },
+});
+
 
 IdeasSchema=new SimpleSchema
 ({
   messageBox: { 
-        type: String,
-        label: "La idea",
-      },
-  idgrupo:{
-    type: Number,
-    label: "Id del grupo",
+    type: String,
+     label: "Idea",
   },
-  iduser:{
-    type: Number,
-    label:"Id usuario",
+ 
+  idgrupo:{
+    type: String,
+    label: "Id grupo",
   },
 
+  iduser: { 
+    type: String,
+     label: "idUser",
+  },
+ 
+  votacionI2:{
+    type: vot2Schema,
+    label: "votacionI2",
+  },
+
+  votacionI4: { 
+    type: vot4Schema,
+     label: "votacionI4",
+  },
+ 
+  compartir:{
+    type: compSchema,
+    label: "compartir",
+  },
+ 
+  author: { //persona quien gestiona ABM animador
+        type: String,
+        label: "Nombre User Creador",
+      },
+
+  submitted: {// fecha de alta animador
+        type: Date,
+        label: "fechayhora Creacion",
+       },
+
+  estado: {
+        type: Boolean,
+        label: "Estado", // indicada si la tematica esta activa o no, 
+       },
+ 
 });
 
-Meteor.methods
+
+UpdateIdeaSchema=new SimpleSchema
 ({
-  ideasInsert: function(ideasAttributes) //se verifica q el ususario este autenticado
-    {
-      check(Meteor.userId(), String);
-      check(ideasAttributes, 
-      {
-        messageBox: String,
-       idgrupo: String,
-       iduser: String,
-       compartir: String,        
-      });
-      var arre1 = {
-        'cantA':0,
-        'cantD':0,
-        'cantR':0,
-        'resultado':''
-      };
+  ididea: { 
+        type: String,
+        label: "IdIdea",
+      },
+  idgrupo: { 
+        type: String,
+        label: "IdGrupo ",
+      },
+  editar: { 
+        type: String,
+        label: "idea new",
+      },
+});
 
-      var arre2 = {
-        'cantA':0,
-        'cantR':0,
-        'resultado':''
-      };
+Ideas.attachSchema(UpdateIdeaSchema);
+Ideas.attachSchema(IdeasBasicSchema);
+Ideas.attachSchema(IdeasSchema);
 
-      var arre3 = {
-        'cant':0,
-        'compartir':0
-      };
+if (Meteor.isServer)
+{
+  Meteor.methods
+  ({
+    ideasInsert: function(datosIdea) //se verifica q el ususario este autenticado
+    {  
+
+        //console.log(datosIdea);
+        check(datosIdea,IdeasBasicSchema);
      
-      var user = Meteor.user();
-      var ideas = _.extend(ideasAttributes,
-       {
+        //Verifica Identidad y autorizacion para crear sesion
+        if (!this.userId) {
+           throw new Meteor.Error('Acceso invalido',
+          'Ustede no esta logeado');
+         }
+        
+
+        var arre1 = {
+          'cantA':0,
+          'cantD':0,
+          'cantR':0,
+          'resultado':'R'
+        };
+
+        var arre2 = {
+          'cantA':0,
+          'cantR':0,
+          'resultado':'R'
+        };
+
+        var arre3 = {
+          'cant':0,
+          'compartir':false
+        };
+       
+        var user = Meteor.user();
+       
+
+        var datos ={
+          messageBox: datosIdea.messageBox,
+          idgrupo: datosIdea.idgrupo,
+          
+          iduser: user._id,
           votacionI2: arre1,
           votacionI4: arre2,
+          compartir:arre3,
           author: user.username,
           submitted: new Date(),        
-          estado: 'activa',
-          compartir:arre3,
-       }); 
+          estado: true,         
+        };
 
-      // console.log(ideas);     
-      var ideasId = Ideas.insert(ideas);
-      return
-       {
-        _id: ideasId
-       };
-    }
-});
+        //console.log(datos); 
+        check(datos,IdeasSchema);
+        return Ideas.insert(datos);
+      }
+  });
 
-//-----------------------------------------------------------------
-Ideas.allow({
-  //insert: function (userId) {
-    // controlar que el usuario pertenezca a ese grupo.
-	//y controlar que no se haya vencido el tiempo para intruducir ideas.
-    //return post.createdBy === userId;
-    //console.log(Session.get('idgrupo'));
-	//return true;
-  //},
-  update: function(ideaId, data, fieldNames) {
-    // may only edit the following two fields:
-    //return (_.without(fieldNames, 'compartido').length > 0);
-	return true;
-	//data.compartido!='';
-  //data.compartido.length == 2			
-  },
-  /*remove: function (userId, post) {
-    // can only delete your own posts
-    return post.createdBy === userId;
-  }
-  // since there is no update field, all updates
-  // are automatically denied*/
- });
+}  
+

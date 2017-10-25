@@ -235,11 +235,11 @@ var requireSubsc6 = function() {
 
 
     if( Session.get('subrol') == 'Participante' )
-    {
+    {      
       Session.set('idgrupo', usersesion.idgrupo);
 
       Meteor.subscribe('ideas', Session.get('idgrupo') ); //le envio el id de grupo para que me publique solo las ideas del grupo.
-      Meteor.subscribe('gruposComp', Session.get('idgrupo') );
+      //Meteor.subscribe('gruposComp', Session.get('idgrupo') );
       Meteor.subscribe('votos_compartir',  Session.get('idgrupo') );
     }
     else // si es ANIMADOR tiene un array de idgrupos

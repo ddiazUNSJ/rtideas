@@ -1,0 +1,67 @@
+<template name="modales">
+
+
+    <div class="modal fade" id="modal_editar_idea" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Editar Idea</h4>
+            </div>
+
+            <!-- {{> quickForm collection="Ideas" schema="IdeasBasicSchema" id="editar" type="update" doc=this}}  -->
+            {{#autoForm id="editarIdea" collection="Ideas" schema=UpdateIdeaSchema type="insert"}}
+
+                <div class="modal-body">  
+                  {{> afQuickField name ='editar' id='editar' label=false placeholder="Ingresa tu idea" type="textarea"}} 
+                  
+                  {{> afQuickField name ='ididea' id='ididea' label=false type="hidden" }} 
+                  
+                </div>
+                
+                <div class="modal-footer">                    
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" >Enviar</button>
+                </div>
+
+            {{/autoForm}}
+
+  
+          </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_insert_comentario" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Agregar Comentario</h4>
+            </div>            
+            
+
+            {{#autoForm id="insertComent" collection="Comentarios" schema=ComentariosBasicSchema type="insert"}}
+
+                <div class="modal-body">            
+        
+                {{> afQuickField name='comentario' id='comentario' label=false placeholder="Ingresa tu comentario" type="textarea"}} 
+
+                {{> afQuickField name ='ididea' id='ididea' label=false type="hidden" }} 
+
+                </div>
+                
+                <div class="modal-footer">                    
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" >Enviar</button>
+                </div>
+
+            {{/autoForm}}
+
+            
+          </div>
+        </div>
+    </div>
+
+
+</template>
+
