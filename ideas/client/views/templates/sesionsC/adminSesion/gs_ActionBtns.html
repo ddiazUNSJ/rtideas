@@ -1,0 +1,40 @@
+<template name="gs_ActionBtns">
+
+	<!-- <button id="btnActivar" type="button" class="btn btn-sm btn-default" >
+		<span class="glyphicon glyphicon-ok"></span>
+	</button> -->
+	<div class="form-group"> 
+		<button id="btnEdit" type="button" class="btn btn-sm btn-primary"  value="{{_id}}" style="display: inline;" title="Ver Detalles">
+			<i class="glyphicon glyphicon-search" value="{{_id}}"></i>
+		</button>
+
+		<button id="btnRemove" type="button" class="btn btn-sm btn-primary"  value="{{_id}}" style="display: inline;" title="Eliminar Sesion">
+			<i class="glyphicon glyphicon-trash" value="{{_id}}"></i>
+		</button>
+
+		<button id="btnAnimadores" type="button" class="btn btn-sm btn-primary"  value="{{_id}}" title="Asigna Animador">
+			<i class="glyphicon glyphicon-user" value="{{_id}}"></i>
+		</button>
+
+		<button id="btnGrupos" type="button" class="btn btn-sm btn-primary"  value="{{_id}}" title="Admin. Grupos">
+			<i class="glyphicon glyphicon-th-list" value="{{_id}}"></i>
+		</button>
+
+		<button id="btnPublicar" type="button" class="btn btn-sm btn-primary"  value="{{_id}}" style="{{#if estadoInicio}} display:inline; {{else}} display:none; {{/if}} " title="Publicar Sesion">
+			<i class="glyphicon glyphicon-th-list" value="{{_id}}"></i>
+		</button>
+
+	</div>
+   
+</template>
+
+
+<template name="gs_ActionBtnsGrupos">
+
+	<div class="form-group"> 
+		<button id="btnRemoveGru" type="button" class="btn btn-sm btn-primary"  value="{{_id}}" style="display: inline;" title="Eliminar Grupo">
+			<i class="glyphicon glyphicon-trash" value="{{_id}}"></i>
+		</button>
+	</div>
+   
+</template>

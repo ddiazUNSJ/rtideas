@@ -49,19 +49,37 @@ if (Meteor.isServer)
       compartirGInsert: function(datos_grupo_comp) //se verifica q el ususario este autenticado
       {
             check(datoscomentarios,ComentariosBasicSchema); 
-             
-             var grupos=datos_grupo_comp.grupos;
-             var idsesion=datos_grupo_comp.idsesion;
 
-             var user = Meteor.user();    
-        	   var data = 
+            //Verifica Identidad y autorizacion para crear sesion
+            if (!this.userId) {
+                 throw new Meteor.Error('Acceso invalido',
+                'Ustede no esta logeado');
+               }
+            else // verifica si tiene privilegios de administrador
+            { 
+              usuario= Meteor.users.findOne({_id: this.userId});
+              rol=usuario.rol;
+              if  (rol!="Administrador") 
               {
-                sesion_id:datos_grupo_comp.idsesion,
-                gruposIds:datos_grupo_comp.grupos,
-        		    author: user.username,
-                submitted: new Date(),        
-                estado: true,
-              };
+                  console.log("error no es administrador");
+                  throw new Meteor.Error('Acceso invalido',
+                  ' Para acceder a esta funcionalidad necesita ser Administrador');
+              }
+            }
+
+
+            var grupos=datos_grupo_comp.grupos;
+            var idsesion=datos_grupo_comp.idsesion;
+
+            var user = Meteor.user();    
+        	  var data = 
+            {
+              sesion_id:datos_grupo_comp.idsesion,
+              gruposIds:datos_grupo_comp.grupos,
+      		    author: user.username,
+              submitted: new Date(),        
+              estado: true,
+            };
 
       GruposComp.remove({sesion_id: idsesion}); 
       // Valida el documento , luego inserta nueva tematica   
@@ -69,6 +87,6 @@ if (Meteor.isServer)
 
       return Comentarios.insert(data);               
          
-       }// fin compartir GInsert
+      }// fin compartir GInsert
     });// fin de  Meteor.methods
 }// fin if

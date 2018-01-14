@@ -1,5 +1,46 @@
 VotacionI4 = new Mongo.Collection('votacionI4');
 
+votosI4Schema=new SimpleSchema
+({
+
+  idea_id: { 
+        type: String,
+        label: "Id idea",
+      },
+
+  user_id: { //persona quien gestiona ABM animador
+    type: String,
+    label: "id User",
+   },
+
+  voto:{
+    type:String,
+    label:"voto",
+  },
+
+  submitted: {// fecha de alta animador
+        type: Date,
+        label: "fechayhora Creacion",
+       },
+});
+
+votosI4BasicSchema=new SimpleSchema
+({
+  idea_id: { 
+        type: String,
+        label: "Id idea",
+      },
+
+  voto:{
+    type:String,
+    label:"voto",
+  },
+});
+
+VotacionI4.attachSchema(votosI4Schema);
+VotacionI4.attachSchema(votosI4BasicSchema);
+
+
 function calculo_resultado2(A,R)
  {
   var total = A+R;
@@ -15,35 +56,22 @@ function calculo_resultado2(A,R)
 Meteor.methods
 ({
  
-InsertVotI4: function(grAttributes) //se verifica q el ususario este autenticado
-  {
-    //console.log(gcomenrAttributes['time_sesion'][0]);
+InsertVotI4: function(datos_votacionI4) //se verifica q el ususario este autenticado
+{
+    check(datos_votacionI4,votosI4BasicSchema);
 
-    check(Meteor.userId(), String);
-   /* check(grAttributes, {
-      descripcion: String,
-      gr: String,
-	  sesion_id: String,    
-    });*/
+    if (!this.userId) {
+        throw new Meteor.Error('Acceso invalido',
+        'Ustede no esta logeado');
+    }
 
-    //con estas lineas chequea todo el arreglo, de la otra manera nos daba error. 
-    //este caso difiere de los demas porque grAttributes trae un arreglo de objetos (time_sesion)
-    check(grAttributes, Match.Where(function(grAttributes){
-        _.each(grAttributes, function (doc) {
-          // do your checks and return false if there is a problem 
-        });
-        // return true if there is no problem
-        return true;
-    }));
-    var voto = grAttributes.voto;
-    var ideaId = grAttributes.idea_id;
-    //console.log(ideaId);
+    var voto = datos_votacionI4.voto;
+    var ideaId = datos_votacionI4.idea_id;
+ 
     var user = Meteor.user();
     var idea = Ideas.findOne( {_id:ideaId} );
     
-    //console.log(idea.votacionI2[0].cantA);
-   // console.log(idea.votacionI4.cantA);  
-    //console.log(idea.votacionI4.cantR);  
+   
     var A = idea.votacionI4.cantA;    
     var R = idea.votacionI4.cantR;
     var res = idea.votacionI4.resultado;
@@ -74,11 +102,16 @@ InsertVotI4: function(grAttributes) //se verifica q el ususario este autenticado
     }
     else
     {
-        var aux = _.extend(grAttributes,
+       var aux =
         {
+          idea_id: ideaId,
           user_id: user._id,
+          voto: voto,
           submitted: new Date(),
-        });
+        };
+
+        check(aux,votosI4Schema);
+
         var vtId = VotacionI4.insert(aux);
         //contar
          switch(voto)

@@ -84,6 +84,10 @@
                 </a>
                             
                 <ul class="nav nav-second-level {{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor' className='in'}}">
+                     
+                    <li class="{{isActiveRoute regex='formBasic'}}">
+                        <a href="{{pathFor 'adminSesion'}}">Admin. Sesiones</a>
+                    </li>
 
                     <li class="{{isActiveRoute regex='formBasic'}}">
                         <a href="{{pathFor 'tematicaSubmit'}}">Crear Tematica</a>

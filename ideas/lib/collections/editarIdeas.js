@@ -28,8 +28,39 @@ logIdeasSchema=new SimpleSchema
 
 logIdeas.attachSchema(logIdeasSchema);
 
+
+
+
+UpdateIdeaSchema2=new SimpleSchema
+({
+  ididea: { 
+        type: String,
+        label: "IdIdea",
+      },
+  idgrupo: { 
+        type: String,
+        label: "IdGrupo ",
+      },
+  idea_new: { 
+        type: String,
+        label: "idea new",
+      },
+});
+
+
+UpdateIdeaSchema=new SimpleSchema
+({
+  idea_new: { 
+        type: String,
+        label: "idea new",
+      },
+});
+logIdeas.attachSchema(UpdateIdeaSchema);
+
+
 if (Meteor.isServer)
-{
+{ 
+
   Meteor.methods
   ({
 
@@ -37,7 +68,8 @@ if (Meteor.isServer)
     //una modificacion (update) de una idea implica un insert en logideas
     editIdea: function(datosIdea) 
     {
-      check(datosIdea,UpdateIdeaSchema);
+      //console.log(datosIdea);
+      check(datosIdea,UpdateIdeaSchema2);
      
       //Verifica Identidad y autorizacion para crear sesion
       if (!this.userId) {
@@ -46,7 +78,7 @@ if (Meteor.isServer)
       }
 
       var ididea = datosIdea.ididea;
-      var newidea = datosIdea.editar;
+      var newidea = datosIdea.idea_new;
 
       var idea = Ideas.findOne( {_id: ididea} );    
       var oldidea = idea.messageBox;

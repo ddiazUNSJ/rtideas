@@ -10,10 +10,10 @@
             </div>
 
             <!-- {{> quickForm collection="Ideas" schema="IdeasBasicSchema" id="editar" type="update" doc=this}}  -->
-            {{#autoForm id="editarIdea" collection="Ideas" schema=UpdateIdeaSchema type="insert"}}
+            {{#autoForm id="editarIdea" collection="logIdeas" schema=UpdateIdeaSchema type="insert"}}
 
                 <div class="modal-body">  
-                  {{> afQuickField name ='editar' id='editar' label=false placeholder="Ingresa tu idea" type="textarea"}} 
+                  {{> afQuickField name ='idea_new' id='idea_new' label=false placeholder="Ingresa tu idea" type="textarea"}} 
                   
                   {{> afQuickField name ='ididea' id='ididea' label=false type="hidden" }} 
                   
@@ -37,8 +37,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Agregar Comentario</h4>
-            </div>            
-            
+            </div>
 
             {{#autoForm id="insertComent" collection="Comentarios" schema=ComentariosBasicSchema type="insert"}}
 
@@ -47,6 +46,48 @@
                 {{> afQuickField name='comentario' id='comentario' label=false placeholder="Ingresa tu comentario" type="textarea"}} 
 
                 {{> afQuickField name ='ididea' id='ididea' label=false type="hidden" }} 
+
+                </div>
+                
+                <div class="modal-footer">                    
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" >Enviar</button>
+                </div>
+
+            {{/autoForm}}
+
+            
+          </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal fade" id="modal_ficha" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Llenar Ficha</h4>            </div>            
+            
+
+            {{#autoForm id="formficha" collection="Ficha" schema=FichaBasicSchema type="insert"}}
+
+                <div class="modal-body">            
+                {{> afQuickField name='gruponame' id='gruponame' }} 
+
+                {{> afQuickField name='numidea' id='numidea' }} 
+
+                 {{> afQuickField name='nombre' id='nombre' placeholder="Ingresa nombre de idea" }} 
+
+
+                {{> afQuickField name='des' id='des' placeholder="Ingresa una descipción" type="textarea"}} 
+
+                {{> afQuickField name ='esc' id='esc' placeholder="Ingresa un escenario" type="textarea" }}    
+
+                {{> afQuickField name ='ididea' id='ididea' label=false type="hidden" }}  
+
+                {{> afQuickField name ='idgrupo' id='idgrupo' label=false type="hidden" }}            
 
                 </div>
                 

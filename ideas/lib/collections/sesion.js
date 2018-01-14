@@ -83,7 +83,7 @@ SesionSchema=new SimpleSchema({
        },
 
   estado: {
-        type: Boolean,
+        type: String,
         label: "Estado", // indicada si la tematica esta activa o no, 
        },
 
@@ -448,7 +448,7 @@ if (Meteor.isServer)
       userId:user._id,
       author: user.username,
       submitted: new Date(),
-	    estado: true,
+	    estado: 'Inicio',
       instActual: -1
     };
 
@@ -458,6 +458,74 @@ if (Meteor.isServer)
     return Sesion.insert(datos);
  },
 
+
+  sesionRemove: function(idsesion) //se verifica q el ususario este autenticado
+  {
+    //console.log(idsesion);
+    check(idsesion,String);
+   
+    //Verifica Identidad y autorizacion para crear sesion
+    if (!this.userId) {
+         throw new Meteor.Error('Acceso invalido',
+        'Ustede no esta logeado');
+       }
+    else // verifica si tiene privilegios de administrador
+    { 
+      usuario= Meteor.users.findOne({_id: this.userId});
+      rol=usuario.rol;
+      if  (rol!="Administrador") 
+      {
+          console.log("error no es administrador");
+          throw new Meteor.Error('Acceso invalido',
+          ' Para acceder a esta funcionalidad necesita ser Administrador');
+      }
+    }
+    // Si esta autorizado comienza proceso
+
+    var user = Meteor.user(); //Estoy en el Servidor
+    
+    var sesion = Sesion.findOne({_id:idsesion});
+
+    if(sesion.estado == 'Inicio')
+      return Sesion.remove(idsesion);
+    else
+       throw new Meteor.Error('',
+        "Solo puede eliminar cuando el estado es 'Inicio'");
+ },
+
+  sesionPublicar: function(idsesion) //se verifica q el ususario este autenticado
+  {
+    //console.log(idsesion);
+    check(idsesion,String);
+   
+    //Verifica Identidad y autorizacion para crear sesion
+    if (!this.userId) {
+         throw new Meteor.Error('Acceso invalido',
+        'Ustede no esta logeado');
+       }
+    else // verifica si tiene privilegios de administrador
+    { 
+      usuario= Meteor.users.findOne({_id: this.userId});
+      rol=usuario.rol;
+      if  (rol!="Administrador") 
+      {
+          console.log("error no es administrador");
+          throw new Meteor.Error('Acceso invalido',
+          ' Para acceder a esta funcionalidad necesita ser Administrador');
+      }
+    }
+    // Si esta autorizado comienza proceso
+
+    var user = Meteor.user(); //Estoy en el Servidor
+    
+    var sesion = Sesion.findOne({_id:idsesion});
+
+    if(sesion.estado == 'Inicio')
+      return Sesion.update({_id : idsesion },{$set:{estado : 'Publicado' }});
+    else
+       throw new Meteor.Error('',
+        "Solo puede publicar cuando el estado es 'Inicio'");
+  },
 
     
 

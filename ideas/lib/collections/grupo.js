@@ -81,21 +81,21 @@ Grupo.attachSchema(GrupoSchema);
 
 if (Meteor.isServer)
 {
-    Meteor.methods
-    ({
+  Meteor.methods
+  ({
      
     grupoInsert: function(datosGrupo) //se verifica q el ususario este autenticado
-      {
+    {
         //console.log(grAttributes['time_sesion'][0]);
 
         check(datosGrupo,GrupoBasicSchema);
 
        /* check(grAttributes, {
-      descripcion: String,
-      gr: String,
-	  sesion_id: String,
-    
-    });*/
+        descripcion: String,
+        gr: String,
+  	  sesion_id: String,
+      
+      });*/
      
 
      //Verifica Identidad y autorizacion para crear sesion
@@ -128,7 +128,41 @@ if (Meteor.isServer)
       // Valida el documento , luego inserta nueva tematica   
       check(docGrupo, GrupoSchema)
 
-    return Grupo.insert(docGrupo);  
-	}
-})
-  };
+      return Grupo.insert(docGrupo);  
+  },
+
+
+  gruponRemove: function(idgrupo) //se verifica q el ususario este autenticado
+  {
+    //console.log(idsesion);
+    check(idgrupo,String);
+   
+    //Verifica Identidad y autorizacion para crear sesion
+    if (!this.userId) {
+         throw new Meteor.Error('Acceso invalido',
+        'Usted no esta logeado');
+       }
+    else // verifica si tiene privilegios de administrador
+    { 
+      usuario= Meteor.users.findOne({_id: this.userId});
+      rol=usuario.rol;
+      if  (rol!="Administrador") 
+      {
+          console.log("error no es administrador");
+          throw new Meteor.Error('Acceso invalido',
+          ' Para acceder a esta funcionalidad necesita ser Administrador');
+      }
+    }
+    // Si esta autorizado comienza proceso
+
+    var user = Meteor.user(); //Estoy en el Servidor
+    
+    //var sesion = Sesion.findOne({_id:idsesion});
+
+    //if(sesion.estado == 'Inicio')
+      return Grupo.remove(idgrupo);
+    //else
+       //throw new Meteor.Error('',"Solo puede eliminar cuando el estado es 'Inicio'");
+ },
+  })
+};

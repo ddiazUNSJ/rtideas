@@ -4,18 +4,18 @@ IdeasCSchema=new SimpleSchema
 ({
 
   idea_id: { 
-        type: Number,
+        type: String,
         label: "Id de la ideaº",
       },
 
   grupo_id: { 
-        type: Number,
+        type: String,
         label: "Id del grupo",
       },
 
   user_id: { //persona quien gestiona ABM animador
-  type: Number,
-  label: "id User Creador",
+    type: String,
+    label: "id User Creador",
    },
 
   comp:{
@@ -32,12 +32,12 @@ IdeasCSchema=new SimpleSchema
 IdeasCBasicSchema=new SimpleSchema
 ({
   idea_id: { 
-        type: Number,
+        type: String,
         label: "Id de la ideaº",
       },
 
   grupo_id: { 
-        type: Number,
+        type: String,
         label: "Id del grupo",
       },
 });
@@ -65,7 +65,7 @@ function calculo_compartir(ideaId, grupoId){
 
             var aux = {
                 'cant': myDoc.compartir.cant,
-                'compartir': 0,
+                'compartir': false,
             };
             Ideas.update({_id : myDoc._id },{$set:{compartir: aux}}); 
             
@@ -116,7 +116,7 @@ function calculo_compartir(ideaId, grupoId){
         //console.log(todos[i]);
         var aux = {
             'cant': todos[i].cant,
-            'compartir': 1,
+            'compartir': true,
         };
         Ideas.update({_id : todos[i].idea },{$set:{compartir: aux}}); 
       }
@@ -138,28 +138,14 @@ if (Meteor.isServer)
     ({
      
     InsertVotI5: function(datos_ideasC) //se verifica q el ususario este autenticado  datos_ideasC
-      {
-        
+    {
+        check(datos_ideasC,IdeasCBasicSchema);
 
-      check(datos_ideasC,IdeasCBasicSchema);
-
-       //Verifica Identidad y autorizacion para crear sesion
-      if (!this.userId) {
+        //Verifica Identidad y autorizacion para crear sesion
+        if (!this.userId) {
            throw new Meteor.Error('Acceso invalido',
           'Ustede no esta logeado');
-         }
-      else // verifica si tiene privilegios de administrador
-      { 
-        usuario= Meteor.users.findOne({_id: this.userId});
-        rol=usuario.rol;
-        if  (rol!="Administrador") 
-        {
-            console.log("error no es administrador");
-            throw new Meteor.Error('Acceso invalido',
-            ' Para acceder a esta funcionalidad necesita ser Administrador');
         }
-      }
-      // Si esta autorizado comienza proceso
        
         
         //var voto = grAttributes.voto;
@@ -170,7 +156,7 @@ if (Meteor.isServer)
         var idea = Ideas.findOne( {_id:ideaId} );
         
         //console.log(idea.votacionI2[0].cantA);
-       // console.log(idea.votacionI4.cantA);  
+        // console.log(idea.votacionI4.cantA);  
         //console.log(idea.votacionI4.cantR);  
          
              
@@ -213,13 +199,16 @@ if (Meteor.isServer)
         } 
         else
         {
-            var aux = _.extend(grAttributes,
+            var aux =
             {
+              idea_id: ideaId,
+              grupo_id: grupoId,
               user_id: user._id,
               comp: 1,
               submitted: new Date(),
-            });
+            };
 
+            check(aux,IdeasCSchema);
             var vtId = IdeasC.insert(aux);
             
             //contar

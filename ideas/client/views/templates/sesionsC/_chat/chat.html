@@ -221,7 +221,6 @@
 
 
 
-
   <div id="div_instancia4" style="{{#if siInstancia4}} display:block {{else}} display:none{{/if}}">               
     <div id="chat">
       {{#each get_messagesI3}}
@@ -292,7 +291,7 @@
         <div class="ibox collapsed">
           <div class="posts page " > 
 
-            <!--en la instacia 2 permite hacer click y desplegar los comentarios -->
+            <!--en la instacia 6 permite hacer click y desplegar los comentarios -->
             <div class="post  {{#if siInstancia6}} collapse-link{{/if}}" style=" {{#if siInstancia6}} cursor:pointer;{{/if}}" title=" {{#if siInstancia6}} ver comentarios {{/if}}" >
                   <div class="post-content">
                     <!--muestra la idea -->
@@ -333,13 +332,11 @@
         </div>  
       {{/each}}
     {{/if}}  
-    </div>          
-           
-     
+    </div>   
   </div>
 
 
-   <div id="div_instancia7" style="{{#if siInstancia7}} display:block {{else}} display:none{{/if}}">               
+  <div id="div_instancia7" style="{{#if siInstancia7}} display:block {{else}} display:none{{/if}}">               
     <div id="chat">
       {{#each get_messages_compI7}}         
         <div class="ibox collapsed">
@@ -382,48 +379,43 @@
   </div>
 
   
-   <div id="div_instancia8"  style="{{#if siInstancia8}} display:block {{else}} display:none{{/if}}">  
-  
-    <div class="ibox-content">
+   <div id="div_instancia8"  style="{{#if siInstancia8}} display:block {{else}} display:none{{/if}}">            
+   
+    <div class="ibox-content">      
 
-      <table class="table table-bordered" id="tablares" >
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Autor</th>
-            <th>Idea</th>
-            <th>Likes</th>
-            <th>Ficha Idea</th>
-          </tr>
-         </thead>  
+            <table class="table table-bordered" id="tablares" >
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Autor</th>
+                  <th>Idea</th>
+                  <th>Likes</th>
+                  <th>Ficha Idea</th>
+                </tr>
+               </thead>  
 
-        <tbody>
+              <tbody>           
 
-           {{#each get_messagesI8}}
-            <tr>
-                <td class="numIdea">{{num_idea}}</td>
-                <td>{{get_autor}}</td>
-                <td>{{messageBox}}</td>
-                <td>{{votos}}</td>
-                <td>
-                    {{#if siInstancia8}}
-                      {{#if ownIdea}}
-                        <a class="ficha pull-right fa fa-file-text" name="{{_id}}" title="Llenar ficha"></a>
-                      {{/if}}  
-                    {{/if}}
-                </td>
-            </tr>                  
-            {{/each}}
-
-         
-         
-        </tbody>                              
-      </table>
-    </div>
-  </div>
-
-
-
+                 {{#each get_messagesI8}}
+                  <tr>
+                      <td class="numIdea">{{num_idea}}</td>
+                      <td>{{get_autor}}</td>
+                      <td>{{messageBox}}</td>
+                      <td>{{votos}}</td>
+                      <td>                        
+                          {{#if siInstancia8}}
+                            {{#if ownIdea}}
+                              <a class="ficha pull-right fa fa-file-text" name="{{_id}}" title="Llenar ficha"></a>
+                            {{/if}}  
+                          {{/if}}
+                      </td>
+                  </tr>                  
+                  {{/each}}
+               
+              </tbody>                              
+            </table>
+          </div>
+        </div>   
 </template>
 
   

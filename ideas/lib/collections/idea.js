@@ -115,36 +115,23 @@ IdeasSchema=new SimpleSchema
 });
 
 
-UpdateIdeaSchema=new SimpleSchema
-({
-  ididea: { 
-        type: String,
-        label: "IdIdea",
-      },
-  idgrupo: { 
-        type: String,
-        label: "IdGrupo ",
-      },
-  editar: { 
-        type: String,
-        label: "idea new",
-      },
-});
 
-Ideas.attachSchema(UpdateIdeaSchema);
+
 Ideas.attachSchema(IdeasBasicSchema);
-Ideas.attachSchema(IdeasSchema);
+
+
 
 if (Meteor.isServer)
 {
+  Ideas.attachSchema(IdeasSchema);
   Meteor.methods
   ({
     ideasInsert: function(datosIdea) //se verifica q el ususario este autenticado
     {  
 
-        //console.log(datosIdea);
+        
         check(datosIdea,IdeasBasicSchema);
-     
+    
         //Verifica Identidad y autorizacion para crear sesion
         if (!this.userId) {
            throw new Meteor.Error('Acceso invalido',

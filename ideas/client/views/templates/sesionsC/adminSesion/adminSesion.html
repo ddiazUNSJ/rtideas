@@ -1,0 +1,72 @@
+<template name="adminSesion">  
+    {{ > modalesSesion }}
+    
+    <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4>Listado de Sesiones</h4>
+        </div> 
+
+        <div class="panel-body">
+  
+            <form id="types1" novalidate="novalidate">
+
+                <div class="form-group">
+                    <label class="control-label" for="sesion">Temática</label>
+                    
+                    <select class="input-xlarge country" id="tematica" name="tematica">
+                         <option value="-1" selected>Seleccione...</option>
+                        {{#each tematicas_Opts}}
+                           <option value="{{_id}}" data-id={{_id}}>{{SC}}</option>
+                        {{/each}}
+                    </select> &nbsp; &nbsp;
+                   
+                        <button type="button" class="btn btn-primary" id="newtematica"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                </div>
+
+               
+                
+               <div class="form-group"> 
+
+               	<!--<table class="table table-striped table-bordered table-hover dataTables-example dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info" role="grid">
+
+                    <thead>
+                    	<tr role="row">
+                           <th> # </th>
+                    		<th >Nombre</th>
+                    		<th>Fecha de Inicio</th>
+                    		<th>Fecha de Fin</th>
+                    		<th>Estado</th>
+                    	</tr>
+                    </thead>
+
+                    
+                    <tfoot>
+                        {{#each get_sesiones}}
+    	                    <tr>
+                                <td rowspan="1" colspan="1">{{get_num}}</td>
+    	                    	<td rowspan="1" colspan="1">{{nombre}}</td>
+    	                    	<td rowspan="1" colspan="1">{{fecha1}}&nbsp; {{hora1}}</td>
+                                <td rowspan="1" colspan="1">{{fecha2}}&nbsp; {{hora2}}</td>
+                                <td rowspan="1" colspan="1">{{estado}}</td>
+    	                    	
+    	                    </tr>  
+                        {{/each}}                  	
+                    </tfoot>
+                </table>   -->
+
+                <!-- Crea tabla de gestion de sesiones con tabular -->
+                    {{> tabular table=TabularTables.sesionTab selector=selector class="table table-striped table-bordered table-condensed"}}
+               </div>
+            </form>
+
+            <div class="form-group" style="float:left">
+                <button type="button" class="btn btn-primary" id="newsesion"><i class="fa fa-plus" aria-hidden="true"></i> Nueva Sesion</button>
+            </div>
+        </div>
+    </div>
+
+    
+
+    
+   
+</template>

@@ -50,7 +50,7 @@ Router.onBeforeAction(requireLogin2, {only: 'sesionList'});
 //====== rolSubmit
 //
 // Descripcion : Carga un nuevo rol (label)
-Router.route('/submit', {name: 'rolSubmit'}); //cintia
+Router.route('/submit', {name: 'rolSubmit', layoutTemplate: 'mainLayout'}); //cintia
 
 //se verifica si el usuario esta logeado de lo contrario se muestra una plantilla de inicio-o avanza
 //cintia
@@ -86,32 +86,34 @@ Router.onBeforeAction(requireLogin, {only: 'rolSubmit'});//cintia
 
 //--------------------------------------------------------------------
 
-Router.route('/tematicaCreate', {name: 'tematicaSubmit'});//cintia
-Router.route('/submitG', {name: 'grupoSubmit'});//cintia
-Router.route('/submitSesion', {name: 'sesionSubmit'});//cintia
-Router.route('/submitCGR', {name: 'compartirSubmit'});//cintia
-Router.route('/listCGR', {name: 'GcompList'});//cintia
-Router.route('/inscriptos', {name: 'list_inscriptos'});
+Router.route('/tematicaCreate', {name: 'tematicaSubmit', layoutTemplate: 'mainLayout'});//cintia
+Router.route('/submitG', {name: 'grupoSubmit', layoutTemplate: 'mainLayout'});//cintia
+Router.route('/submitSesion', {name: 'sesionSubmit', layoutTemplate: 'mainLayout'});//cintia
+Router.route('/submitCGR', {name: 'compartirSubmit', layoutTemplate: 'mainLayout'});//cintia
+Router.route('/listCGR', {name: 'GcompList', layoutTemplate: 'mainLayout'});//cintia
+Router.route('/inscriptos', {name: 'list_inscriptos', layoutTemplate: 'mainLayout'});
+Router.route('/adminSesiones', {name: 'adminSesion', layoutTemplate: 'mainLayout'});
 
 //listado de todos los rol
 //Router.route('/rolList', {name: 'listadorol'});
 
 //listado de todas las tematicas
-Router.route('/tematicaList', {name: 'tematicaList'});
+Router.route('/tematicaList', {name: 'tematicaList', layoutTemplate: 'mainLayout'});
 //listado de todos los grupos
-Router.route('/groupList', {name: 'list_grupo'});
+Router.route('/groupList', {name: 'list_grupo', layoutTemplate: 'mainLayout'});
 //listados de todas las asignaciones
-Router.route('/asignarList', {name: 'listasignacion'});
+Router.route('/asignarList', {name: 'listasignacion', layoutTemplate: 'mainLayout'});
 //asigna grupo, asuario y rol
-Router.route('/asigGrupo', {name: 'asignacion'});
+Router.route('/asigGrupo', {name: 'asignacion', layoutTemplate: 'mainLayout'});
 //asigna grupos al animador
-Router.route('/GruposAnim', {name: 'asignacion_anim'});
+Router.route('/GruposAnim', {name: 'asignacion_anim', layoutTemplate: 'mainLayout'});
 //muestra el chat de un grupo
 //Router.route('/chatPage', {name: 'chatPage'});
 
 Router.route('/chat/:_id', {  //los parametros siempre lo toma de la url. idgrupo pertenece al entorno
   //es el id de la coleccion user_sesion
-  name: 'chatPage'
+  name: 'chatPage',
+  layoutTemplate: 'mainLayout'
   //data: function() { return alert(this.params.idgrupo); }
 });
 
@@ -239,7 +241,7 @@ var requireSubsc6 = function() {
       Session.set('idgrupo', usersesion.idgrupo);
 
       Meteor.subscribe('ideas', Session.get('idgrupo') ); //le envio el id de grupo para que me publique solo las ideas del grupo.
-      //Meteor.subscribe('gruposComp', Session.get('idgrupo') );
+      Meteor.subscribe('gruposComp', Session.get('idgrupo') );
       Meteor.subscribe('votos_compartir',  Session.get('idgrupo') );
     }
     else // si es ANIMADOR tiene un array de idgrupos
@@ -266,6 +268,8 @@ var requireSubsc6 = function() {
 
     Meteor.subscribe("votos_I2");
     Meteor.subscribe("votos_I4");
+    Meteor.subscribe("ficha");
+
 
    	
     this.render('chatPage');
@@ -386,6 +390,28 @@ var requiresSesionList = function()
    } 
   }
 
+
+  var requireSubsc12 = function() 
+  {
+    if (! Meteor.user()) {
+    if (Meteor.loggingIn()) {
+      this.render(this.loadingTemplate);
+    } else {
+      this.render('inicio');
+    }
+  } else {  
+   Meteor.subscribe('tematica'); 
+   Meteor.subscribe('sesionesCreatividad');
+   Meteor.subscribe('grupos');
+   Meteor.subscribe('allAnimadores'); 
+   Meteor.subscribe('instancias');
+   Meteor.subscribe('animadores_sesion2');
+
+    this.render('adminSesion');
+    //this.next();
+   } 
+  }
+
 //------------------------------------------------------------------
 
 //Router.onBeforeAction('dataNotFound', {only: 'postPage'});
@@ -405,6 +431,8 @@ Router.onBeforeAction(requireSubsc10, {only: 'asignacion_anim'});
 Router.onBeforeAction(requireSubsc11, {only: 'list_inscriptos'});
 
 Router.onBeforeAction(requiresSesionList, {only: 'sesionDispo'});
+Router.onBeforeAction(requireSubsc12, {only: 'adminSesion'});
+
 
 // DD  11/08/17 - Agregado para funcionar con accountTemplate
 Router.route('/', {

@@ -3,7 +3,7 @@ Template.tematicaSubmit.events({
     e.preventDefault();
 
 
-    alert ('submit');
+    //alert ('submit');
     
     var scre = {
       SC: $(e.target).find('[name=SC]').val(),

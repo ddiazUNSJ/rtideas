@@ -27,7 +27,7 @@ Meteor.publish('users_sesions', function() {
     
   var sesionesId = SesionUser.map(function(p) { return p.idsesion });
  
-  var SesionesRel = Sesion.find({_id: {$in: sesionesId}, estado: true });
+  var SesionesRel = Sesion.find({_id: {$in: sesionesId}, estado:  {$ne: 'Terminado'} });
   
  //publico todos los datos del usuario
   var usuarioD = Meteor.users.find({_id: useractual}); 
@@ -65,7 +65,7 @@ Meteor.publish('tematica', function() {
 
 /* **********Sesion de Creatividad************** */
 Meteor.publish('sesionesCreatividad', function() {
-  return  Sesion.find({estado:true});      //publico las activas
+  return  Sesion.find({estado: {$ne: 'Terminado'}});      //publico las activas
 });
 
 
@@ -144,6 +144,10 @@ Meteor.publish('animadores_sesion', function(sesionid) {
       animadores,
       Meteor.users.find({_id: {$in: users}, rol:'Estandar'}, {sort: {username: 1}}) 
     ];  
+});
+
+Meteor.publish('animadores_sesion2', function() {
+  return  AnimSesion.find();      //publico todoS
 });
 
 Meteor.publish('rol', function() {
@@ -237,18 +241,20 @@ Meteor.publish('gruposComp', function(grupoid) {
   //var sesion = Sesion.findOne( {_id:  grupo.sesion_id} ); 
   var grupC = GruposComp.findOne({sesion_id: grupo.sesion_id});
   
-
+  console.log(grupC);
   if(grupC)
   {  
     grupC = grupC.gruposIds;
     var busq = grupC.indexOf(grupoid);
   }
-  else { grupC = 0; busq == -1;}
+  else {grupC = 0; busq = -1;}
 
   //los grupos que no estan en grupC no pueden ver las ideas compartidas
   
   if(busq == -1)
+  { //console.log("ENTRA2");
     var IdeasComp = Ideas.find({idgrupo: grupoid });
+  }
   else  
     var IdeasComp = Ideas.find({idgrupo: {$in: grupC} }); 
 
@@ -256,17 +262,24 @@ Meteor.publish('gruposComp', function(grupoid) {
 
   IdeasComp.forEach(function(myDoc) 
   {
-      if( myDoc.compartir.compartir == 1 )  
+      if( myDoc.compartir.compartir == true )  
         todos.push( myDoc._id  );  
   });
 
+
+  
   IdeasComp = Ideas.find({_id: {$in: todos} });
-   
+  
+
 
   var usersId = IdeasComp.map(function(p) { return p.iduser });
 
   //var idsGrupos = IdeasComp.map(function(p) { return p.idgrupo }); 
-  var varGrupos = Grupo.find({_id: {$in: grupC} });
+  if(grupC)
+    var varGrupos = Grupo.find({_id: {$in: grupC} });
+  else 
+    var varGrupos = Grupo.find({_id: grupoid });
+
 
   var ideasId = IdeasComp.map(function(p) { return p._id });
   //var coments = Comentarios.find({ididea: {$in: ideasId}, estado: true,  instancia: 6}); 
@@ -366,8 +379,8 @@ Meteor.publish('allAnimadores', function() {
             ' Para acceder a esta funcionalidad necesita ser Administrador');
         }
        }
-    console.log(nombre+ " esta publicando todos las inscripciones");
-    return Animadores.find({});
+
+    return Meteor.users.find({rol:"Animador"});
 
 
 });

@@ -84,7 +84,7 @@ if (Meteor.isServer)
 
       var user = Meteor.user();
 
-      console.log(datoscomentarios);
+      //console.log(datoscomentarios);
       
       var datos ={
         comentario: datoscomentarios.comentario,        

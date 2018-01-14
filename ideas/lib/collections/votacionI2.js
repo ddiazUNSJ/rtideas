@@ -1,5 +1,46 @@
 VotacionI2 = new Mongo.Collection('votacionI2');
 
+votosI2Schema=new SimpleSchema
+({
+
+  idea_id: { 
+        type: String,
+        label: "Id idea",
+      },
+
+  user_id: { //persona quien gestiona ABM animador
+    type: String,
+    label: "id User",
+   },
+
+  voto:{
+    type:String,
+    label:"voto",
+  },
+
+  submitted: {// fecha de alta animador
+        type: Date,
+        label: "fechayhora Creacion",
+       },
+});
+
+votosI2BasicSchema=new SimpleSchema
+({
+  idea_id: { 
+        type: String,
+        label: "Id idea",
+      },
+
+  voto:{
+    type:String,
+    label:"voto",
+  },
+});
+
+VotacionI2.attachSchema(votosI2Schema);
+VotacionI2.attachSchema(votosI2BasicSchema);
+
+
 
 function calculo_resultado(A,D,R){
 
@@ -22,32 +63,19 @@ function calculo_resultado(A,D,R){
 Meteor.methods
 ({
  
-InsertVotI2: function(grAttributes) //se verifica q el ususario este autenticado
+InsertVotI2: function(datos_votacionI2) //se verifica q el ususario este autenticado
   {
+      check(datos_votacionI2,votosI2BasicSchema);
     //console.log(gcomenrAttributes['time_sesion'][0]);
 
-    check(Meteor.userId(), String);
-
-   /* check(grAttributes, {
-      descripcion: String,
-      gr: String,
-	  sesion_id: String,
-    
-    });*/
+      if (!this.userId) {
+        throw new Meteor.Error('Acceso invalido',
+        'Ustede no esta logeado');
+      }
 
 
-    //con estas lineas chequea todo el arreglo, de la otra manera nos daba error. 
-    //este caso difiere de los demas porque grAttributes trae un arreglo de objetos (time_sesion)
-    check(grAttributes, Match.Where(function(grAttributes){
-        _.each(grAttributes, function (doc) {
-          // do your checks and return false if there is a problem 
-        });
-        // return true if there is no problem
-        return true;
-    }));
-
-    var voto = grAttributes.voto;
-    var ideaId = grAttributes.idea_id;
+    var voto = datos_votacionI2.voto;
+    var ideaId = datos_votacionI2.idea_id;
      // console.log(ideaId);
     var user = Meteor.user();
 
@@ -99,13 +127,16 @@ InsertVotI2: function(grAttributes) //se verifica q el ususario este autenticado
     }
     else
     {
-        var aux = _.extend(grAttributes,
+        var aux =
         {
+          idea_id: ideaId,
           user_id: user._id,
+          voto: voto,
           submitted: new Date(),
-        });
-        var vtId = VotacionI2.insert(aux);
+        };
 
+        check(aux,votosI2Schema);
+        var vtId = VotacionI2.insert(aux);
         //contar
          switch(voto)
         {

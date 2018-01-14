@@ -1,0 +1,180 @@
+<template name="modalesSesion">
+
+
+    <div class="modal fade" id="modal_alta_sesion" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content" style="min-width: 700px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="title_modal_sesion">Crear Sesion</h4>
+            </div>
+
+           
+            {{#autoForm id="altaSesion" collection="Sesion" schema=SesionBasicSchema type="insert"}} 
+            <div class="modal-body" style="min-height: 650px">            
+            
+                {{> afQuickField name ='nombre' id='nombre' }} 
+                        
+           
+                {{> afQuickField name='tematica_id' id='tematicaAlta'  options=tematicas_Opts2}}
+                
+                <br> 
+                <div class="panel panel-default">      
+                    <div class="panel-heading">
+                      <h4>Fecha | Hora de Vigencia </h4>
+                    </div>
+                </div>
+
+                <div class='col-sm-5'>
+
+                    {{> afQuickField name='fecha1' id='fecha1'}}
+                   
+                </div>
+
+                <div class='col-sm-5'>
+                    
+                     {{> afQuickField name='fecha2' id='fecha2' }}
+                           
+                </div>
+
+
+
+                <br> <br><br>  <br> <br>    <br>   
+                <div class="panel panel-default">      
+                    <div class="panel-heading">
+                      <h4> Instancias </h4>
+                    </div>
+                </div>
+        
+                {{#each get_instancias}}
+                    <div class='col-sm-6'>
+                        <div class="form-group col-sm-8">
+                            <label class="control-label" for="instacia{{numero}}" tittle="{{descripcion}}">Instacia {{numero}}: {{nombre}} </label> 
+                        </div>
+                        
+                        <div class="form-group col-sm-4">
+                            <input type="number" id="instancia{{numero}}" name="instancia{{numero}}" min="1" max="60" alt="minutos" class="form-control numInst" value="1" style="max-width:100px"/> 
+                        </div>
+                    </div>
+                    
+                {{/each}}
+                 <br> <br><br><br>
+
+            </div>
+                
+            <div class="modal-footer">                    
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary" id="btn_altaSesion" >Guardar</button>
+            </div>
+          {{/autoForm}}
+
+            
+          </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="modal_alta_tematica" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content" style="min-width: 300px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Crear Tematica</h4>
+            </div> 
+
+            {{#autoForm id="altaTematica" collection="Tematica" schema=TematicaBasicSchema type="insert"}} 
+            <div class="modal-body"> 
+                {{> afQuickField name ='SC' id='SC' }} 
+                {{> afQuickField name ='Des' id='Des' }} 
+            </div>
+
+            <div class="modal-footer">                    
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary" >Guardar</button>
+            </div>
+            {{/autoForm}}
+          </div>
+        </div>
+    </div>
+
+
+
+    <!-- ++++++++++++++++++++++++ GRUPOS +++++++++++++++++++-->
+
+    <div class="modal fade" id="modal_admin_grupos" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content" style="min-width: 800px;min-height: 500px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Administrar Grupos</h4>
+            </div> 
+           
+            <div class="modal-body" style="min-height: 400px"> 
+
+                {{> tabular table=TabularTables.sesionGrupos selector=selector class="table table-striped table-bordered table-condensed"}}
+                <br>
+                <div class="form-group" style="float:left">
+                    <button type="button" class="btn btn-primary" id="newgrupo"><i class="fa fa-plus" aria-hidden="true"></i> Nuevo Grupo</button>
+                </div><br>
+            </div>
+
+            <div class="modal-footer">                    
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary" >Guardar</button>
+            </div>
+           
+          </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modal_alta_grupo" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content" style="min-width: 300px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Crear Grupo</h4>
+            </div> 
+
+
+            {{#autoForm id="altaGrupo" collection="Grupo" schema=GrupoBasicSchema type="insert"}} 
+            <div class="modal-body"> 
+                {{> afQuickField name ='gr'}} 
+                {{> afQuickField name ='descripcion'}} 
+                {{> afQuickField name='sesion_id' id='sesion_id' type='hidden' }}
+            </div>
+
+            <div class="modal-footer">                    
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary" >Guardar</button>
+            </div>
+            {{/autoForm}}
+          </div>
+        </div>
+    </div>
+    
+    <!-- ++++++++++++++++++++++++ ASIGNA ANIMADORES +++++++++++++++++++-->
+    <div class="modal fade" id="modal_asigna_animadores" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content" style="min-width: 300px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Asignar Animadores a la Sesion</h4>
+            </div> 
+
+            {{#autoForm id="asignaAnimSes" collection="AnimSesion" schema=AnimSesionSchemaBasic type="insert"}} 
+            <div class="modal-body"> 
+                {{> afQuickField name='idusers' id='idusers'  options=animadores_Opts multiple=true}}
+                
+                {{> afQuickField name='idsesion' id='idsesion' type='hidden' }}
+            </div>
+
+            <div class="modal-footer">                    
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary" >Guardar</button>
+            </div>
+            {{/autoForm}}
+          </div>
+        </div>
+    </div>
+</template>
+

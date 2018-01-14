@@ -119,7 +119,7 @@ TabularTables.selInscripTab=new Tabular.Table({
 
 //DD 28/08/2017
 // Datos para la tabla de gestion de animadores
-TabularTables.animadorTab=new Tabular.Table({
+/*TabularTables.animadorTab=new Tabular.Table({
   name: "animadorTab",
   collection: Animadores,
 
@@ -142,9 +142,9 @@ TabularTables.animadorTab=new Tabular.Table({
       tmpl: Meteor.isClient && Template.ga_ActionBtns, class: "col-md-1"
     }
     ]
-  });
+  });*/
 
-TabularTables.usuariosParaAni=new Tabular.Table({
+/*TabularTables.usuariosParaAni=new Tabular.Table({
   name: "usuariosParaAni",
 
   collection: Meteor.users,
@@ -184,7 +184,7 @@ TabularTables.usuariosParaAni=new Tabular.Table({
       tmpl: Meteor.isClient && Template.ga_usersActionBtns, class: "col-md-1"
     }
     ]
-  });
+  });*/
 
 //DD 29/08/2017
 // Datos para la tabla de gestion de participantes
@@ -249,7 +249,7 @@ TabularTables.animadorSesionTab=new Tabular.Table({
 
 //DD 01/09/2017
 // Datos para la datatable de seleccion de animadores de sesion
-TabularTables.selAnimaSTab=new Tabular.Table({
+/*TabularTables.selAnimaSTab=new Tabular.Table({
   name: "selAnimaSTab",
   collection: Animadores,
 
@@ -280,4 +280,88 @@ TabularTables.selAnimaSTab=new Tabular.Table({
       tmpl: Meteor.isClient && Template.as_selAnimaSActionBtns, class: "col-md-1"
     }
     ]
-  });
+  });*/
+
+
+//ADMIN SESIONES
+  TabularTables.sesionTab=new Tabular.Table({
+    name: "sesionTab",
+    collection: Sesion,
+
+    allow(userId) {
+      //Chequea que solo el usuario administrador tenga acceso a ver la tabla animadores
+      var usuario=Meteor.users.findOne({_id:userId});
+      var salida=false;
+      if (usuario.rol==="Administrador") {salida=true};
+      console.log("salida allow - TabularTables.sesionTab: "+salida);
+      return salida; // don't allow this person to subscribe to the data
+    },
+
+    selector:function(param) {
+      //console.log("selector: "+param);
+
+      //var idtematica = Session.get('tematicaId');
+      //console.log(idtematica);param
+      //var sesiones = Sesion.find({tematica_id: param});
+      //var sesionesIds=sesiones.map(function(p) { return p._id });
+
+      //return { _id:{$in: sesionesIds} }
+      return {};
+    },
+
+    responsive: true,
+
+    columns: [
+      //{data: "_id", title: "cod Animador"},
+    
+      {data: "nombre", title: "Nombre"},
+      {data: "fecha1", title: "Fecha Inicio"},
+      {data: "hora1", title: "Hora Inicio"},
+      {data: "fecha2", title: "Fecha Fin"},
+      {data: "hora2", title: "Hora Fin"},
+      {data: "estado", title: "Estado"},
+     
+      {
+        tmpl: Meteor.isClient && Template.gs_ActionBtns, class: "col-md-1"
+      }
+      ]
+    });
+
+
+  //ADMIN Grupos
+  TabularTables.sesionGrupos=new Tabular.Table({
+    name: "sesionGrupos",
+    collection: Grupo,
+
+    allow(userId) {
+      //Chequea que solo el usuario administrador tenga acceso a ver la tabla animadores
+      var usuario=Meteor.users.findOne({_id:userId});
+      var salida=false;
+      if (usuario.rol==="Administrador") {salida=true};
+      console.log("salida allow - TabularTables.sesionTab: "+salida);
+      return salida; // don't allow this person to subscribe to the data
+    },
+
+    selector:function(param) {
+      //console.log("selector: "+param);
+
+      //var idtematica = Session.get('tematicaId');
+      //console.log(idtematica);param
+      //var sesiones = Sesion.find({tematica_id: param});
+      //var sesionesIds=sesiones.map(function(p) { return p._id });
+
+      //return { _id:{$in: sesionesIds} }
+      return {};
+    },
+
+    responsive: true,
+
+    columns: [
+      //{data: "_id", title: "cod Animador"},
+      {data: "gr", title: "Nombre"},
+      {data: "descripcion", title: "Descripcion"},
+      {
+        tmpl: Meteor.isClient && Template.gs_ActionBtnsGrupos, class: "col-md-1"
+      }
+      ]
+    });
