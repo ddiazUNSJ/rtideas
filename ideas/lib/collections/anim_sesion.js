@@ -67,7 +67,7 @@ if (Meteor.isServer)
             active: true
       };
 
-      console.log(sesion_id);
+      //console.log(sesion_id);
       var animSesion = AnimSesion.findOne({idsesion:sesion_id});
       if(!animSesion)
       {

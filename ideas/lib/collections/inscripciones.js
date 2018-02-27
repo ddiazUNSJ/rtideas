@@ -86,12 +86,12 @@ if (Meteor.isServer)
         // });
          var nombreU=Meteor.call('getUserNombre')
          var datos = {
-                    nombre:nombreU,
-                    userId:this.userId,
-                    sesion:sesioncId,
+                    //nombre:nombreU,
+                    user_id:this.userId,
+                    sesion_id:sesioncId,
                     activa:true,
-                    estadoInscripcio:"pendiente",
-                    estadoRazones:"Procesando la Inscripcion"
+                    estado:"pendiente",
+                    razones:""
 
             };
             Inscripcion.simpleSchema().validate(datos, {check});
@@ -118,7 +118,7 @@ if (Meteor.isServer)
       // en el caso de ser llamada desd autoform estos parametros los carga autoform directamente al 
       // hacer submit.
 
-     updateEstadoInscripcion: function (modifier, objID) {
+     /*updateEstadoInscripcion: function (modifier, objID) {
 
       console.log
       //Chequeo de seguridad - Verifica Identidad 
@@ -149,7 +149,7 @@ if (Meteor.isServer)
       check(modifier,modifierEstadoInscripcioSchema);
      //  return Inscripcion.update({ _id: inscriId }, { $set: {'activa' : false }});
       return Inscripcion.update(objID, modifier);
-      },
+      },*/
 
       //DD 29/08/2017 
    //--- Busca en la coleccion inscriptos de la sesion de creatividad

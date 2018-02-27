@@ -89,7 +89,7 @@
                         <a href="{{pathFor 'adminSesion'}}">Admin. Sesiones</a>
                     </li>
 
-                    <li class="{{isActiveRoute regex='formBasic'}}">
+                    <!--<li class="{{isActiveRoute regex='formBasic'}}">
                         <a href="{{pathFor 'tematicaSubmit'}}">Crear Tematica</a>
                     </li>
 
@@ -99,7 +99,7 @@
 
                     <li class="{{isActiveRoute regex='formBasic'}}">
                         <a href="{{pathFor 'grupoSubmit'}}">Crear Grupo</a>
-                    </li>
+                    </li>-->
 
                     <!--<li class="{{isActiveRoute regex='formAdvanced'}}">
                         <a href="{{pathFor ''}}">Listar Tematica</a>
@@ -138,17 +138,17 @@
                 </a>
                             
                 <ul class="nav nav-second-level {{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor' className='in'}}">
-                    <li class="{{isActiveRoute regex='formBasic'}}">
+                    <!--<li class="{{isActiveRoute regex='formBasic'}}">
                         <a href="{{pathFor 'gi_AdminInscri'}}">Gestionar Inscripciones</a>
+                    </li>-->
+
+                    <li class="{{isActiveRoute regex='formAdvanced'}}">
+                        <a href="{{pathFor 'list_inscriptos'}}">Administrar Inscriptos</a>
                     </li>
 
                     <li class="{{isActiveRoute regex='formBasic'}}">
                         <a href="{{pathFor 'asignacion'}}">Asignar Participantes</a>
-                    </li>
-
-                    <li class="{{isActiveRoute regex='formAdvanced'}}">
-                        <a href="{{pathFor 'list_inscriptos'}}">Lista Inscriptos</a>
-                    </li>
+                    </li>                   
 
                      <li class="{{isActiveRoute regex='formBasic'}}">
                         <a href="{{pathFor 'asignacion_anim'}}">Asignar Animadores</a>

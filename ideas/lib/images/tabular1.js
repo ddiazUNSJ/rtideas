@@ -48,7 +48,7 @@ TabularTables.usuarios=new Tabular.Table({
     //console.log("rol en allow-TabularTables.usuarios: "+rol);
     var salida=false;
     if (rol==="Administrador") {salida=true};
-    console.log("salida allow TabularTables.usuarios: "+salida);
+    //console.log("salida allow TabularTables.usuarios: "+salida);
     return salida; // don't allow this person to subscribe to the data
   },
   columns: [
@@ -70,7 +70,7 @@ TabularTables.inscripTab=new Tabular.Table({
     var usuario=Meteor.users.findOne({_id:userId});
     var salida=false;
     if (usuario.rol==="Administrador") {salida=true};
-    console.log("salida allow - TabularTables.inscripTab: "+salida);
+    //console.log("salida allow - TabularTables.inscripTab: "+salida);
     return salida; // don't allow this person to subscribe to the data
   },
   columns: [
@@ -96,7 +96,7 @@ TabularTables.selInscripTab=new Tabular.Table({
     var usuario=Meteor.users.findOne({_id:userId});
     var salida=false;
     if (usuario.rol==="Administrador") {salida=true};
-    console.log("salida allow - TabularTables.selInscripTab: "+salida);
+    //console.log("salida allow - TabularTables.selInscripTab: "+salida);
     return salida; // don't allow this person to subscribe to the data
   },
   // selector:function(){
@@ -197,7 +197,7 @@ TabularTables.participantesTab=new Tabular.Table({
     var usuario=Meteor.users.findOne({_id:userId});
     var salida=false;
     if (usuario.rol==="Administrador") {salida=true};
-    console.log("salida allow - TabularTables.participantesTab: "+salida);
+    //console.log("salida allow - TabularTables.participantesTab: "+salida);
     return salida; // don't allow this person to subscribe to the data
   },
 
@@ -225,7 +225,7 @@ TabularTables.animadorSesionTab=new Tabular.Table({
     var usuario=Meteor.users.findOne({_id:userId});
     var salida=false;
     if (usuario.rol==="Administrador") {salida=true};
-    console.log("salida allow - TabularTables.animadorSesionTab: "+salida);
+    //console.log("salida allow - TabularTables.animadorSesionTab: "+salida);
     return salida; // don't allow this person to subscribe to the data
   },
    selector:function(){
@@ -293,7 +293,7 @@ TabularTables.animadorSesionTab=new Tabular.Table({
       var usuario=Meteor.users.findOne({_id:userId});
       var salida=false;
       if (usuario.rol==="Administrador") {salida=true};
-      console.log("salida allow - TabularTables.sesionTab: "+salida);
+      //console.log("salida allow - TabularTables.sesionTab: "+salida);
       return salida; // don't allow this person to subscribe to the data
     },
 
@@ -338,7 +338,7 @@ TabularTables.animadorSesionTab=new Tabular.Table({
       var usuario=Meteor.users.findOne({_id:userId});
       var salida=false;
       if (usuario.rol==="Administrador") {salida=true};
-      console.log("salida allow - TabularTables.sesionTab: "+salida);
+      //console.log("salida allow - TabularTables.sesionTab: "+salida);
       return salida; // don't allow this person to subscribe to the data
     },
 
@@ -362,6 +362,46 @@ TabularTables.animadorSesionTab=new Tabular.Table({
       {data: "descripcion", title: "Descripcion"},
       {
         tmpl: Meteor.isClient && Template.gs_ActionBtnsGrupos, class: "col-md-1"
+      }
+      ]
+    });
+
+
+//ADMIN INSCRIPTOS
+TabularTables.inscriptosTab=new Tabular.Table({
+    name: "inscriptosTab",
+    collection: Inscripcion,
+    pub: "tabular_inscriptos", //perzonaliza la publicacion de datos, util cuando necesito acceder a datos de una coleccion relacionada
+
+    allow(userId) {
+      //Chequea que solo el usuario administrador tenga acceso a ver la tabla animadores
+      var usuario=Meteor.users.findOne({_id:userId});
+      var salida=false;
+      if (usuario.rol==="Administrador") {salida=true};
+        //console.log("salida allow - TabularTables.inscriptosTab: "+salida);
+      return salida; // don't allow this person to subscribe to the data
+    },
+
+    selector:function(param) {
+      return {};
+    },
+
+    responsive: true,
+    autoWidth: false,
+    //extraFields: ['email'],
+    //order: [[0, "desc"]], 
+
+    columns: [
+      //{data: "_id", title: "cod Animador"},
+      {data: "user_id", title: "Id Usuario", visible: false},
+      {data: "nombre()", title: "Nombre" },
+      {data: "username()", title: "Usuario"},
+      {data: "rol()", title: "Rol"}, //rol() -> es un helper en tabular_helper.js
+      {data: "estado", title: "Estado"},
+
+      {
+        title: "Aceptar",
+        tmpl: Meteor.isClient && Template.gInsc_aceptar, class: "col-md-1"        
       }
       ]
     });

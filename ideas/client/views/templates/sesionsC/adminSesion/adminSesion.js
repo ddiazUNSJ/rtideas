@@ -63,7 +63,8 @@ Template.adminSesion.events({
     
     $('#altaSesion input').val('');
     $('.numInst').val(1);
-    $('#altaSesion #tematica_id').val( Session.get('tematicaId') );
+    //alert(Session.get('tematicaId'));
+    //$('#altaSesion #tematica_id').val( Session.get('tematicaId') );
     $('#modal_alta_sesion').modal('show');
   },
 

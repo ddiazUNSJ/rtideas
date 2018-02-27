@@ -324,7 +324,7 @@ Meteor.publish('inscripciones', function() {
 
     var usuario= Meteor.users.findOne({_id: this.userId});
     nombre = usuario.profile.nombre;
- console.log(nombre+ " esta publicando los datos de sus inscripciones");
+ //console.log(nombre+ " esta publicando los datos de sus inscripciones");
  // Ojo se publican todas las inscripciones del usuario, las activas y las no activas
  return Inscripcion.find({'userId': this.userId}, {fields:{_id:1,_nombre:1,userId:1,sesion:1,activa:1, estadoInscripcio:1, 
                                             estadoRazones:1,  grupo:1, nombreGrupo:1}});
@@ -351,9 +351,9 @@ Meteor.publish('allInscripciones', function() {
             ' Para acceder a esta funcionalidad necesita ser Administrador');
         }
        }
-    console.log(nombre+ " esta publicando todos las inscripciones");
-    return Inscripcion.find({}, {fields: { _id:1,_nombre:1,userId:1,sesion:1,activa:1, estadoInscripcio:1, 
-                                            estadoRazones:1,  grupo:1, nombreGrupo:1}});
+    //console.log(nombre+ " esta publicando todos las inscripciones");
+    //return Inscripcion.find({}, {fields: { userId:1,sesion:1,activa:1, estadoInscripcion:1, estadoRazones:1 }});
+    return Inscripcion.find({});
 
 });
 
@@ -430,6 +430,8 @@ Meteor.publish('sesion_de_userSesion', function(sesionCActual) {
    
 
 });
+
+
 
 
 

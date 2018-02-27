@@ -109,4 +109,10 @@ useraccounts:bootstrap
 #mdg:validated-method
 
 
+#adicionales para tabular
+dburles:collection-helpers
+reywood:publish-composite
+meteorhacks:unblock
+
+
 

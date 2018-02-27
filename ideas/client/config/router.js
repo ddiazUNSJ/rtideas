@@ -86,9 +86,9 @@ Router.onBeforeAction(requireLogin, {only: 'rolSubmit'});//cintia
 
 //--------------------------------------------------------------------
 
-Router.route('/tematicaCreate', {name: 'tematicaSubmit', layoutTemplate: 'mainLayout'});//cintia
-Router.route('/submitG', {name: 'grupoSubmit', layoutTemplate: 'mainLayout'});//cintia
-Router.route('/submitSesion', {name: 'sesionSubmit', layoutTemplate: 'mainLayout'});//cintia
+//Router.route('/tematicaCreate', {name: 'tematicaSubmit', layoutTemplate: 'mainLayout'});//cintia
+//Router.route('/submitG', {name: 'grupoSubmit', layoutTemplate: 'mainLayout'});//cintia
+//Router.route('/submitSesion', {name: 'sesionSubmit', layoutTemplate: 'mainLayout'});//cintia
 Router.route('/submitCGR', {name: 'compartirSubmit', layoutTemplate: 'mainLayout'});//cintia
 Router.route('/listCGR', {name: 'GcompList', layoutTemplate: 'mainLayout'});//cintia
 Router.route('/inscriptos', {name: 'list_inscriptos', layoutTemplate: 'mainLayout'});
@@ -98,9 +98,9 @@ Router.route('/adminSesiones', {name: 'adminSesion', layoutTemplate: 'mainLayout
 //Router.route('/rolList', {name: 'listadorol'});
 
 //listado de todas las tematicas
-Router.route('/tematicaList', {name: 'tematicaList', layoutTemplate: 'mainLayout'});
+//Router.route('/tematicaList', {name: 'tematicaList', layoutTemplate: 'mainLayout'});
 //listado de todos los grupos
-Router.route('/groupList', {name: 'list_grupo', layoutTemplate: 'mainLayout'});
+//Router.route('/groupList', {name: 'list_grupo', layoutTemplate: 'mainLayout'});
 //listados de todas las asignaciones
 Router.route('/asignarList', {name: 'listasignacion', layoutTemplate: 'mainLayout'});
 //asigna grupo, asuario y rol
@@ -157,7 +157,7 @@ Router.route('/chat/:_id', {  //los parametros siempre lo toma de la url. idgrup
 }*/
 
 
-var requireSubsc2 = function() {
+/*var requireSubsc2 = function() {
 	if (! Meteor.user()) {
     if (Meteor.loggingIn()) {
       this.render(this.loadingTemplate);
@@ -169,9 +169,9 @@ var requireSubsc2 = function() {
   Meteor.subscribe('sesionesCreatividad');// muestra las sesiones cargadas para el select
 	this.render('grupoSubmit');//lo envia a la plantilla listado de grupo
   }
-}
+}*/
 
-var requireSubsc3 = function() {
+/*var requireSubsc3 = function() {
 		if (! Meteor.user()) {
     if (Meteor.loggingIn()) {
       this.render(this.loadingTemplate);
@@ -183,9 +183,9 @@ var requireSubsc3 = function() {
 	this.render('tematicaList');
   }
   
-}
+}*/
 
-var requireSubsc4 = function() {
+/*var requireSubsc4 = function() {
 		if (! Meteor.user()) {
     if (Meteor.loggingIn()) {
       this.render(this.loadingTemplate);
@@ -197,8 +197,7 @@ var requireSubsc4 = function() {
 	Meteor.subscribe('creatividad'); //consultar por cuestion de seguridad????????
 	this.render('list_grupo');
   }
-  
-}
+}*/
 
 var requireSubsc5 = function() {
 		if (! Meteor.user()) {
@@ -315,7 +314,7 @@ var requireSubsc6 = function() {
 	 } 
   }
 
-   var requireSubsc9 = function() 
+   /*var requireSubsc9 = function() 
   {
     if (! Meteor.user()) {
     if (Meteor.loggingIn()) {
@@ -331,7 +330,7 @@ var requireSubsc6 = function() {
     this.render('sesionSubmit');
     //this.next();
    } 
-  }
+  }*/
 
 
   var requireSubsc10 = function() {
@@ -365,8 +364,9 @@ var requireSubsc11 = function()
     }
   else
    {
-    Meteor.subscribe('inscripciones');    
-    Meteor.subscribe('subrol');  
+    Meteor.subscribe('allInscripciones');    
+    Meteor.subscribe('tematica');        
+    //Meteor.subscribe('subrol');  
     Meteor.subscribe('sesionesCreatividad');  
     Meteor.subscribe('usersesion');    
 
@@ -417,16 +417,16 @@ var requiresSesionList = function()
 //Router.onBeforeAction('dataNotFound', {only: 'postPage'});
 Router.onBeforeAction(requireLogin, {only: 'rolSubmit'});//cintia
 
-Router.onBeforeAction(requireLogin, {only: 'tematicaSubmit'});//cintia
-Router.onBeforeAction(requireSubsc2, {only: 'grupoSubmit'});
-Router.onBeforeAction(requireSubsc3, {only: 'tematicaList'});
-Router.onBeforeAction(requireSubsc4, {only: 'list_grupo'});
+//Router.onBeforeAction(requireLogin, {only: 'tematicaSubmit'});//cintia
+//Router.onBeforeAction(requireSubsc2, {only: 'grupoSubmit'});
+//Router.onBeforeAction(requireSubsc3, {only: 'tematicaList'});
+//Router.onBeforeAction(requireSubsc4, {only: 'list_grupo'});
 
 Router.onBeforeAction(requireSubsc5, {only: 'asignacion'});
 Router.onBeforeAction(requireSubsc6, {only: 'chatPage'});
 Router.onBeforeAction(requireSubsc7, {only: 'compartirSubmit'});
 Router.onBeforeAction(requireSubsc8, {only: 'GcompList'});
-Router.onBeforeAction(requireSubsc9, {only: 'sesionSubmit'});
+//Router.onBeforeAction(requireSubsc9, {only: 'sesionSubmit'});
 Router.onBeforeAction(requireSubsc10, {only: 'asignacion_anim'});
 Router.onBeforeAction(requireSubsc11, {only: 'list_inscriptos'});
 
@@ -477,11 +477,11 @@ Router.route('/sesionDispo', {
 });
 
 
-Router.route('/gi_AdminInscri', {
+/*Router.route('/gi_AdminInscri', {
     name: 'gi_AdminInscri',
     template: 'gi_AdminInscri',
     layoutTemplate: 'mainLayout',
-});
+});*/
 
 
 Router.route('/adminAnima',{name: 'adminAnima',

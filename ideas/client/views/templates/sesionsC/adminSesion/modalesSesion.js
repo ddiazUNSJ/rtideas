@@ -14,6 +14,10 @@ Template.modalesSesion.helpers({
     return options;
   },
 
+  checkedValue: function() {
+    return Session.get('tematicaId'); 
+  },
+
   animadores_Opts() { 
     var data = Meteor.users.find({rol:"Animador"}, {sort: {username: 1}});
     var options=new Array();
