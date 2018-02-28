@@ -27,8 +27,8 @@ Template.gInsc_aceptar.events({
 	    //var rol = $(rolselect).val();
 
 	    var arre = {
-	      iduser: this.user_id,
-	      idsesion: Session.get('sesionId'),
+	      userId: this.user_id,
+	      sesionId: Session.get('sesionId'),
 	      rol: "Participante",
 	    };
 	    //console.log(arre);

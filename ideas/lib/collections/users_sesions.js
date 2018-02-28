@@ -4,7 +4,6 @@
 Users_sesions = new Mongo.Collection('users_sesions');
 
 Users_sesionsSchema = new SimpleSchema({
- 
   iduser: {
         type: String,
         label: "userId",
@@ -36,52 +35,52 @@ Users_sesionsSchema = new SimpleSchema({
        },
   
 });
-//31/08/2017
-//Definido para validar datos en agregarParticipante
-datosPartici=new SimpleSchema({
-  inscriId:{
+
+Users_sesionsSchemaBasic=new SimpleSchema({
+  userId:{
         type: String,
-        label: "inscriId",
+        label: "userId",
       },
   sesionId: {
         type: String,
-        label: "userId",
+        label: "sesionId",
       },
-  userId: {
+  rol: {
         type: String,
-        label: "userId",
+        label: "rol",
       },
 })
 
 Users_sesions.attachSchema(Users_sesionsSchema);
+
 if (Meteor.isServer)
 {
   Meteor.methods({
     
-   //Determina si el actual usuario es animador
-   // Se utiliza para 
-   isAnimadorUserSesion:function(sesionId){
-      check(sesionId,String);
-    //  Verifica Identidad 
-      if (!this.userId) {
-          throw new Meteor.Error('Acceso invalido',
-            'Ustede no esta logeado');
+    //Determina si el actual usuario es animador
+    // Se utiliza para 
+    isAnimadorUserSesion:function(sesionId){
+        check(sesionId,String);
+        // Verifica Identidad 
+        if (!this.userId) {
+            throw new Meteor.Error('Acceso invalido',
+              'Ustede no esta logeado');
+          }
+      var usuarioEnUserSesion=Users_sesions.findOne({iduser: this.userId},idsesion:sesionId);
+      if (usuarioEnUserSesion.rol==="Animador"){
+        return true;
         }
-    var usuarioEnUserSesion=Users_sesions.findOne({iduser: this.userId},idsesion:sesionId);
-    if (usuarioEnUserSesion.rol==="Animador"){
-      return true;
+      else{
+        return false;
       }
-    else{
-      return false;
-    }
-  },
+    },
   
-   agregarAnimadorSesion:function(datos){
+   /*agregarAnimadorSesion:function(datos){
      
      check(datos, datosPartici);
      console.log("datos en agregarAnimadorSesion:",datos);
      var usuario, nombreU, rolU;
-    //  Verifica Identidad 
+    
       if (!this.userId) {
           throw new Meteor.Error('Acceso invalido',
             'Ustede no esta logeado');
@@ -133,64 +132,61 @@ if (Meteor.isServer)
           
       }
     
-    },
+    },*/
 
 
-//--------------
-   agregarParticipante:function(datos){
-     
-     check(datos, datosPartici);
-     var usuario, nombreU, rolU;
-    //  Verifica Identidad 
+    //--------------
+    InsertUserSesion:function(datos){
+      check(datos,Users_sesionsSchemaBasic);
+
+      var usuario, nombreU, rolU;
+
       if (!this.userId) {
           throw new Meteor.Error('Acceso invalido',
-            'Ustede no esta logeado');
-        }
+            'Usted no esta logeado');
+      }
       else // verifica si tiene privilegios de administrador
-       { 
-        usuario= Meteor.users.findOne({_id: this.userId});
-        
-        rolU=usuario.rol;
-        if  (rolU!="Administrador") 
-        {
-            console.log("error no es administrador");
-            throw new Meteor.Error('Acceso invalido',
-            ' Para acceder a esta funcionalidad necesita ser Administrador');
-        }
-       }
+      { 
+          usuario= Meteor.users.findOne({_id: this.userId});
+          
+          rolU=usuario.rol;
+          if  (rolU!="Administrador") 
+          {
+              console.log("error no es administrador");
+              throw new Meteor.Error('Acceso invalido',
+              ' Para acceder a esta funcionalidad necesita ser Administrador');
+          }
+      }
       
 
-     // //Habilitado para registrar participante
-     nombreU=Meteor.users.findOne({_id: datos.userId}).profile.nombre;
+     //nombreU=Meteor.users.findOne({_id: datos.userId}).profile.nombre;
+
      // //El participante ya esta acentado en user-sesion 
      var estaEnUserSesion=Users_sesions.findOne( {iduser:datos.userId, idsesion: datos.sesionId} ); 
      if  (estaEnUserSesion){
-         return estaEnUserSesion;
+         //return estaEnUserSesion;
+          var srId = Users_sesions.remove({iduser:datos.userId, idsesion: datos.sesionId});
       }
      // //No esta registrado , creamos participante en usersesion 
      else
-     {
-      var participanteNuevo={iduser: datos.userId,
-                     idsesion:datos.sesionId,
-                     idgrupo:"notiene",
-                     rol:"Participante",
-                     nombre:nombreU,
-                     author:this.userId,
-                     submitted:new Date(),
-                           };
+     {  
+      var grupos = new Array();
+
+      var participanteNuevo={
+          iduser: datos.userId,
+          idsesion: datos.sesionId,
+          idgrupo: grupos,
+          rol: datos.rol,
+          //nombre:nombreU,
+          author:this.userId,
+          submitted:new Date(),
+      };
 
       check(participanteNuevo,Users_sesionsSchema);
       var participanteAgregado=Users_sesions.insert(participanteNuevo);
-     // Actualizar coleccion de inscriptos
-     Inscripcion.update( {_id:datos.inscriId}, { $set: { estadoInscripcio: 'aceptado' } } );
-     //  // llamo al metodo UpdateEstadoInscripcion: function (modifier, objID)
-     //  // el modifier es el mongo modifier y objID es el id de inscripcion
-
-      //  Meteor.call ("UpdateEstadoInscripcion","{ '$set': { estadoInscripcio: 'aceptado' } }", datos.inscriId); 
-  
-
-
-     //  return     participanteAgregado       
+      // Actualizar coleccion de inscriptos
+      Inscripcion.update( {_id:datos.inscriId}, { $set: { estadoInscripcio: 'aceptado' } } );
+         
       }
     
     },
@@ -267,20 +263,15 @@ if (Meteor.isServer)
       };
   },
 
-  InsertUserSesion: function(grAttributes) //se verifica q el ususario este autenticado
+  /*InsertUserSesion copia: function(grAttributes) //se verifica q el ususario este autenticado
   {
     check(Meteor.userId(), String);
-
-    //con estas lineas chequea todo el arreglo, de la otra manera nos daba error. 
-    //este caso difiere de los demas porque grAttributes trae un arreglo de objetos (time_sesion)
+   
     check(grAttributes, Match.Where(function(grAttributes){
-        _.each(grAttributes, function (doc) {
-          // do your checks and return false if there is a problem 
+        _.each(grAttributes, function (doc) {          
         });
-        // return true if there is no problem
         return true;
-    }));
-      
+    }));      
   
     var user = Meteor.user();
     var datos = _.extend(grAttributes,
@@ -289,8 +280,7 @@ if (Meteor.isServer)
       userId: user._id,
       author: user.username,
       submitted: new Date(),  
-    });
-   
+    });   
     
     var result = Users_sesions.findOne( {iduser:datos.iduser, idsesion: datos.idsesion} ); 
     
@@ -302,7 +292,7 @@ if (Meteor.isServer)
     return {
       _id: grId
     };
-  }
+  }*/
 
 });
 
