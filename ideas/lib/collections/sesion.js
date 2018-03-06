@@ -90,7 +90,20 @@ SesionSchema=new SimpleSchema({
   instActual: {
     type: Number,
     label: "instActual", // indica el numero de isntancia actual, -1 = no empieza aun
-  },
+      },
+  
+  estadoSesion: {  // DD 4/2/2018
+        type: String,
+        label: "Estado de la sesion", // Indica estado de la sesion, (pendiente, aceptado, no aceptado)
+        allowedValues: [
+         'en_construccion',
+         'en_ejecucion',
+         'terminada'
+         ],
+        optional: true  //Deberiamos poner una validacion que permita solo tres string los mencionados
+    },    
+                             
+
 });
 
 SesionBasicSchema=new SimpleSchema({
@@ -406,57 +419,59 @@ if (Meteor.isServer)
  Meteor.methods({
 
 
-  sesionInsert: function(datosSesion) //se verifica q el ususario este autenticado
-  {
+sesionInsert: function(datosSesion) //se verifica q el ususario este autenticado
+        {
+           // validacion 
+          check(datosSesion,SesionBasicSchema);
 
-    check(datosSesion,SesionBasicSchema);
-   
-    //Verifica Identidad y autorizacion para crear sesion
-    if (!this.userId) {
-         throw new Meteor.Error('Acceso invalido',
-        'Ustede no esta logeado');
-       }
-    else // verifica si tiene privilegios de administrador
-    { 
-      usuario= Meteor.users.findOne({_id: this.userId});
-      rol=usuario.rol;
-      if  (rol!="Administrador") 
-      {
-          console.log("error no es administrador");
-          throw new Meteor.Error('Acceso invalido',
-          ' Para acceder a esta funcionalidad necesita ser Administrador');
-      }
-    }
-    // Si esta autorizado comienza proceso
+          console.log("pase validacion datos sesion");
+          //Verifica Identidad y autorizacion para crear sesion
+              if (!this.userId) {
+                   throw new Meteor.Error('Acceso invalido',
+                  'Ustede no esta logeado');
+                 }
+              else // verifica si tiene privilegios de administrador
+               { 
+                usuario= Meteor.users.findOne({_id: this.userId});
+                rol=usuario.rol;
+                if  (rol!="Administrador") 
+                {
+                    console.log("error no es administrador");
+                    throw new Meteor.Error('Acceso invalido',
+                    ' Para acceder a esta funcionalidad necesita ser Administrador');
+                }
+               }
+                // Si esta autorizado comienza proceso
+          
+          var user = Meteor.user(); // Estoy servidor 
+          var docSesion={
+            tematica_id:datosSesion.tematica_id,
+            nombre:datosSesion.nombre,
+            fecha1:datosSesion.fecha1,
+            fecha2:datosSesion.fecha2,
+            hora1:datosSesion.hora1,
+            hora2:datosSesion.hora2,
+            instancia1:datosSesion.instancia1,
+            instancia2:datosSesion.instancia2,
+            instancia3:datosSesion.instancia3,
+            instancia4:datosSesion.instancia4,
+            instancia5:datosSesion.instancia5,
+            instancia6:datosSesion.instancia6,
+            instancia7:datosSesion.instancia7,
+            instancia8:datosSesion.instancia8,
+            userId: user._id,
+            author: user.username,
+            submitted: new Date(),
+            estado: 'activa',
+            instActual: -1,
+            estadoSesion:"en_construccion",
+            }       
+                // Valida el documento , luego inserta nueva sesion   
+                check(docSesion, SesionSchema)
+        return Sesion.insert(docSesion);
+        },   
 
-    var user = Meteor.user(); //Estoy en el Servidor
-    var datos ={
-      tematica_id:datosSesion.tematica_id,
-      nombre:datosSesion.nombre,
-      fecha1:datosSesion.fecha1,
-      fecha2:datosSesion.fecha2,
-      hora1:datosSesion.hora1,
-      hora2:datosSesion.hora2,
-      instancia1:datosSesion.instancia1,
-      instancia2:datosSesion.instancia2,
-      instancia3:datosSesion.instancia3,
-      instancia4:datosSesion.instancia4,
-      instancia5:datosSesion.instancia5,
-      instancia6:datosSesion.instancia6,
-      instancia7:datosSesion.instancia7,
-      instancia8:datosSesion.instancia8,
-      userId:user._id,
-      author: user.username,
-      submitted: new Date(),
-	    estado: 'Inicio',
-      instActual: -1
-    };
 
-    // Valida el documento , luego inserta nueva sesion   
-    check(datos,SesionSchema);
-
-    return Sesion.insert(datos);
- },
 
 
   sesionRemove: function(idsesion) //se verifica q el ususario este autenticado

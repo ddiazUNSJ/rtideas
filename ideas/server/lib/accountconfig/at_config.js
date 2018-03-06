@@ -71,8 +71,9 @@ Meteor.startup(function() {
   if(Meteor.isServer) {
     console.log('preparando el setting de MAIL_URL');  
 
-    //console.log(  Meteor.settings.private.email.username );
-    console.log(  Meteor.settings.private );
+    // console.log(  Meteor.settings.private.email.username );
+    // console.log(  Meteor.settings.private.email.password );
+     console.log(  Meteor.settings.private );
 
 
     var email = {
@@ -88,6 +89,7 @@ Meteor.startup(function() {
       ) 
       { 
        console.log('seteando MAIL_URL1');   
+      
        process.env.MAIL_URL = 'smtp://' + encodeURIComponent(email.username) + ':' + encodeURIComponent(email.password) + '@' + encodeURIComponent(email.server) + ':' + email.port;
        } 
   
