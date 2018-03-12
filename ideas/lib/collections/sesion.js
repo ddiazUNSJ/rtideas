@@ -195,6 +195,17 @@ SesionBasicSchema=new SimpleSchema({
     type:Number,
     label:"Tiempo octava instancia",
   },
+
+  estadoSesion: {  // DD 4/2/2018
+        type: String,
+        label: "Estado de la sesion", // Indica estado de la sesion, (pendiente, aceptado, no aceptado)
+        allowedValues: [
+         'en_construccion',
+         'en_ejecucion',
+         'terminada'
+         ],
+        optional: true  //Deberiamos poner una validacion que permita solo tres string los mencionados
+    }, 
 });
 
 Sesion.attachSchema(SesionBasicSchema);
