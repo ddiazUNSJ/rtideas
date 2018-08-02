@@ -408,21 +408,20 @@ Meteor.publish('sesion_de_userSesion', function(sesionCActual) {
         }
        }
     // Verifica si la sesion esta activa
-    console.log("sesion en actual 'sesion_de_userSesion': "+sesionCActual);
+    console.log("idsesion en publish sesion_de_userSesion: "+sesionCActual);
        var sesion= Sesion.findOne({_id:sesionCActual})
-       console.log("sesion en 'sesion_de_userSesion': "+sesion);
-       var sesionEstado=sesion.estado;
+       var estadoDeLaSesion=sesion.estadoSesion;
        
-      console.log("sesionEstado en 'sesion_de_userSesion': "+sesionEstado);
+      console.log("estadoDeLaSesion en 'publish sesion_de_userSesion': "+estadoDeLaSesion);
       
-      if (sesionEstado!=true)
+      if (estadoDeLaSesion!="en_construccion")
       {
           console.log("Error en publicacion sesion_de_userSesion,sesion no activa");
           throw new Meteor.Error('Acceso invalido',
           ' Esta intentando publicar usersesion de sesion no activa');
       }
      // Enviar datos de user_sesion para la sesion solicitada
-     return Users_sesions.find({sesion:sesionCActual});
+     return Users_sesions.find({idsesion:sesionCActual});
 
    
 

@@ -76,6 +76,7 @@ Template.modalesSesion.events ({
           fecha2:fecha2,
           hora1:hora1,
           hora2:hora2,
+          estadoSesion:'en_construccion',
         };
 
         var instancias = $(e.target).find('.numInst'); 
@@ -212,3 +213,4 @@ Template.modalesSesion.events ({
   },
   
 });
+

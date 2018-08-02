@@ -152,6 +152,26 @@ Template.gs_ActionBtns.events({
 	    $('#asignaAnimSes #idsesion').val( idsesion );
 	    $('#modal_asigna_animadores').modal('show');
     },
+    
+    'click #btnIrADatosSesion': function(e,t)
+    {
+	    e.preventDefault();
+	    var idsesion = $(e.target).attr('value');
+	  //	Session.set('sesionCActual', this._id);
+	 // console.log("en btnIrADatosSesion");
+	 	Session.set('sesionCActual', idsesion);
+
+	  	 console.log("sesionCActual- en btnIrADatosSesion :",Session.get("sesionCActual"));
+
+
+	    //$('#altaSesion input').val('');
+	    //$('#altaSesion #tematica_id').val( Session.get('tematicaId') );
+
+	      
+
+	    Router.go('gp_AdminPartici');
+	    
+   },
 
 });
 

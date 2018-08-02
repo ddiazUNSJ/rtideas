@@ -174,7 +174,11 @@ TabularTables.participantesTab=new Tabular.Table({
     //console.log("salida allow - TabularTables.participantesTab: "+salida);
     return salida; // don't allow this person to subscribe to the data
   },
-
+  
+   // selector:function(){
+  //     console.log("Session.get_sesionCActual:",Session.get("sesionCActual"));
+  //     return{sesion:Session.get("sesionCActual"), estadoInscripcio: { $in: ['pendiente', 'no_aceptado' ] } };
+  //   },
   columns: [
     {data: "_id", title: "cod user-sesion"},
     {data: "nombre", title: "nombre"},
@@ -294,6 +298,9 @@ TabularTables.animadorSesionTab=new Tabular.Table({
       {data: "fecha2", title: "Fecha Fin"},
       {data: "hora2", title: "Hora Fin"},
       {data: "estado", title: "Estado"},
+      {data: "_id", title: "idSesion"},
+
+      //{data: "_id", title: "idSesion", visible: false},
      
       {
         tmpl: Meteor.isClient && Template.gs_ActionBtns, class: "col-md-1"

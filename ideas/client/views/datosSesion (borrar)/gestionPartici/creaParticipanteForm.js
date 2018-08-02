@@ -11,7 +11,7 @@ Template.creaParticipanteForm.helpers({
       return Session.get('inscriptoNoA');
     },
      selector:function(){
-      console.log("Session.get_sesionCActual:",Session.get("sesionCActual"));
+      console.log("sesionCActual en creaParticipanteForm:",Session.get("sesionCActual"));
       return{sesion:Session.get("sesionCActual"), estadoInscripcio: { $in: ['pendiente', 'no_aceptado' ] } };
     },  
 
