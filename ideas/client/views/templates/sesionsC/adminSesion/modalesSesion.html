@@ -120,7 +120,7 @@
 
             <div class="modal-footer">                    
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary" >Guardar</button>
+                <!--<button type="submit" class="btn btn-primary" >Guardar</button>-->
             </div>
            
           </div>
@@ -161,7 +161,8 @@
                 <h4 class="modal-title">Asignar Animadores a la Sesion</h4>
             </div> 
 
-            {{#autoForm id="asignaAnimSes" collection="AnimSesion" schema=AnimSesionSchemaBasic type="insert"}} 
+
+            {{#autoForm id="asignaAnimSes" collection="Animadores" schema=AnimSchemaBasic }} 
             <div class="modal-body"> 
                 {{> afQuickField name='idusers' id='idusers'  options=animadores_Opts multiple=true}}
                 
@@ -176,5 +177,6 @@
           </div>
         </div>
     </div>
+    
 </template>
 

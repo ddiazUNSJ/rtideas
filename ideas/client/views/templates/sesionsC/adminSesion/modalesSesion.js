@@ -19,9 +19,13 @@ Template.modalesSesion.helpers({
   },
 
   animadores_Opts() { 
-    var data = Meteor.users.find({rol:"Animador"}, {sort: {username: 1}});
+   
+    var animadores =Animadores.find();
+    var ids = animadores.map(function(p) { return p.iduser });
+    var users = Meteor.users.find({_id: {$in: ids} }, {sort: {username: 1}});
+
     var options=new Array();
-    data.forEach( function(myDoc) 
+    users.forEach( function(myDoc) 
     {
         var aux = { 'value':myDoc._id, 'label':myDoc.username };
         options.push(aux);  
@@ -179,26 +183,32 @@ Template.modalesSesion.events ({
   },
 
   'submit #asignaAnimSes': function(e)
-  {
+  {  e.preventDefault();
     if( e.target.checkValidity() )
-    {       
-        var data = {
-            idusers: $(e.target).find('[name=idusers]').val(),
-            idsesion: $(e.target).find('[name=idsesion]').val(),  
-        };      
-       
-        Meteor.call('InsertAnimSesion', data, function(error, result) //se define un metodo para insertar
-        {      
-          if(error)
-            return console.log(error.reason);
-         
-          //bootbox.alert("Carga Exitosa", function() { 
-            Router.go('adminSesion', {});
-          //});
-        });     
+    {    
 
-        $('#modal_asigna_animadores').modal('hide');
-    }
+      var idusers = $(e.target).find('[name=idusers]').val();
+
+     // for (var i = 0; i < idusers.length; i++) {
+      
+          var data = {
+              idusers: idusers,
+              idsesion: $(e.target).find('[name=idsesion]').val(),  
+          };      
+         
+          Meteor.call('InsertUserSesion_anim', data, function(error, result) //se define un metodo para insertar
+          {      
+            if(error)
+              return console.log(error.reason);
+           
+            //bootbox.alert("Carga Exitosa", function() { 
+              Router.go('adminSesion', {});
+            //});
+          }); 
+     // }    
+
+      $('#modal_asigna_animadores').modal('hide');
+    }//else alert('NO VALIDA');
   },
   
 });

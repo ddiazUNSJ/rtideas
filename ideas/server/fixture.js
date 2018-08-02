@@ -105,3 +105,24 @@ if (Users_sesions.find().count() === 0)
 
 }*/
 
+
+if (Animadores.find().count() === 0) 
+{
+  Animadores.insert({
+    iduser: 'fWPyQ2DmsNctixsAK',
+    author: 'cintia',
+   
+    active: true,
+
+  });
+
+   Animadores.insert({
+    iduser: 'nKZBRQ8GNj2K4YdTP',
+    author: 'cintia',
+   
+    active: true,
+
+  });
+  
+}
+

@@ -1,4 +1,5 @@
 //PARA TABULAR
+
 Meteor.publishComposite("tabular_inscriptos", function (tableName, ids, fields) {
   check(tableName, String);
   check(ids, Array);
@@ -29,6 +30,76 @@ Meteor.publishComposite("tabular_inscriptos", function (tableName, ids, fields) 
           // Publish the related user
           //return Meteor.users.find({_id: inscrip.user_id}, {limit: 1, fields: {rol: "Participante"}, sort: {username: 1}});
           return Meteor.users.find({_id: inscrip.user_id});
+
+        }
+      }
+    ]
+  };
+});
+
+
+
+Meteor.publishComposite("tabular_animadores", function (tableName, ids, fields) {
+  check(tableName, String);
+  check(ids, Array);
+  check(fields, Match.Optional(Object));
+
+  this.unblock(); // requires meteorhacks:unblock package
+
+  return {
+    find: function () {
+      this.unblock(); // requires meteorhacks:unblock package
+
+      // check for admin role with alanning:roles package
+  
+      var useractual=this.userId; 
+      var usuario=Meteor.users.findOne({_id:useractual});
+      if (usuario.rol!="Administrador") { console.log("No es admin! "); return [];};
+
+      return Animadores.find({_id: {$in: ids}}, {fields: fields});
+      //return Inscripcion.find({_id: {$in: ids}});
+
+    },
+    children: [
+      {
+        find: function(anim) {  //console.log("user: "+anim.iduser);
+          this.unblock(); // requires meteorhacks:unblock package
+          // Publish the related user
+          return Meteor.users.find({_id: anim.iduser});
+
+        }
+      }
+    ]
+  };
+});
+
+
+
+Meteor.publishComposite("tabular_animgrupos", function (tableName, ids, fields) {
+  check(tableName, String);
+  check(ids, Array);
+  check(fields, Match.Optional(Object));
+
+  this.unblock(); // requires meteorhacks:unblock package
+
+  return {
+    find: function () {
+      this.unblock(); // requires meteorhacks:unblock package
+
+      var useractual=this.userId; 
+      var usuario=Meteor.users.findOne({_id:useractual});
+      if (usuario.rol!="Administrador") { console.log("No es admin! "); return [];};
+
+      return Users_sesions.find({_id: {$in: ids}}, {fields: fields});
+      //return Inscripcion.find({_id: {$in: ids}});
+
+    },
+    children: [
+      {
+        find: function(anim) {  //console.log("user: "+anim.iduser);
+          this.unblock(); // requires meteorhacks:unblock package
+          // Publish the related user
+          return Meteor.users.find({_id: anim.iduser});
 
         }
       }

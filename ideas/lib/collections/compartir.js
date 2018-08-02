@@ -4,12 +4,12 @@ GruposCompSchema=new SimpleSchema
 ({
 
   sesion_id: { 
-        type: Number,
+        type: String,
         label: "Id de la sesion",
       },
   gruposIds:{
-        type: Number,
-        label: "Id de grupo",
+        type: [String],
+        label: "Ids de grupos",
   },
   author: { //persona quien gestiona ABM animador
         type: String,
@@ -30,16 +30,15 @@ GruposCompSchema=new SimpleSchema
 GruposCompBasicSchema=new SimpleSchema
 ({
   sesion_id: { 
-        type: Number,
+        type: String,
         label: "Id de la sesion",
       },
   gruposIds:{
-        type: Number,
-        label: "Id de grupo",
+        type: [String],
+        label: "Ids de grupos",
   },
 });
 
-GruposComp.attachSchema(GruposCompBasicSchema);
 GruposComp.attachSchema(GruposCompSchema);
 
 if (Meteor.isServer)
@@ -48,7 +47,7 @@ if (Meteor.isServer)
     ({
       compartirGInsert: function(datos_grupo_comp) //se verifica q el ususario este autenticado
       {
-            check(datoscomentarios,ComentariosBasicSchema); 
+            check(datos_grupo_comp,GruposCompBasicSchema); 
 
             //Verifica Identidad y autorizacion para crear sesion
             if (!this.userId) {
@@ -68,25 +67,76 @@ if (Meteor.isServer)
             }
 
 
-            var grupos=datos_grupo_comp.grupos;
-            var idsesion=datos_grupo_comp.idsesion;
+            var grupos=datos_grupo_comp.gruposIds;
+            var idsesion=datos_grupo_comp.sesion_id;
 
-            var user = Meteor.user();    
-        	  var data = 
+            /*var grupocomp = GruposComp.findOne({sesion_id: idsesion});
+            if(grupocomp)
             {
-              sesion_id:datos_grupo_comp.idsesion,
-              gruposIds:datos_grupo_comp.grupos,
-      		    author: user.username,
-              submitted: new Date(),        
-              estado: true,
-            };
+               return GruposComp.update( {_id:grupocomp._id}, { $set: { gruposIds: grupos } } );
+            }   
+            else {*/
 
-      GruposComp.remove({sesion_id: idsesion}); 
-      // Valida el documento , luego inserta nueva tematica   
-      check(data,GruposCompSchema);
+                  var user = Meteor.user();    
+              	  var data = 
+                  {
+                    sesion_id: idsesion,
+                    gruposIds: grupos,
+            		    author: user.username,
+                    submitted: new Date(),        
+                    estado: true,
+                  };
 
-      return Comentarios.insert(data);               
+                  var sesion = Sesion.findOne({_id:idsesion});
+                  if( (sesion.estado != 'Cerrado') && (sesion.estado != 'Ejecucion') ) // O TERMINADO
+                  {
+                     // Valida el documento , luego inserta   
+                    check(data,GruposCompSchema);
+
+                    return GruposComp.insert(data); 
+                  }
+                  else
+                     throw new Meteor.Error('',
+                      "no se puede insertar en esta instancia");
+              
+                //}              
          
-      }// fin compartir GInsert
+      },// fin compartir GInsert
+
+      gruposCompRemove: function(idregistro) //se verifica q el ususario este autenticado
+      {
+        //console.log(idsesion);
+        check(idregistro,String);
+       
+        //Verifica Identidad y autorizacion para crear sesion
+        if (!this.userId) {
+           throw new Meteor.Error('Acceso invalido',
+          'Ustede no esta logeado');
+        }
+        else // verifica si tiene privilegios de administrador
+        { 
+          usuario= Meteor.users.findOne({_id: this.userId});
+          rol=usuario.rol;
+          if  (rol!="Administrador") 
+          {
+              console.log("error no es administrador");
+              throw new Meteor.Error('Acceso invalido',
+              ' Para acceder a esta funcionalidad necesita ser Administrador');
+          }
+        }
+
+        // Si esta autorizado comienza proceso
+        var user = Meteor.user(); 
+        var registro = GruposComp.findOne({_id:idregistro});
+        var sesion = Sesion.findOne({_id:registro.sesion_id});
+        if( (sesion.estado != 'Cerrado') && (sesion.estado != 'Ejecucion') ) // O TERMINADO
+          return GruposComp.remove(idregistro);
+        else
+           throw new Meteor.Error('',
+            "no se puede eliminar en esta instancia");
+     },
+
+
+
     });// fin de  Meteor.methods
 }// fin if

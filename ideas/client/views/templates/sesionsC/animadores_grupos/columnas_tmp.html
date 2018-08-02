@@ -1,0 +1,19 @@
+
+
+<template name="gAnim_selectGrupos">
+	
+	 <div class="form-group">
+        <!--<select class="input-xlarge country animador" id="animador_{{user_id}}" name="animador" multiple>
+            <option value="-1" selected>Seleccione...</option>
+            {{#each get_grupos}}
+               <option value="{{_id}}" data-id={{_id}}>{{gr}}</option>
+            {{/each}}
+        </select> -->
+
+        <button id="btnGrupos" type="button" class="btn btn-sm btn-primary"  value="{{iduser}}" title="Asigna Grupos">
+          <i class="glyphicon glyphicon-th-list" value="{{iduser}}"></i>
+        </button>
+    </div> 
+   
+    {{ > modalesAnimGrupos }}
+</template>

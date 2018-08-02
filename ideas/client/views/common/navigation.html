@@ -76,58 +76,22 @@
             </li> -->
  
             <li class="{{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor'}}">
-                <a href="#">
+                <a href="{{pathFor 'adminSesion'}}">
                     <i class="fa fa-edit"></i>
-                        <span class="nav-label">Crear</span>
+                        <span class="nav-label">Admin. Sesiones</span>
 
-                        <span class="fa arrow"></span>
+                       <!-- <span class="fa arrow"></span>-->
                 </a>
                             
-                <ul class="nav nav-second-level {{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor' className='in'}}">
+                <!--<ul class="nav nav-second-level {{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor' className='in'}}">
                      
                     <li class="{{isActiveRoute regex='formBasic'}}">
                         <a href="{{pathFor 'adminSesion'}}">Admin. Sesiones</a>
                     </li>
-
-                    <!--<li class="{{isActiveRoute regex='formBasic'}}">
-                        <a href="{{pathFor 'tematicaSubmit'}}">Crear Tematica</a>
-                    </li>
-
-                    <li class="{{isActiveRoute regex='formBasic'}}">
-                        <a href="{{pathFor 'sesionSubmit'}}">Crear Sesion</a>
-                    </li>
-
-                    <li class="{{isActiveRoute regex='formBasic'}}">
-                        <a href="{{pathFor 'grupoSubmit'}}">Crear Grupo</a>
-                    </li>-->
-
-                    <!--<li class="{{isActiveRoute regex='formAdvanced'}}">
-                        <a href="{{pathFor ''}}">Listar Tematica</a>
-                    </li>-->
-                    
-                </ul>
+            
+                </ul>-->
             </li>               
 
-           <!--  <li class="{{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor'}}">
-                <a href="#">
-                    <i class="fa fa-edit"></i>
-                        <span class="nav-label">Grupo</span>
-
-                        <span class="fa arrow"></span>
-                </a>
-                            
-                <ul class="nav nav-second-level {{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor' className='in'}}">
-
-                    <li class="{{isActiveRoute regex='formBasic'}}">
-                        <a href="{{pathFor 'grupoSubmit'}}">Crear Grupo</a>
-                    </li>
-
-                    <li class="{{isActiveRoute regex='formAdvanced'}}">
-                        <a href="{{pathFor 'list_grupo'}}">Listar Grupos</a>
-                    </li>
-                    
-                </ul>
-            </li>  -->
 
             <li class="{{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor'}}">
                 <a href="#">
@@ -146,19 +110,17 @@
                         <a href="{{pathFor 'list_inscriptos'}}">Administrar Inscriptos</a>
                     </li>
 
-                    <li class="{{isActiveRoute regex='formBasic'}}">
-                        <a href="{{pathFor 'asignacion'}}">Asignar Participantes</a>
-                    </li>                   
-
-                     <li class="{{isActiveRoute regex='formBasic'}}">
-                        <a href="{{pathFor 'asignacion_anim'}}">Asignar Animadores</a>
+                     <li class="{{isActiveRoute regex='formAdvanced'}}">
+                        <a href="{{pathFor 'list_animGrupos'}}">Asingaci&oacute;n Animador/Grupo</a>
                     </li>
+
+                
                     
                 </ul>
             </li> 
 
 
-            <li class="{{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor'}}">
+            <!--<li class="{{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor'}}">
                 <a href="#">
                     <i class="fa fa-edit"></i>
                         <span class="nav-label">Datos Sesion</span>
@@ -176,7 +138,7 @@
                     
                     
                 </ul>
-            </li> 
+            </li> -->
 
             
 
@@ -184,24 +146,12 @@
 
 
             <li class="{{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor'}}">
-                <a href="#">
+                <a href="{{pathFor 'compartirSubmit'}}">
                     <i class="fa fa-edit"></i>
-                        <span class="nav-label">Compartir </span>
-
-                        <span class="fa arrow"></span>
+                        <span class="nav-label">Compartir Grupos </span>
+                        <!--<span class="fa arrow"></span>-->
                 </a>
                             
-                <ul class="nav nav-second-level {{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor' className='in'}}">
-
-                    <li class="{{isActiveRoute regex='formBasic'}}">
-                        <a href="{{pathFor 'compartirSubmit'}}">Compartir</a>
-                    </li>
-
-                    <li class="{{isActiveRoute regex='formAdvanced'}}">
-                        <a href="{{pathFor 'GcompList'}}">Listar Grupos Compartidos </a>
-                    </li>
-                    
-                </ul>
             </li> 
 
             <li class="{{isActiveRoute regex='formBasic|formAdvanced|formWizard|formUpload|textEditor'}}">

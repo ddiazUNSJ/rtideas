@@ -1,0 +1,32 @@
+<template name="list_animGrupos">  
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4>Listado de Animadores por Sesion</h4>
+        </div> 
+
+        <div class="panel-body">
+  
+            <form id="types1" novalidate="novalidate">
+              
+              <div class="form-group">
+                  <label class="control-label" for="sesion">Sesion</label>
+
+                  <select class="input-xlarge country" id="sesion" name="sesion">
+                       <option value="-1" selected>Seleccione...</option>
+                      {{#each get_sesiones}}
+                         <option value="{{_id}}" data-id={{_id}}>{{get_tematica_name}}: {{fecha1}}&nbsp; {{hora1}}  ({{nombre}})</option>
+                      {{/each}}
+                  </select> 
+              </div>
+
+               <div class="form-group"> 
+                      {{> tabular table=TabularTables.animgruposTab selector=selector class="table table-striped table-bordered table-condensed"}}
+               </div>
+            </form>
+          
+        </div>
+    </div>
+
+   
+</template>

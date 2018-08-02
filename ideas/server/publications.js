@@ -146,9 +146,6 @@ Meteor.publish('animadores_sesion', function(sesionid) {
     ];  
 });
 
-Meteor.publish('animadores_sesion2', function() {
-  return  AnimSesion.find();      //publico todoS
-});
 
 Meteor.publish('rol', function() {
   return  Roles.find();      //publico todoS
@@ -172,6 +169,10 @@ Meteor.publish('instancias', function() {
 
 Meteor.publish('usersesion', function() {
   return  Users_sesions.find();      //publico todoS
+});
+
+Meteor.publish('allAnimadores', function() {
+  return  Animadores.find();      //publico todoS
 });
 
 
@@ -359,9 +360,7 @@ Meteor.publish('allInscripciones', function() {
 
 //DD 28/08/2017
 //--- Publica todos la lista de animadores posibles pero al administrador
-
-
-Meteor.publish('allAnimadores', function() {
+/*Meteor.publish('allAnimadores', function() {
     var usuario, nombre, rol;
     if (!this.userId) {
       throw new Meteor.Error('Acceso invalido',
@@ -381,9 +380,7 @@ Meteor.publish('allAnimadores', function() {
        }
 
     return Meteor.users.find({rol:"Animador"});
-
-
-});
+});*/
 
 
 //DD 31/08/2017

@@ -8,50 +8,33 @@
 
           <div class="panel-body">
 
-            <form class="novalidate">
-                  
-                 <div class="form-group">
-                  <label class="control-label" for="SC">Tematica</label>
-                  <div class="controls">
-                    <select class="input-xlarge country" id="tematica" name="tematica">
-                      <option value="-1" selected>Seleccione...</option>
-                        {{#each get_tematicas}}
-                        <option value="{{_id}}" >{{SC}}</option>
-                        {{/each}}
-                    </select>
-                  </div>
-                </div>
+            <form id="types1" novalidate="novalidate">
 
                 <div class="form-group">
-                      <label class="control-label" for="sesion">Sesion de Creatividad</label>
-                  <div class="controls">
-                    <select class="input-xlarge country" id="sesion" name="sesion" disabled >
-                        <option value="-1" selected>Seleccione...</option>
-                        {{#each get_sesiones}}
-                        <option value="{{_id}}" >{{fecha1}}&nbsp;&nbsp; {{hora1}} ({{nombre}})</option>
-                        {{/each}}
-                    </select>
-                  </div>
+                    <label class="control-label" for="sesion">Sesion</label>
+                    <!--<div class="controls">-->
+
+                        <select class="input-xlarge country" id="sesion" name="sesion">
+                             <option value="-1" selected>Seleccione...</option>
+                            {{#each get_sesiones}}
+                               <option value="{{_id}}" data-id={{_id}}>{{get_tematica_name}}: {{fecha1}}&nbsp; {{hora1}}  ({{nombre}})</option>
+                            {{/each}}
+                        </select> 
+                    
                 </div>
+                
+               <div class="form-group"> 
 
-                <div class="form-group">
-                      <label class="control-label" for="gr">Grupo</label>
-                  <div class="controls">
-                    <select class="input-xlarge country" id="grupo" name="gr" disabled required multiple>                     
-                      {{#each get_grupos}}
-                      <option value="{{_id}}" data-id="{{_id}}">{{gr}}</option>
-                      {{/each}}
-                    </select>
-                  </div>
-                </div>
-
-                 
-                 
-                  
-                 <input type="submit" value="Guardar" class="btn btn-primary"/>
-
+                      {{> tabular table=TabularTables.compgruposTab selector=selector class="table table-striped table-bordered table-condensed"}}
+               </div>
             </form>
+
+            <div class="form-group" style="float:left">
+                <button type="button" class="btn btn-primary" id="newgruposcomp"><i class="fa fa-plus" aria-hidden="true"></i> Nuevo</button>
+            </div>
           </div>
       </div>                          
   </div>    
+
+  {{>modalesGruposComp}}
 </template>

@@ -130,7 +130,7 @@ Template.gs_ActionBtns.events({
 	    $('#modal_admin_grupos').modal('show');
    },
 
-   'click #btnAnimadores': function(e,t)
+    'click #btnAnimadores': function(e,t)
     {
 	    e.preventDefault();
 	    var idsesion = $(e.target).attr('value');
@@ -138,15 +138,15 @@ Template.gs_ActionBtns.events({
 	    
 		$('#asignaAnimSes #idusers option').prop('selected',false);
 
-
-	    var animSesion = AnimSesion.find({idsesion:idsesion});
-		animSesion.forEach( function(myDoc) 
+	    var data = Users_sesions.find({idsesion:idsesion, rol:'Animador'});
+		data.forEach( function(myDoc) 
 		{	
-			var values = Array();
-			values = myDoc.idusers;
-			for (var i = 0; i < values.length; i++) {
-				$('#asignaAnimSes #idusers option[value="'+values[i]+'"]').prop('selected',true);
-			}
+			//var values = Array();
+			var value = myDoc.iduser;
+			
+			//for (var i = 0; i < values.length; i++) {
+				$('#asignaAnimSes #idusers option[value="'+value+'"]').prop('selected',true);
+			//}
 		});
 
 	    $('#asignaAnimSes #idsesion').val( idsesion );

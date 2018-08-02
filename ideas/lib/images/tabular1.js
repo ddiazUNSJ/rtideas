@@ -117,32 +117,6 @@ TabularTables.selInscripTab=new Tabular.Table({
     ]
   });
 
-//DD 28/08/2017
-// Datos para la tabla de gestion de animadores
-/*TabularTables.animadorTab=new Tabular.Table({
-  name: "animadorTab",
-  collection: Animadores,
-
-   allow(userId) {
-    //Chequea que solo el usuario administrador tenga acceso a ver la tabla animadores
-    var usuario=Meteor.users.findOne({_id:userId});
-    var salida=false;
-    if (usuario.rol==="Administrador") {salida=true};
-    console.log("salida allow - TabularTables.animadorTab: "+salida);
-    return salida; // don't allow this person to subscribe to the data
-  },
-
-  columns: [
-    {data: "_id", title: "cod Animador"},
-    {data: "iduser",title:"idusuario"},
-    {data: "nombre", title: "nombre"},
-    {data: "active", title: "Activos"},
-   
-    {
-      tmpl: Meteor.isClient && Template.ga_ActionBtns, class: "col-md-1"
-    }
-    ]
-  });*/
 
 /*TabularTables.usuariosParaAni=new Tabular.Table({
   name: "usuariosParaAni",
@@ -402,6 +376,131 @@ TabularTables.inscriptosTab=new Tabular.Table({
       {
         title: "Aceptar",
         tmpl: Meteor.isClient && Template.gInsc_aceptar, class: "col-md-1"        
+      },
+
+       {
+        title: "Grupo",
+        tmpl: Meteor.isClient && Template.gInsc_selectgrupo, class: "col-md-1"        
       }
       ]
     });
+
+
+
+//ADMIN ANIMADORES
+TabularTables.animadoresTab=new Tabular.Table({
+    name: "animadoresTab",
+    collection: Animadores,
+    pub: "tabular_animadores", //perzonaliza la publicacion de datos, util cuando necesito acceder a datos de una coleccion relacionada
+
+    
+    allow(userId) {
+      //Chequea que solo el usuario administrador tenga acceso a ver la tabla animadores
+      var usuario=Meteor.users.findOne({_id:userId});
+      var salida=false;
+      if (usuario.rol==="Administrador") {salida=true};
+        //console.log("salida allow - TabularTables.inscriptosTab: "+salida);
+      return salida; // don't allow this person to subscribe to the data
+    },
+
+    selector:function(param) {
+      return {};
+    },
+
+    responsive: true,
+    autoWidth: false,
+    //extraFields: ['email'],
+    //order: [[0, "desc"]], 
+
+    columns: [
+      
+      {data: "iduser", title: "Id Usuario", visible: false},
+      //{data: "_id", title: "Id reg"},
+      // {data: "author", title: "author"},
+      {data: "nombre()", title: "Nombre" },
+      {data: "username()", title: "Usuario"},
+      //{data: "rol()", title: "Rol"}, //rol() -> es un helper en tabular_helper.js
+
+      {
+        title: "Grupos",
+        tmpl: Meteor.isClient && Template.ga_ActionBtns, class: "col-md-1"        
+      }
+    ]
+});
+
+
+//COMPARTIR GRUPOS
+TabularTables.compgruposTab=new Tabular.Table({
+    name: "compgruposTab",
+    collection: GruposComp,
+    
+    allow(userId) {
+      //Chequea que solo el usuario administrador tenga acceso a ver la tabla animadores
+      var usuario=Meteor.users.findOne({_id:userId});
+      var salida=false;
+      if (usuario.rol==="Administrador") {salida=true};
+        //console.log("salida allow - TabularTables.inscriptosTab: "+salida);
+      return salida; // don't allow this person to subscribe to the data
+    },
+
+    selector:function(param) {
+      return {};
+    },
+
+    responsive: true,
+    autoWidth: false,
+    //extraFields: ['email'],
+    //order: [[0, "desc"]], 
+
+    columns: [
+      {data: "_id", title: "Id", visible:false},
+
+      {data: "gruposIds", title: "", visible:false},
+
+      {data: "nombregrupos()", title: "Grupos"},
+     
+      {
+        tmpl: Meteor.isClient && Template.compGr_ActionBtns, class: "col-md-1"        
+      }
+      ]
+    });
+
+
+//ASIGNA GRUPOS AL ANIMADOR
+TabularTables.animgruposTab=new Tabular.Table({
+    name: "animgruposTab",
+    collection: Users_sesions,
+    pub: "tabular_animgrupos", //perzonaliza la publicacion de datos, util cuando necesito acceder a datos de una coleccion relacionada
+
+   
+    allow(userId) {
+      //Chequea que solo el usuario administrador tenga acceso a ver la tabla animadores
+      var usuario=Meteor.users.findOne({_id:userId});
+      var salida=false;
+      if (usuario.rol==="Administrador") {salida=true};
+        //console.log("salida allow - TabularTables.inscriptosTab: "+salida);
+      return salida; // don't allow this person to subscribe to the data
+    },
+
+    selector:function(param) {
+      return {rol:'Animador'};
+    },
+
+    responsive: true,
+    autoWidth: false,
+    //extraFields: ['email'],
+    //order: [[0, "desc"]], 
+
+    columns: [
+      //{data: "_id", title: "cod Animador"},
+      {data: "iduser", title: "Id Usuario", visible: false},
+      {data: "nombre()", title: "Nombre" },
+      {data: "username()", title: "Usuario"}, //username() -> es un helper en tabular_helper.js
+     
+       {
+        title: "Grupo",
+        tmpl: Meteor.isClient && Template.gAnim_selectGrupos, class: "col-md-1"        
+      }
+      ]
+    });
+
