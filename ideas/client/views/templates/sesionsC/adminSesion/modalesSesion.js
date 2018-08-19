@@ -18,7 +18,7 @@ Template.modalesSesion.helpers({
     return Session.get('tematicaId'); 
   },
 
-  animadores_Opts() { 
+ /* animadores_Opts() { 
    
     var animadores =Animadores.find();
     var ids = animadores.map(function(p) { return p.iduser });
@@ -32,7 +32,16 @@ Template.modalesSesion.helpers({
     });
 
     return options;
-  },
+  },*/
+
+  get_animadores() { 
+   
+    var animadores = Animadores.find();
+    var ids = animadores.map(function(p) { return p.iduser });
+    var users = Meteor.users.find({_id: {$in: ids} }, {sort: {username: 1}});
+    return users;
+
+  }, 
 
   get_instancias: function() {
     return Instancia.find({}, {sort: {numero: 1}}); 
@@ -183,18 +192,23 @@ Template.modalesSesion.events ({
       }
   },
 
-  'submit #asignaAnimSes': function(e)
-  {  e.preventDefault();
-    if( e.target.checkValidity() )
-    {    
+  //'submit #asignaAnimSes': function(e)
+  'click .guardar': function(e)
+  { // e.preventDefault();
+    //if( e.target.checkValidity() )
+    //{  
+    var idusers = $('#asignaAnimSes').find('[name=idusers]').val();
 
-      var idusers = $(e.target).find('[name=idusers]').val();
+    // var idusers = $(e.target).find('[name=idusers]').val();
+
+    if( idusers )
+    {   
 
      // for (var i = 0; i < idusers.length; i++) {
       
           var data = {
               idusers: idusers,
-              idsesion: $(e.target).find('[name=idsesion]').val(),  
+              idsesion: $('#asignaAnimSes').find('[name=idsesion]').val(),  
           };      
          
           Meteor.call('InsertUserSesion_anim', data, function(error, result) //se define un metodo para insertar
@@ -206,10 +220,11 @@ Template.modalesSesion.events ({
               Router.go('adminSesion', {});
             //});
           }); 
-     // }    
 
-      $('#modal_asigna_animadores').modal('hide');
-    }//else alert('NO VALIDA');
+          $('#modal_asigna_animadores').modal('hide');
+      }    
+
+    //}//else alert('NO VALIDA');
   },
   
 });

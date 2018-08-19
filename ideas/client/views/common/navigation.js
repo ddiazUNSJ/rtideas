@@ -3,6 +3,17 @@ Template.navigation.rendered = function(){
     // Initialize metisMenu
     $('#side-menu').metisMenu();
 
+     console.log( Meteor.user() );
+
+     
+     Meteor.call("getUserRol", function(err, salida){  
+     if (salida=="Administrador")
+     {
+       Session.set('rol', "Administrador");
+      
+      }   
+     
+     });
 };
 
 // Used only on OffCanvas layout
@@ -21,15 +32,14 @@ Template.navigation.helpers({
     	//var iduser = Meteor.userId();
     	
     	//var data = Meteor.users.findOne({_id: iduser});	
-  
-		return Session.get('rol')=='Administrador';	
+    //console.log("ROL: "+Session.get('rol'));
+
+    console.log(Session.get('rol')==='Administrador');
+		return Session.get('rol')==='Administrador';	
 
   },
 
-  isAnim: function() {  
-
-        return Session.get('rol')=='Animador'; 
-  },
+ 
   nombre:function(){
     var name="Desconocido"
     Meteor.call('getUserNombre', function (error, result){

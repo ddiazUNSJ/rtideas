@@ -1,48 +1,32 @@
 Template.ga_ActionBtns.events({
 
-	// 'click #btnActivar': function(){
-	// 	console.log("click btnActivar");
-
-	// 	if (Meteor.userId()) {
- //             // this contiene datos de la fila seleccionada, this._id contiene el cod del animador
-	//          Meteor.call('animadorOn',this._id,function (error, result){ 
-	//              if (error){
-	//               swal("No esta habilitado para esta accion ")
-	//              }
-	//              else{
-	//               swal("Animador Activado ")
-	//               }
-	//           });
-	// 	 }
-	// 	else {
-
- //           swal("Accion no permitida!", "Por favor, inicie como usuario");
-	// 	}
-
-	// },
-
-	'click #btnRemove': function(){
-          console.log("click btnRemove");
+	
+	
+	'click #btnRemove': function(e){
+        //var idsesion = $(this).val();
+        var iduser = $(e.target).attr('value');
+        
+        //console.log(iduser);
 		if (Meteor.userId()) {
-             // this contiene datos de la fila seleccionada, this._id contiene el cod del animador
-	         Meteor.call('animadorOff',this._id,function (error, result){ 
-	             if (error){
-	              swal("No esta habilitado para esta accion ")
-	             }
-	             else{
-	              swal("Animador inhabilitado ")
-	              }
-	          });
-		 }
+			bootbox.confirm("Eliminar Usuario de la lista de Animadores?", function(res){
+	    		if(res)
+				{
+			        Meteor.call('DeleteAnim',iduser,function (error, result){ 
+			            if (error){
+			              swal("Accion no permitida!",error);
+			            }
+			            else swal("OK", "Aniamdor Eliminado");
+			             
+			        });
+			    }
+			});
+		}
 		else {
 
            swal("Accion no permitida!", "Por favor, inicie como usuario");
 		}
-
-
 	},
-	
-	
+
 
 
 });

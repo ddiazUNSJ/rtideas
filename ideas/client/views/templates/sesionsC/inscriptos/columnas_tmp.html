@@ -12,10 +12,10 @@
 <template name="gInsc_selectgrupo">
 	
 	 <div class="form-group">
-        <select class="input-xlarge country grupo" id="grupo_{{user_id}}" name="grupo" {{desactivado}}>
-            <option value="-1" selected>Seleccione...</option>
+        <select class="input-xlarge country grupo" id="grupo_{{user_id}}" name="grupo" {{desactivado}} >
+            <option value="-1" >Seleccione...</option>
             {{#each get_grupos}}
-               <option value="{{_id}}" data-id={{_id}}>{{gr}}</option>
+               <option value="{{_id}}" data-id={{_id}} {{selected ../user_id}}> {{gr}}</option>
             {{/each}}
         </select> 
     </div> 

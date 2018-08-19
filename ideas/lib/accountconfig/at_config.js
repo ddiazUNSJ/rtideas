@@ -157,7 +157,7 @@ AccountsTemplates.addField({
              Meteor.call("getUserRol", function(err, salida){  
                if (salida=="Administrador")
                {
-                 Session.set('rol', "Administrador")
+                 Session.set('rol', "Administrador");
                  Router.go('inicio'); 
                  console.log( " usuario administrador logeado");
                 }   

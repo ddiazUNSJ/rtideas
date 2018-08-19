@@ -162,7 +162,7 @@
             </div> 
 
 
-            {{#autoForm id="asignaAnimSes" collection="Animadores" schema=AnimSchemaBasic }} 
+            <!--{{#autoForm id="asignaAnimSes" collection="Animadores" schema=AnimSchemaBasic }} 
             <div class="modal-body"> 
                 {{> afQuickField name='idusers' id='idusers'  options=animadores_Opts multiple=true}}
                 
@@ -173,7 +173,27 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                 <button type="submit" class="btn btn-primary" >Guardar</button>
             </div>
-            {{/autoForm}}
+            {{/autoForm}}-->
+
+            <div class="modal-body">
+                <form  id="asignaAnimSes">  
+                    <label class="control-label" for="idusers">Animadores</label>
+                    <select class="input-xlarge country" id="idusers" name="idusers" multiple required style="min-width: 50%" >
+                        {{#each get_animadores}}
+                           <option value="{{_id}}" data-id={{_id}}>{{username}}</option>
+                        {{/each}}
+                    </select>
+
+                    <input type="hidden" name="idsesion"  id="idsesion">
+              
+                </form> 
+            </div>
+
+            <div class="modal-footer">                    
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary guardar" >Guardar</button>
+            </div>
+
           </div>
         </div>
     </div>

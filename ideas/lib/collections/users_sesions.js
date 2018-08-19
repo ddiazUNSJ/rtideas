@@ -437,7 +437,7 @@ if (Meteor.isServer)
                 submitted:new Date(),
             };
 
-            console.log(animadorNuevo);
+            //console.log(animadorNuevo);
 
             check(animadorNuevo,Users_sesionsSchema);
             result=Users_sesions.insert(animadorNuevo);

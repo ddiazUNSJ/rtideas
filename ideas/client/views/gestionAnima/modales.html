@@ -1,0 +1,32 @@
+<template name="TmplModalCreateAnimador">
+
+	 <div class="modal fade" id="modal_inserta_animadores" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content" style="min-width: 300px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Seleccionar Usuarios</h4>
+            </div> 
+
+            <div class="modal-body">
+                <form  id="agregaAnimadores">  
+                    <label class="control-label" for="idusers">Usuarios</label>
+                    <select class="input-xlarge country" id="idusers" name="idusers" multiple required style="min-width: 50%" >
+                        {{#each get_usuarios}}
+                           <option value="{{_id}}" data-id={{_id}}>{{username}}</option>
+                        {{/each}}
+                    </select>
+              
+                </form> 
+            </div>
+
+            <div class="modal-footer">                    
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary guardar" >Guardar</button>
+            </div>
+            
+          </div>
+        </div>
+    </div>
+
+</template>

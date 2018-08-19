@@ -1,6 +1,6 @@
-import {toDataURL} from  '/client/utilidades/utilities.js';
+//import {toDataURL} from  '/client/utilidades/utilities.js';
 
-Template.navigationinicio.rendered = function(){
+/*Template.navigationinicio.rendered = function(){
   // Initialize metisMenu
      $('#side-menu').metisMenu();
  };
@@ -82,3 +82,4 @@ function getDataUri(url, callback) {
 //  console.log(Session.get('avatarImg'));
 // };
 
+*/

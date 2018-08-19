@@ -24,6 +24,7 @@ AnimSchema=new SimpleSchema({
        },
 });
 
+
 AnimSchemaBasic=new SimpleSchema({ //solo para el formulario
     idusers: {
       type: [String],
@@ -36,9 +37,19 @@ AnimSchemaBasic=new SimpleSchema({ //solo para el formulario
     
 });
 
+UserSchemaBasic=new SimpleSchema({ //solo para el formulario
+    idusers: {
+      type: [String],
+      label: "Usuarios",
+    },
+});
 
-//Animadores.attachSchema(AnimSchema);
-Animadores.attachSchema(AnimSchemaBasic);
+
+//Animadores.attachSchema(AnimSchemaBasic);
+//Animadores.attachSchema(UserSchemaBasic);
+
+Animadores.attachSchema(AnimSchema);
+
 
 
 if (Meteor.isServer)
@@ -46,39 +57,90 @@ if (Meteor.isServer)
 
   Meteor.methods({
         
-    /*InsertAnimSesion: function(data) //se verifica q el ususario este autenticado
+    InsertAnim: function(datos) //se verifica q el ususario este autenticado
     {
-      check(data,AnimSchemaBasic);    
+        //console.log(grAttributes['time_sesion'][0]);
 
-      var user = Meteor.user();
+        check(datos,UserSchemaBasic);
+     
 
-      var users_id=data.idusers;
-      var sesion_id=data.idsesion;
-
-      var datos = {
-            idsesion:sesion_id,
-            idusers: users_id,
-            userId: user._id,
-            author: user.username,
-            submitted: new Date(),
-            active: true
-      };
-
-      //console.log(sesion_id);
-      var animSesion = AnimSesion.findOne({idsesion:sesion_id});
-      if(!animSesion)
-      {
-        check(datos,AnimSesionSchema); 
-        var IId = AnimSesion.insert(datos);
+     //Verifica Identidad y autorizacion para crear sesion
+      if (!this.userId) {
+           throw new Meteor.Error('Acceso invalido',
+          'Ustede no esta logeado');
+         }
+      else // verifica si tiene privilegios de administrador
+      { 
+        usuario= Meteor.users.findOne({_id: this.userId});
+        rol=usuario.rol;
+        if  (rol!="Administrador") 
+        {
+            console.log("error no es administrador");
+            throw new Meteor.Error('Acceso invalido',
+            ' Para acceder a esta funcionalidad necesita ser Administrador');
+        }
       }
-      else{ console.log(animSesion._id);
-        var IId = AnimSesion.update( {_id:animSesion._id}, { $set: { idusers: users_id } } );
-      }   
+      // Si esta autorizado comienza proceso
 
-      return {
-        _id: IId
-      };
-    }*/
+      var idusers = datos.idusers;
+      var user = Meteor.user(); // Estoy servidor 
+      for (var i = 0; i < idusers.length; i++) {
+
+            var existe=Animadores.findOne( {iduser:idusers[i]} ); 
+       		if  (!existe){
+
+	            var doc={
+	              iduser: idusers[i],
+	              userId: user._id,
+	              author: user.username,
+	              submitted: new Date(),
+	              active: true,
+	            }     
+
+	            //console.log(doc); 
+	            check(doc, AnimSchema)
+
+	            Animadores.insert(doc); 
+	        } 
+      }
+
+      return true;
+  	},
+
+  	DeleteAnim: function(iduser) //se verifica q el ususario este autenticado
+	{
+	    //console.log(idsesion);
+	    check(iduser,String);
+	   
+	    //Verifica Identidad y autorizacion para crear sesion
+	    if (!this.userId) {
+	         throw new Meteor.Error('Acceso invalido',
+	        'Ustede no esta logeado');
+	       }
+	    else // verifica si tiene privilegios de administrador
+	    { 
+	      usuario= Meteor.users.findOne({_id: this.userId});
+	      rol=usuario.rol;
+	      if  (rol!="Administrador") 
+	      {
+	          console.log("error no es administrador");
+	          throw new Meteor.Error('Acceso invalido',
+	          ' Para acceder a esta funcionalidad necesita ser Administrador');
+	      }
+	    }
+	    // Si esta autorizado comienza proceso
+
+	    var user = Meteor.user(); //Estoy en el Servidor
+	    
+	    var animador = Animadores.findOne({iduser:iduser});
+
+	    if(animador)
+	      return Animadores.remove({iduser:iduser});
+	    else
+	       throw new Meteor.Error('',
+	        "El animador no existe");
+	},
+
     
   });
 }

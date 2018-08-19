@@ -62,6 +62,19 @@ Template.gInsc_selectgrupo.helpers({
 	    else 
 	      return "disabled";
 	},
+
+	selected: function(user_id) {
+	    var idsesion =  Session.get('sesionId');
+	    var idgrupo = this._id; 
+	    
+	    var result = Users_sesions.findOne( {iduser: user_id, idsesion: idsesion} );
+	   	
+	   //console.log(result.idgrupo[0] );
+	    if(result.idgrupo[0] === idgrupo) 
+	      return "selected";
+	    else 
+	      return "";
+	},
 	
 	get_grupos: function() {
 		var idsesion =  Session.get('sesionId');

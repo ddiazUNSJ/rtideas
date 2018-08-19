@@ -6,7 +6,7 @@ function rezisePantalla()
 	var posicion2 = elemento2.position();
 	var posY = (posicion.top - posicion2.top) - 10;
 
-	console.log(posY);
+	//console.log(posY);
 	$("#chat").css('min-height', posY);
 	$("#chat").css('max-height', posY);
 }
@@ -837,6 +837,8 @@ Template.contenidoChat.events ({
     {	
     	e.preventDefault();	
 
+    	//alert(Session.get('idgrupo'));
+
 		if( e.target.checkValidity() ){
 
 			var new_message = {
@@ -844,6 +846,7 @@ Template.contenidoChat.events ({
 			  idgrupo: Session.get('idgrupo'),
 			};
 
+			//console.log(new_message);
 			Meteor.call('ideasInsert', new_message, function(error, result) //se define un metodo para insertar
 			{  			    
 			  	if (error)
@@ -990,17 +993,15 @@ Template.contenidoChat.events ({
 		ideadesc = idea.messageBox;
 
 		var ficha = Ficha.findOne( {ididea: idIdea} );
-		if(ficha.nombre){
-			var ideaname = ficha.nombre;
-			ideadesc = ficha.des;
-		}
-		else
-			var ideaname ='vacio';
-		if(ficha.esc)
+		if(ficha){
+			var ideaname = ficha.nombre;			
 			var ideaesce = ficha.esc;
-		else
-			var ideaesce = 'vacio';
-
+		}
+		else {
+			var ideaname ='';
+			var ideaesce = '';
+		}
+	
 
 		var grupo = Grupo.findOne( {_id: idea.idgrupo} );
 

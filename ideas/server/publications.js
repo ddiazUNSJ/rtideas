@@ -68,6 +68,11 @@ Meteor.publish('sesionesCreatividad', function() {
   return  Sesion.find({estado: {$ne: 'Terminado'}});      //publico las activas
 });
 
+/* **********Sesion de Creatividad************** */
+Meteor.publish('sesiones_pub', function() {
+  return  Sesion.find({estado: 'Publicado'});      //publico las activas
+});
+
 
 /* **********GRUPOS************** */
 Meteor.publish('grupos', function() {

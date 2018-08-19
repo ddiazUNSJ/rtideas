@@ -1,9 +1,26 @@
-Router.configure({
+/*Router.configure({
     layoutTemplate: 'mainLayout',
     loadingTemplate:'loading',
     notFoundTemplate: 'notFound',
      waitOn: function() { return  Meteor.subscribe('users_sesions'); }
+});*/
+
+Router.configure({
+    layoutTemplate: 'landing',
+    loadingTemplate:'loading',
+    notFoundTemplate: 'notFound',
+     waitOn: function() { //return  Meteor.subscribe('users_sesions');
+      }
 });
+
+// DD  11/08/17 - Agregado para funcionar con accountTemplate
+Router.route('/', {
+    name: 'landing',
+    template: 'landing',
+    layoutTemplate: 'landing',
+});
+
+
 
 //DD Define Home del sistema 
 //DD Cambiar de ruta / a /sesion a definir segun pagina de inicio del sistema
@@ -19,7 +36,8 @@ Router.configure({
 //Router.route('/', {name: 'sesionList'}); // muestra gr, rol, sesion a los q prtenece el usuario
 Router.route('/sesionlist',{name: 'sesionList',
                             template:'sesionList',
-                            layoutTemplate: 'iniciolayout'});
+                            //layoutTemplate: 'iniciolayout'
+                            layoutTemplate: 'mainLayout'});
 
 
 // verifica q este logeado de lo contrario no da permiso para inresar
@@ -29,15 +47,12 @@ var requireLogin2 = function() {
     if (Meteor.loggingIn()) 
       this.render(this.loadingTemplate);
     else 
-      this.render('inicio');
+     //Router.go('landing');
+      Router.go('landing'); 
   } 
   else {
-
-
-    
-
-    //Meteor.subscribe('data_user'); //se suscribe al arrancar, en la publicacion users_sesions
-    //Meteor.subscribe('users_sesions');
+   
+    Meteor.subscribe('users_sesions');
 
     this.render('sesionList');
   }
@@ -59,7 +74,7 @@ var requireLogin = function() {
     if (Meteor.loggingIn()) {
       this.render(this.loadingTemplate);
     } else {
-      this.render('inicio');
+     Router.go('landing');
     }
   } else {
     this.next();
@@ -105,7 +120,7 @@ var requireSubsc5 = function() {
     if (Meteor.loggingIn()) {
       this.render(this.loadingTemplate);
     } else {
-      this.render('inicio');
+      Router.go('landing');
     }
   } else {
     Meteor.subscribe('grupos');
@@ -122,7 +137,7 @@ var requireSubsc6 = function() {
     if (Meteor.loggingIn()) {
       this.render(this.loadingTemplate);
     } else {
-      this.render('inicio');
+      Router.go('landing');
     }
   } else {
    
@@ -137,8 +152,9 @@ var requireSubsc6 = function() {
 
 
     if( Session.get('subrol') == 'Participante' )
-    {      
-      Session.set('idgrupo', usersesion.idgrupo);
+    {   
+      
+      Session.set('idgrupo', usersesion.idgrupo[0]);
 
       Meteor.subscribe('ideas', Session.get('idgrupo') ); //le envio el id de grupo para que me publique solo las ideas del grupo.
       Meteor.subscribe('gruposComp', Session.get('idgrupo') );
@@ -182,7 +198,7 @@ var requireSubsc6 = function() {
     if (Meteor.loggingIn()) {
       this.render(this.loadingTemplate);
     } else {
-      this.render('inicio');
+      Router.go('landing');
     }
   } else {
 		//alert(this.params.idgrupo);
@@ -206,7 +222,7 @@ var requireSubsc6 = function() {
     if (Meteor.loggingIn()) {
       this.render(this.loadingTemplate);
     } else {
-      this.render('inicio');
+      Router.go('landing');
     }
   } else {
     Meteor.subscribe('grupos');
@@ -228,7 +244,7 @@ var requireSubsc11 = function()
        } 
       else
        {
-        this.render('inicio');
+        Router.go('landing');
        }
     }
   else
@@ -250,12 +266,12 @@ var requiresSesionList = function()
     if (Meteor.loggingIn()) {
       this.render(this.loadingTemplate);
     } else {
-      this.render('inicio');
+      Router.go('landing');
     }
   } else {
        
-    Meteor.subscribe('tematica'); //consultar por cuestion de seguridad????????
-    Meteor.subscribe('sesionesCreatividad'); 
+    Meteor.subscribe('tematica'); //
+    Meteor.subscribe('sesiones_pub'); //sesionesCreatividad
     this.next();
   
    } 
@@ -268,7 +284,7 @@ var requiresSesionList = function()
     if (Meteor.loggingIn()) {
       this.render(this.loadingTemplate);
     } else {
-      this.render('inicio');
+      Router.go('landing');
     }
   } else {  
    Meteor.subscribe('tematica'); 
@@ -295,7 +311,7 @@ var requireSubsc13 = function()
        } 
       else
        {
-        this.render('inicio');
+        Router.go('landing');
        }
     }
   else
@@ -314,6 +330,28 @@ var requireSubsc13 = function()
    }
 }
 
+var requireSubsc14 = function() 
+{
+  if (! Meteor.user()) 
+    {
+      if (Meteor.loggingIn()) 
+       {
+        this.render(this.loadingTemplate);
+       } 
+      else
+       {
+        Router.go('landing');
+       }
+    }
+  else
+   {
+    
+    Meteor.subscribe('users'); 
+
+    this.render('adminAnima');//lo envia a la plantilla listado de grupo
+   }
+}
+
 //------------------------------------------------------------------
 
 //Router.onBeforeAction('dataNotFound', {only: 'postPage'});
@@ -329,13 +367,7 @@ Router.onBeforeAction(requireSubsc13, {only: 'list_animGrupos'});
 Router.onBeforeAction(requiresSesionList, {only: 'sesionDispo'});
 Router.onBeforeAction(requireSubsc12, {only: 'adminSesion'});
 
-
-// DD  11/08/17 - Agregado para funcionar con accountTemplate
-Router.route('/', {
-    name: 'landing',
-    template: 'landing',
-    layoutTemplate: 'landingLayout',
-});
+Router.onBeforeAction(requireSubsc14, {only: 'adminAnima'});
 
 
 Router.route('/sign-out', {
@@ -353,12 +385,12 @@ Router.route('/sign-out', {
 
 Router.route('/subirfoto',{name: 'subirfoto',
                             template:'subirfoto',
-                            layoutTemplate: 'iniciolayout'
+                            layoutTemplate: 'mainLayout'
                            });
 
 Router.route('/reg',{name: 'reg',
                             template:'Register2',
-                            layoutTemplate: 'iniciolayout'
+                            layoutTemplate: 'mainLayout'
                            });
 Router.route('/inicio', {
     name: 'inicio',
@@ -369,7 +401,7 @@ Router.route('/inicio', {
 Router.route('/sesionDispo', {
     name: 'sesionDispo',
     template: 'sesionDispo',
-    layoutTemplate: 'iniciolayout',
+    layoutTemplate: 'mainLayout',
 });
 
 

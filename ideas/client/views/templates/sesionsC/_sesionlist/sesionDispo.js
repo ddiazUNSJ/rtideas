@@ -2,12 +2,10 @@ Template.sesionDispo.helpers({
 
  //el this corresponde a la coleccion usersesion y no a sesion
   sesionTodas: function() { 
-    Meteor.subscribe('sesionesCreatividad'); 
+    
     var sc= Sesion.find();
     //.map (function (doc){return doc;});
     return sc;
-    
-
   },
   //el this corresponde a la coleccion usersesion y no a sesion
   dia_y_hora: function() { 
@@ -38,13 +36,13 @@ Template.sesionDispo.helpers({
     return data.nombre;
   },
  
-   sid:function(){
+   /*sid:function(){
     return this._id;
    },
    usuario_ID:function(){
     var usu=Meteor.userId();
     return usu;
-   },
+   },*/
    
    // Inscripcion_ID:function(){
    //   Meteor.subscribe('inscripciones'); 
@@ -69,29 +67,50 @@ Template.sesionDispo.helpers({
      var incluir=false;
 
      Meteor.subscribe('inscripciones'); 
-     var inscriUsu=Inscripcion.findOne({sesion:this._id});
-     if ((inscriUsu ==="")||(inscriUsu ===undefined)||(inscriUsu === null))
+     var inscriUsu=Inscripcion.findOne({sesion_id:this._id, user_id: Meteor.userId() });
+
+     if (inscriUsu)
       {incluir= false;}
      else {incluir= true;}
 
      // verifica que el usuario no este como animador en la sesion
      Meteor.call('isAnimadorUserSesion', sesionId, function(error, result) //se define un metodo para insertar
+      {      
+        if (error)
+          return alert(error.reason);
+        else
+            Session.set("isAnimatorS",result);
+      });
+
+     if (Session.get("isAnimatorS") )
+        incluir=false; // NO lo incluya
+     else incluir=true; //incluyalo
+
+     return incluir;
+   }
+
+});
+
+
+Template.sesionDispo.events
+({
+    'click #inscribime': function(e)
+    {
+      idg=this._id;
+     bootbox.confirm("Desea inscribirse ?", function(res){
+        if( res )
+      {
+        var sesionId = e.target.value;
+      
+        Meteor.call('inscripcionInsert', sesionId, function(error, result) //se define un metodo para insertar
         {      
           if (error)
             return alert(error.reason);
-          else
-              Session.set("isAnimatorS",result);
-        });
-     if (Session.get("isAnimatorS") ) { incluir=false} // NO lo incluya
-     else {incluir=true } ; //incluyalo
-
-     return incluir;
-
+          //Router.go('chatPage', {idgrupo:Session.get('idgrupo')});
+        }); 
+      } 
+      });
     
-   }
-});
- Template.sesionDispo.events
- ({
-  
+    }
 
- });
+});

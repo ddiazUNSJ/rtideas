@@ -5,27 +5,21 @@ Inscripcion = new Mongo.Collection('inscripcion');
 //var Schemas = {};
 
 InscripcionSchema = new SimpleSchema({
-    nombre: {
+    
+    user_id: {
         type: String,
-        label: "Nombre",
-       
+        label: "Id Usuario"
     },
-    userId: {
-        type: String,
-        label: "IdUsuario"
-    },
-    sesion: {
+    sesion_id: {
         type: String,
         label: "id sesion",
     },
-    activa: {
+   /* activa: {
         type: Boolean,
         label: "activa/noActiva", // indicada si la inscripcion esta activa o cerrada
 
-    }
-
-    ,
-    estadoInscripcio: {
+    } ,*/
+    estado: {
         type: String,
         label: "Estado de la inscripcion", // deberia tener  tres estados, (pendiente, aceptado, no aceptado)
         allowedValues: [
@@ -36,27 +30,16 @@ InscripcionSchema = new SimpleSchema({
         optional: true  //Deberiamos poner una validacion que permita solo tres string los mencionados
     },
 
-    estadoRazones: {
+    razones: {
         type: String,
         label: "Describe las razones del Estado", // es para mostrar en la IU el porque del estado de la inscripcion (pendiente, aceptado, no aceptado)
         optional: true
-    },
-    
-    grupo: {
-        type: String,
-        label: "Id Grupo",
-        optional: true,
-    },
-    nombreGrupo: {
-        type: String,
-        label: "nombre Grupo",
-        optional: true,
-        
-    }
+    },    
+   
 });
 
 modifierEstadoInscripcioSchema = new SimpleSchema({
-  estadoInscripcio: {
+  estado: {
         type: String,
         label: "Estado de la inscripcion", // deberia tener  tres estados, (pendiente, aceptado, no aceptado)
         allowedValues: [
@@ -84,21 +67,25 @@ if (Meteor.isServer)
         // // check( doc,{
         //     sesioncId:String,
         // });
+
+         var user = Meteor.user(); // Estoy servidor 
+
          var nombreU=Meteor.call('getUserNombre')
          var datos = {
-                    //nombre:nombreU,
-                    user_id:this.userId,
-                    sesion_id:sesioncId,
-                    activa:true,
+                    user_id: user._id,
+                    sesion_id: sesioncId,
+                    //activa:true,
                     estado:"pendiente",
                     razones:""
-
             };
+
             Inscripcion.simpleSchema().validate(datos, {check});
-         //check(datos, Inscripcion.simpleSchema());
-        return Inscripcion.insert(datos);
+            //check(datos, Inscripcion.simpleSchema());
+            return Inscripcion.insert(datos);
      //return true;
       },
+
+      
       //DD 23/08/2017
       // Pone deshabilita la inscripcion, es como eliminar la inscripcion 
      inhabilitarinscripcion:function(inscriId)

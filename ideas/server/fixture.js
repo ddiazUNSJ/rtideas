@@ -106,7 +106,7 @@ if (Users_sesions.find().count() === 0)
 }*/
 
 
-if (Animadores.find().count() === 0) 
+/*if (Animadores.find().count() === 0) 
 {
   Animadores.insert({
     iduser: 'fWPyQ2DmsNctixsAK',
@@ -124,5 +124,5 @@ if (Animadores.find().count() === 0)
 
   });
   
-}
+}*/
 
