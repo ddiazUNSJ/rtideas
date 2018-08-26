@@ -12,7 +12,7 @@
         // // Asignar como participante
         // var getUser = Meteor.users.findOne({'_id': user}, {fields: {"rol": 1}}),
          console.log("update a usuario id: "+userId);
-         Meteor.users.update({ _id: userId }, { $set: {'rol' : "Participante" ,'active' : true }});
+         Meteor.users.update({ _id: userId }, { $set: {'rol' : "Estandar" ,'active' : true }});
          console.log("nuevo usuario agregado " + userId);
       }
 

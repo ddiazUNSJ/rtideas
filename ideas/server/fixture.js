@@ -5,15 +5,12 @@ if (Roles.find().count() === 0)
   });
   
   Roles.insert({
-    nombre: 'Animador', 
+    nombre: 'Estandar', 
   });
 
-  Roles.insert({
-    nombre: 'Participante', 
-  });
 }
 
-/*if (SubRoles.find().count() === 0) 
+if (SubRoles.find().count() === 0) 
 {
   SubRoles.insert({
     nombre: 'Animador',    
@@ -24,7 +21,7 @@ if (Roles.find().count() === 0)
     nombre: 'Participante',
     rol: 'Estandar',  
   });
-}*/
+}
 
 
 if (Instancia.find().count() === 0) 
