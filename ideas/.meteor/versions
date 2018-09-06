@@ -51,6 +51,7 @@ flyandi:reactive-countdown@0.0.3
 foldor:bootstrap-3@3.2.0-1
 fortawesome:fontawesome@4.7.0
 geojson-utils@1.0.10
+hitchcott:app-dump@0.4.2
 hot-code-push@1.0.4
 html-tools@1.0.11
 htmljs@1.0.11

@@ -434,3 +434,9 @@ Router.route('/as_AdminAnimaS', {
     template: 'as_AdminAnimaS',
     layoutTemplate: 'mainLayout',
 });
+
+Router.route('/adminBackup', {
+    name: 'adminBackup',
+    template: 'adminBackup',
+    layoutTemplate: 'mainLayout',
+});
