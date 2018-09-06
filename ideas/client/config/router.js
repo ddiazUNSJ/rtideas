@@ -1,3 +1,4 @@
+// prueba de smartgit
 /*Router.configure({
     layoutTemplate: 'mainLayout',
     loadingTemplate:'loading',
