@@ -1,3 +1,4 @@
+// Otro cambio
 // prueba de smartgit
 /*Router.configure({
     layoutTemplate: 'mainLayout',
